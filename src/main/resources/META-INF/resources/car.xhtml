@@ -10,30 +10,60 @@
 </h:head>
 
 <h:body>
-    <p:fieldset legend="FieldSet" toggleSpeed="500" toggleable="true">
+    <h:form id="form">
+
+        <p:panel id="formPanel">
+            <p:messages>
+                <p:autoUpdate/>
+            </p:messages>
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Brand: " for="brandInput"/>
+                <p:inputText id="brandInput" value="#{carController.car.brand}" required="true"/>
+
+                <p:outputLabel value="Model: " for="modelInput"/>
+                <p:inputText id="modelInput" value="#{carController.car.model}" required="true"/>
+
+                <p:outputLabel value="Year: " for="yearInput"/>
+                <p:inputText id="yearInput" value="#{carController.car.year}" required="true"/>
+
+                <p:outputLabel value="Color: " for="colorInput"/>
+                <p:inputText id="colorInput" value="#{carController.car.color}" required="true"/>
+
+            </h:panelGrid>
+            <p:commandButton action="#{carController.save}" value="Save" update="formPanel dataTable"/>
+        </p:panel>
 
 
-        <p:dataTable var="car" value="#{carController.cars}">
-            <p:column headerText="Id">
-                <h:outputText value="#{car.id}"/>
-            </p:column>
+        <p:fieldset legend="FieldSet" toggleSpeed="500" toggleable="true">
 
-            <p:column headerText="Year">
-                <h:outputText value="#{car.year}"/>
-            </p:column>
 
-            <p:column headerText="Brand">
-                <h:outputText value="#{car.brand}"/>
-            </p:column>
+            <p:dataTable var="car" value="#{carController.cars}" id="dataTable" paginator="true" rows="5">
+                <p:column headerText="Id">
+                    <h:outputText value="#{car.id}"/>
+                </p:column>
 
-            <p:column headerText="Model">
-                <h:outputText value="#{car.model}"/>
-            </p:column>
+                <p:column headerText="Year">
+                    <h:outputText value="#{car.year}"/>
+                </p:column>
 
-            <p:column headerText="Color">
-                <h:outputText value="#{car.color}"/>
-            </p:column>
-        </p:dataTable>
-    </p:fieldset>
+                <p:column headerText="Brand">
+                    <h:outputText value="#{car.brand}"/>
+                </p:column>
+
+                <p:column headerText="Model">
+                    <h:outputText value="#{car.model}"/>
+                </p:column>
+
+                <p:column headerText="Color">
+                    <h:outputText value="#{car.color}"/>
+                </p:column>
+
+                <p:column headerText="Action">
+                    <p:commandButton process="@this" action="#{carController.select(car.id)}" value="Select" update=":form:formPanel"/>
+                    <p:commandButton process="@this" actionListener="#{carController.delete(car.id)}" value="Delete" update="dataTable"/>
+                </p:column>
+            </p:dataTable>
+        </p:fieldset>
+    </h:form>
 </h:body>
 </html>
