@@ -53,22 +53,18 @@
             <scope>runtime</scope>
         </dependency>-->
 
-<<<<<<< HEAD
-        <!-- <dependency>
-=======
         <!--PostgreSQL-->
-        <dependency>
->>>>>>> 7975bfc13286cca1c3e337fd74d1bfe6fd3de881
+       <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
-        </dependency> -->
+       </dependency>
         
-        <dependency>
+        <!--<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
-		</dependency>
+		</dependency>-->
 
         <dependency>
             <groupId>javax.xml.bind</groupId>
@@ -80,7 +76,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <!--<scope>test</scope>-->
+            <scope>test</scope>
         </dependency>
         
         <dependency>
@@ -103,6 +99,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>

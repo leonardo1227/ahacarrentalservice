@@ -34,7 +34,7 @@
                 <p:message for="colorInput"/>
 
             </h:panelGrid>
-            <p:commandButton action="#{carController.save}" value="#{carController.car.id==null ? 'Register' :'Alter'}" icon="fa fa-save" update="formPanel dataTable"/>
+            <p:commandButton action="#{carController.save}" value="#{carController.car.id==null ? 'Register new car' :'Alter car information'}" icon="fa fa-save" update="formPanel dataTable"/>
         </p:panel>
 
 
@@ -65,10 +65,17 @@
 
                 <p:column headerText="Action" style="text-align: center">
                     <p:commandButton process="@this" actionListener="#{carController.select(car.id)}" icon="fa fa-edit" update=":form:formPanel"/>
-                    <p:commandButton process="@this" actionListener="#{carController.delete(car.id)}" icon="fa fa-remove" update="dataTable"/>
+                    <p:commandButton process="@this" actionListener="#{carController.delete(car.id)}" icon="fa fa-remove" update="dataTable">
+                            <p:confirm header="Confirmation" message="Are you sure about removing [#{car.brand}-#{car.model}]" icon="ui-icon-alert"/>
+                    </p:commandButton>
                 </p:column>
             </p:dataTable>
         </p:fieldset>
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+
     </h:form>
 </h:body>
 </html>
