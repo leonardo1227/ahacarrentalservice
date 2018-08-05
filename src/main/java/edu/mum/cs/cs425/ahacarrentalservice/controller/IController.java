@@ -11,7 +11,7 @@ public interface IController {
     default void showMessage(String summary, String detail, InformationType type){
         FacesContext
                 .getCurrentInstance()
-                .addMessage(null,
+                .addMessage("controllerMessages",
                         new FacesMessage(Util.getFacesMessageSeverity(type),
                                 summary,
                                 detail));
