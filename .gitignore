@@ -23,3 +23,16 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+bin/mvnw
+bin/mvnw.cmd
+bin/pom.xml
+bin/src/main/java/edu/mum/cs/cs425/ahacarrentalservice/AhacarrentalserviceApplication.class
+bin/src/main/java/edu/mum/cs/cs425/ahacarrentalservice/controller/CarController.class
+bin/src/main/java/edu/mum/cs/cs425/ahacarrentalservice/model/Car.class
+bin/src/main/java/edu/mum/cs/cs425/ahacarrentalservice/repository/CarRepository.class
+bin/src/main/java/edu/mum/cs/cs425/ahacarrentalservice/service/CarService.class
+bin/src/main/java/edu/mum/cs/cs425/ahacarrentalservice/service/IService.class
+bin/src/main/java/META-INF/MANIFEST.MF
+bin/src/main/resources/application.properties
+bin/src/main/resources/META-INF/resources/car.xhtml
+bin/src/test/java/edu/mum/cs/cs425/ahacarrentalservice/AhacarrentalserviceApplicationTests.class
