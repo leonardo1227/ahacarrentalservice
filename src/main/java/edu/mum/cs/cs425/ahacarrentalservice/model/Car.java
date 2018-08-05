@@ -3,6 +3,7 @@ package edu.mum.cs.cs425.ahacarrentalservice.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Car {
@@ -10,7 +11,7 @@ public class Car {
     @Id
     @GeneratedValue
     private Long id;
-
+    
     private String model;
     private String brand;
     private String color;
