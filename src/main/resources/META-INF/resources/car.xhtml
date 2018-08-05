@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
@@ -9,28 +10,65 @@
 </h:head>
 
 <h:body>
+    <h:form id="form">
 
-    <p:dataTable var="car" value="#{carController.cars}">
-        <p:column headerText="Id">
-            <h:outputText value="#{car.id}" />
-        </p:column>
+        <p:panel id="formPanel">
+            <p:messages for="controllerMessages">
+                <p:autoUpdate/>
+            </p:messages>
+            <h:panelGrid columns="3">
+                <p:outputLabel value="Brand: " for="brandInput"/>
+                <p:inputText id="brandInput" value="#{carController.car.brand}" required="true" requiredMessage="Required"/>
+                <p:message for="brandInput"/>
 
-        <p:column headerText="Year">
-            <h:outputText value="#{car.year}" />
-        </p:column>
+                <p:outputLabel value="Model: " for="modelInput"/>
+                <p:inputText id="modelInput" value="#{carController.car.model}" required="true" requiredMessage="Required"/>
+                <p:message for="modelInput"/>
 
-        <p:column headerText="Brand">
-            <h:outputText value="#{car.brand}" />
-        </p:column>
+                <p:outputLabel value="Year: " for="yearInput"/>
+                <p:inputText id="yearInput" value="#{carController.car.year}" required="true" requiredMessage="Required"/>
+                <p:message for="yearInput"/>
 
-        <p:column headerText="Model">
-            <h:outputText value="#{car.model}" />
-        </p:column>
+                <p:outputLabel value="Color: " for="colorInput"/>
+                <p:inputText id="colorInput" value="#{carController.car.color}" required="true" requiredMessage="Required"/>
+                <p:message for="colorInput"/>
 
-        <p:column headerText="Color">
-            <h:outputText value="#{car.color}" />
-        </p:column>
-    </p:dataTable>
+            </h:panelGrid>
+            <p:commandButton action="#{carController.save}" value="#{carController.car.id==null ? 'Register' :'Alter'}" icon="fa fa-save" update="formPanel dataTable"/>
+        </p:panel>
 
+
+        <p:fieldset legend="FieldSet" toggleSpeed="500" toggleable="true">
+
+
+            <p:dataTable var="car" value="#{carController.cars}" id="dataTable" paginator="true" rows="5">
+                <p:column headerText="Id">
+                    <h:outputText value="#{car.id}"/>
+                </p:column>
+
+                <p:column headerText="Brand" filterBy="#{car.brand}" filterMatchMode="contains">
+                    <h:outputText value="#{car.brand}"/>
+                </p:column>
+
+                <p:column headerText="Model">
+                    <h:outputText value="#{car.model}"/>
+                </p:column>
+
+                <p:column headerText="Year">
+                    <h:outputText value="#{car.year}"/>
+                </p:column>
+
+
+                <p:column headerText="Color">
+                    <h:outputText value="#{car.color}"/>
+                </p:column>
+
+                <p:column headerText="Action" style="text-align: center">
+                    <p:commandButton process="@this" actionListener="#{carController.select(car.id)}" icon="fa fa-edit" update=":form:formPanel"/>
+                    <p:commandButton process="@this" actionListener="#{carController.delete(car.id)}" icon="fa fa-remove" update="dataTable"/>
+                </p:column>
+            </p:dataTable>
+        </p:fieldset>
+    </h:form>
 </h:body>
 </html>
