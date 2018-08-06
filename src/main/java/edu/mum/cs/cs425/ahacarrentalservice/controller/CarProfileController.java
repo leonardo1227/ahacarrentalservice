@@ -1,6 +1,7 @@
 package edu.mum.cs.cs425.ahacarrentalservice.controller;
 
 import edu.mum.cs.cs425.ahacarrentalservice.model.CarProfile;
+import edu.mum.cs.cs425.ahacarrentalservice.model.CarStatus;
 import edu.mum.cs.cs425.ahacarrentalservice.model.InformationType;
 import edu.mum.cs.cs425.ahacarrentalservice.service.CarProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,11 @@ public class CarProfileController implements IController, Serializable {
 
     private List<CarProfile> cars;
 
-    private CarProfile car;
+    private CarProfile carProfile;
 
     @PostConstruct
     private void init() {
-    	car = new CarProfile();
+    	carProfile = new CarProfile();
     }
 
     public List<CarProfile> getCars() {
@@ -38,28 +39,30 @@ public class CarProfileController implements IController, Serializable {
     }
 
     public CarProfile getCarProfile() {
-        return car;
+        return carProfile;
     }
 
-    public void setCarProfile(CarProfile car) {
-        this.car = car;
+    public void setCarProfile(CarProfile carProfile) {
+        this.carProfile = carProfile;
     }
 
     public void save() {
+        System.out.println(carProfile.getStatus());
         String message = new String();
-        if(car.getId()==null){
+        if(carProfile.getId()==null){
+//            carProfile.setStatus(CarStatus.PENDING);
             message="The Car was registered successfully!";
         }else{
             message="The Car was edited successfully!";
         }
-        service.save(car);
-        car = new CarProfile();
+        service.save(carProfile);
+        carProfile = new CarProfile();
         cars = new ArrayList<>();
         showMessage(message,null, InformationType.INFORMATION);
     }
 
     public void select(Long id){
-        car = service.findById(id);
+        carProfile = service.findById(id);
     }
 
     public void delete(Long id){

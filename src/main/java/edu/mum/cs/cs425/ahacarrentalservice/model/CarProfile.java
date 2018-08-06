@@ -1,11 +1,8 @@
 package edu.mum.cs.cs425.ahacarrentalservice.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 public class CarProfile {
@@ -20,22 +17,22 @@ public class CarProfile {
     private Integer year;
     private CarStatus status = CarStatus.PENDING;
     
-    @OneToOne
-    @JoinColumn(name="offer_fk", nullable=false)
-    private Offer offer;
+    @OneToMany(mappedBy = "carProfile")
+    private List<Offer> offers;
 
     public CarProfile() {
     }
 
-    public CarProfile(String model, String brand, String color, Integer year, CarStatus status) {
-        this.model = model;
-        this.brand = brand;
-        this.color = color;
-        this.year = year;
-        this.status= status;
-    }
+	public CarProfile(String model, String brand, String color, Integer year, CarStatus status, List<Offer> offers) {
+		this.model = model;
+		this.brand = brand;
+		this.color = color;
+		this.year = year;
+		this.status = status;
+		this.offers = offers;
+	}
 
-    public Long getId() {
+	public Long getId() {
         return id;
     }
 
@@ -83,75 +80,13 @@ public class CarProfile {
 		this.status = status;
 	}
 
-	public Offer getOffer() {
-		return offer;
+	public List<Offer> getOffers() {
+		return offers;
 	}
 
-	public void setOffer(Offer offer) {
-		this.offer = offer;
+	public void setOffers(List<Offer> offers) {
+		this.offers = offers;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((brand == null) ? 0 : brand.hashCode());
-		result = prime * result + ((color == null) ? 0 : color.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((model == null) ? 0 : model.hashCode());
-		result = prime * result + ((offer == null) ? 0 : offer.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		result = prime * result + ((year == null) ? 0 : year.hashCode());
-		return result;
-	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		CarProfile other = (CarProfile) obj;
-		if (brand == null) {
-			if (other.brand != null)
-				return false;
-		} else if (!brand.equals(other.brand))
-			return false;
-		if (color == null) {
-			if (other.color != null)
-				return false;
-		} else if (!color.equals(other.color))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (model == null) {
-			if (other.model != null)
-				return false;
-		} else if (!model.equals(other.model))
-			return false;
-		if (offer == null) {
-			if (other.offer != null)
-				return false;
-		} else if (!offer.equals(other.offer))
-			return false;
-		if (status != other.status)
-			return false;
-		if (year == null) {
-			if (other.year != null)
-				return false;
-		} else if (!year.equals(other.year))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "CarProfile [id=" + id + ", model=" + model + ", brand=" + brand + ", color=" + color + ", year=" + year
-				+ ", status=" + status + ", offer=" + offer + "]";
-	}
 }
