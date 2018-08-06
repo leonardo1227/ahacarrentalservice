@@ -53,12 +53,8 @@
             <scope>runtime</scope>
         </dependency>-->
 
-<<<<<<< HEAD
-        <!-- <dependency>
-=======
         <!--PostgreSQL-->
-        <dependency>
->>>>>>> 7975bfc13286cca1c3e337fd74d1bfe6fd3de881
+        <!-- <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
