@@ -6,7 +6,7 @@
       xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-    <title>PrimeFaces DataTable Example</title>
+    <title>Car Profile Registration</title>
 </h:head>
 
 <h:body>
@@ -18,30 +18,30 @@
             </p:messages>
             <h:panelGrid columns="3">
                 <p:outputLabel value="Brand: " for="brandInput"/>
-                <p:inputText id="brandInput" value="#{carController.car.brand}" required="true" requiredMessage="Required"/>
+                <p:inputText id="brandInput" value="#{carProfileController.car.brand}" required="true" requiredMessage="Required"/>
                 <p:message for="brandInput"/>
 
                 <p:outputLabel value="Model: " for="modelInput"/>
-                <p:inputText id="modelInput" value="#{carController.car.model}" required="true" requiredMessage="Required"/>
+                <p:inputText id="modelInput" value="#{carProfileController.car.model}" required="true" requiredMessage="Required"/>
                 <p:message for="modelInput"/>
 
                 <p:outputLabel value="Year: " for="yearInput"/>
-                <p:inputText id="yearInput" value="#{carController.car.year}" required="true" requiredMessage="Required"/>
+                <p:inputText id="yearInput" value="#{carProfileController.car.year}" required="true" requiredMessage="Required"/>
                 <p:message for="yearInput"/>
 
                 <p:outputLabel value="Color: " for="colorInput"/>
-                <p:inputText id="colorInput" value="#{carController.car.color}" required="true" requiredMessage="Required"/>
+                <p:inputText id="colorInput" value="#{carProfileController.car.color}" required="true" requiredMessage="Required"/>
                 <p:message for="colorInput"/>
 
             </h:panelGrid>
-            <p:commandButton action="#{carController.save}" value="#{carController.car.id==null ? 'Register new car' :'Alter car information'}" icon="fa fa-save" update="formPanel dataTable"/>
+            <p:commandButton action="#{carProfileController.save}" value="#{carProfileController.car.id==null ? 'Register' :'Alter'}" icon="fa fa-save" update="formPanel dataTable"/>
         </p:panel>
 
 
         <p:fieldset legend="FieldSet" toggleSpeed="500" toggleable="true">
 
 
-            <p:dataTable var="car" value="#{carController.cars}" id="dataTable" paginator="true" rows="5">
+            <p:dataTable var="car" value="#{carProfileController.cars}" id="dataTable" paginator="true" rows="5">
                 <p:column headerText="Id">
                     <h:outputText value="#{car.id}"/>
                 </p:column>
@@ -64,18 +64,11 @@
                 </p:column>
 
                 <p:column headerText="Action" style="text-align: center">
-                    <p:commandButton process="@this" actionListener="#{carController.select(car.id)}" icon="fa fa-edit" update=":form:formPanel"/>
-                    <p:commandButton process="@this" actionListener="#{carController.delete(car.id)}" icon="fa fa-remove" update="dataTable">
-                            <p:confirm header="Confirmation" message="Are you sure about removing [#{car.brand}-#{car.model}]" icon="ui-icon-alert"/>
-                    </p:commandButton>
+                    <p:commandButton process="@this" actionListener="#{carProfileController.select(car.id)}" icon="fa fa-edit" update=":form:formPanel"/>
+                    <p:commandButton process="@this" actionListener="#{carProfileController.delete(car.id)}" icon="fa fa-remove" update="dataTable"/>
                 </p:column>
             </p:dataTable>
         </p:fieldset>
-        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-        </p:confirmDialog>
-
     </h:form>
 </h:body>
 </html>

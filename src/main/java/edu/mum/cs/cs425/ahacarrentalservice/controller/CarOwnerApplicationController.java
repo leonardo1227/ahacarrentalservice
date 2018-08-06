@@ -52,6 +52,10 @@ public class CarOwnerApplicationController {
 		return mav;
 	}
 	
+	public List<CarOwnerApplication> applications() {
+		return carOwnerApplicationService.getPendingApplications();
+	}
+	
 	@RequestMapping(value="/applications/new", method = RequestMethod.GET)
 	public String carOwnerApplicationView(Model model){
 		CarOwnerApplication coa = new CarOwnerApplication();
