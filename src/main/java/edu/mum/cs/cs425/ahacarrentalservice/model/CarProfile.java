@@ -3,6 +3,8 @@ package edu.mum.cs.cs425.ahacarrentalservice.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -17,6 +19,10 @@ public class CarProfile {
     private String color;
     private Integer year;
     private CarStatus status = CarStatus.PENDING;
+    
+    @OneToOne
+    @JoinColumn(name="offer_fk", nullable=false)
+    private Offer offer;
 
     public CarProfile() {
     }
@@ -77,6 +83,14 @@ public class CarProfile {
 		this.status = status;
 	}
 
+	public Offer getOffer() {
+		return offer;
+	}
+
+	public void setOffer(Offer offer) {
+		this.offer = offer;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -85,6 +99,7 @@ public class CarProfile {
 		result = prime * result + ((color == null) ? 0 : color.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((model == null) ? 0 : model.hashCode());
+		result = prime * result + ((offer == null) ? 0 : offer.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((year == null) ? 0 : year.hashCode());
 		return result;
@@ -119,6 +134,11 @@ public class CarProfile {
 				return false;
 		} else if (!model.equals(other.model))
 			return false;
+		if (offer == null) {
+			if (other.offer != null)
+				return false;
+		} else if (!offer.equals(other.offer))
+			return false;
 		if (status != other.status)
 			return false;
 		if (year == null) {
@@ -132,6 +152,6 @@ public class CarProfile {
 	@Override
 	public String toString() {
 		return "CarProfile [id=" + id + ", model=" + model + ", brand=" + brand + ", color=" + color + ", year=" + year
-				+ ", status=" + status + "]";
+				+ ", status=" + status + ", offer=" + offer + "]";
 	}
 }
