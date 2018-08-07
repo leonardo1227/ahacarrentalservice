@@ -1,17 +1,20 @@
 package edu.mum.cs.cs425.ahacarrentalservice.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "CAROWNERAPPLICATIONS")
-public class CarOwnerApplication {
+public class CarOwnerProfile {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,8 +25,8 @@ public class CarOwnerApplication {
 
 	@NotEmpty(message = "*Last Name is required")
 	private String lastName;
-	
-//	@DateTimeFormat(pattern = "MM/dd/yyyy")
+
+	// @DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date dob;
 
 	@NotEmpty(message = "*Email Address is required")
@@ -31,14 +34,21 @@ public class CarOwnerApplication {
 
 	private String phone;
 	private String address;
+	
+	@OneToOne
+	private BankAccount bankAccount;
+	
+	@OneToMany(mappedBy="carOwnerProfile")
+	private List<CarProfile> carProfiles;
+
 	private String status;
 
-	public CarOwnerApplication() {
+	public CarOwnerProfile() {
 		super();
 	}
 
-	public CarOwnerApplication(Long id, String firstName, String lastName, Date dob, String emailAddress,
-			String phone, String address, String status) {
+	public CarOwnerProfile(Long id, String firstName, String lastName, Date dob, String emailAddress, String phone,
+			String address, BankAccount bankAccount, List<CarProfile> carProfiles, String status) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -47,6 +57,8 @@ public class CarOwnerApplication {
 		this.emailAddress = emailAddress;
 		this.phone = phone;
 		this.address = address;
+		this.bankAccount = bankAccount;
+		this.carProfiles = carProfiles;
 		this.status = status;
 	}
 
@@ -114,6 +126,22 @@ public class CarOwnerApplication {
 		this.status = status;
 	}
 
+	public BankAccount getBankAccount() {
+		return bankAccount;
+	}
+
+	public void setBankAccount(BankAccount bankAccount) {
+		this.bankAccount = bankAccount;
+	}
+
+	public List<CarProfile> getCarProfiles() {
+		return carProfiles;
+	}
+
+	public void setCarProfiles(List<CarProfile> carProfiles) {
+		this.carProfiles = carProfiles;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -134,7 +162,7 @@ public class CarOwnerApplication {
 		if (obj == null || getClass() != obj.getClass()) {
 			return false;
 		}
-		CarOwnerApplication other = (CarOwnerApplication) obj;
+		CarOwnerProfile other = (CarOwnerProfile) obj;
 		if (emailAddress == null) {
 			if (other.emailAddress != null) {
 				return false;
@@ -171,7 +199,8 @@ public class CarOwnerApplication {
 
 	@Override
 	public String toString() {
-		return String.format("Application [id=%s, firstName=%s, lastName=%s, DOB=%s, emailAddress=%s, Phone=%s, Address=%s, Status=%s]",
+		return String.format(
+				"Application [id=%s, firstName=%s, lastName=%s, DOB=%s, emailAddress=%s, Phone=%s, Address=%s, Status=%s]",
 				id, firstName, lastName, dob, emailAddress, phone, address, status);
 	}
 

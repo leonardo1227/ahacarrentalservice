@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Size;
 
@@ -20,6 +21,9 @@ public class CarProfile {
     private Integer year;
     private CarStatus status = CarStatus.PENDING;
     
+    @ManyToOne
+    private CarOwnerProfile carOwnerProfile;
+    
     @OneToOne
     @JoinColumn(name="offer_fk", nullable=false)
     private Offer offer;
@@ -27,15 +31,23 @@ public class CarProfile {
     public CarProfile() {
     }
 
-    public CarProfile(String model, String brand, String color, Integer year, CarStatus status) {
-        this.model = model;
-        this.brand = brand;
-        this.color = color;
-        this.year = year;
-        this.status= status;
-    }
+    
 
-    public Long getId() {
+    public CarProfile(String model, String brand, String color, Integer year, CarStatus status,
+			CarOwnerProfile carOwnerProfile, Offer offer) {
+		super();
+		this.model = model;
+		this.brand = brand;
+		this.color = color;
+		this.year = year;
+		this.status = status;
+		this.carOwnerProfile = carOwnerProfile;
+		this.offer = offer;
+	}
+
+
+
+	public Long getId() {
         return id;
     }
 
@@ -90,6 +102,20 @@ public class CarProfile {
 	public void setOffer(Offer offer) {
 		this.offer = offer;
 	}
+	
+	
+
+	public CarOwnerProfile getCarOwnerProfile() {
+		return carOwnerProfile;
+	}
+
+
+
+	public void setCarOwnerProfile(CarOwnerProfile carOwnerProfile) {
+		this.carOwnerProfile = carOwnerProfile;
+	}
+
+
 
 	@Override
 	public int hashCode() {

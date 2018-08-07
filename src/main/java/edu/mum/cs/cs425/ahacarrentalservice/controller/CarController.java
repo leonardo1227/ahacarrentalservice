@@ -45,7 +45,7 @@ public class CarController implements IController,Serializable {
         this.car = car;
     }
 
-    public void save() {
+    public String save() {
         String message = new String();
         if(car.getId()==null){
             message="The Car was registered successfully!";
@@ -56,6 +56,7 @@ public class CarController implements IController,Serializable {
         car = new Car();
         cars = new ArrayList<>();
         showMessage(message,null, InformationType.INFORMATION);
+        return "carProfile?faces-redirect:true";
     }
 
     public void select(Long id){

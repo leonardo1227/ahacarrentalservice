@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+	<title>AHA Car Rental System - Apply For Car Owner</title>
+</h:head>
+
+<h:body>
+	<div>
+		<h1 style="text-align: center;">Apply For Car Owner</h1>
+	</div>
+	<h:form id="form">
+		<p:panel id="formPanel">
+			<h:panelGrid columns="3">
+				<p:outputLabel value="ID" for="idInput" />
+				<p:inputText id="idInput"
+					value="#{carOwnerProfileController.profile.id}" readonly="true" />
+				<p:message for="firstNameInput" />
+				<p:outputLabel value="First Name" for="firstNameInput" />
+				<p:inputText id="firstNameInput"
+					value="#{carOwnerProfileController.profile.firstName}"
+					readonly="true" />
+				<p:message for="firstNameInput" />
+
+				<p:outputLabel value="Last Name" for="lastNameInput" />
+				<p:inputText id="lastNameInput"
+					value="#{carOwnerProfileController.profile.lastName}"
+					readonly="true" />
+				<p:message for="lastNameInput" />
+
+				<p:outputLabel value="DOB" for="dobInput" />
+				<p:inputText id="dobInput"
+					value="#{carOwnerProfileController.profile.dob}" readonly="true" >
+					<f:convertDateTime pattern="MM/dd/yyyy" />
+				</p:inputText>
+				<p:message for="dobInput" />
+
+				<p:outputLabel value="Email Address" for="emailAddressInput" />
+				<p:inputText id="emailAddressInput"
+					value="#{carOwnerProfileController.profile.emailAddress}"
+					readonly="true" />
+				<p:message for="emailAddressInput" />
+
+				<p:outputLabel value="Phone" for="phoneInput" />
+				<p:inputText id="phoneInput"
+					value="#{carOwnerProfileController.profile.phone}" readonly="true"/>
+				<p:message for="phoneInput" />
+
+				<p:outputLabel value="Address" for="addressInput" />
+				<p:inputText id="addressInput"
+					value="#{carOwnerProfileController.profile.address}" readonly="true"/>
+				<p:message for="addressInput" />
+
+			</h:panelGrid>
+			<p:commandButton action="browse?faces-redirect=true" value="Cancel"
+				icon="fa fa-cancel" />
+			<p:commandButton
+				action="#{carOwnerProfileController.approveProfile(carOwnerProfileController.profile)}"
+				value="Approve" icon="fa fa-save" />
+		</p:panel>
+	</h:form>
+</h:body>
+</html>
