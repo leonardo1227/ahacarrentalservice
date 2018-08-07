@@ -1,11 +1,13 @@
 package edu.mum.cs.cs425.ahacarrentalservice.controller;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.view.ViewScoped;
@@ -27,11 +29,18 @@ import org.springframework.web.servlet.ModelAndView;
 import edu.mum.cs.cs425.ahacarrentalservice.model.Car;
 import edu.mum.cs.cs425.ahacarrentalservice.model.CarOwnerProfile;
 import edu.mum.cs.cs425.ahacarrentalservice.model.InformationType;
+import edu.mum.cs.cs425.ahacarrentalservice.model.ProfileStatus;
 import edu.mum.cs.cs425.ahacarrentalservice.service.ICarOwnerProfileService;
 
+@ManagedBean(value="carOwnerProfile")
 @Component
 @SessionScoped
-public class CarOwnerProfileController {
+public class CarOwnerProfileController implements Serializable, IController {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4154610627490123470L;
+
 	@Autowired
 	private ICarOwnerProfileService carOwnerProfileService;
 
@@ -41,7 +50,7 @@ public class CarOwnerProfileController {
 	private CarOwnerProfile profile;
 
 	public List<CarOwnerProfile> getProfiles() {
-		return carOwnerProfileService.findPendingApproveProfiles();
+		return profiles;
 	}
 
 	public void setProfiles(List<CarOwnerProfile> carOwnerProfiles) {
@@ -58,23 +67,48 @@ public class CarOwnerProfileController {
 
 	@PostConstruct
 	private void postConstruct() {
-		
+		profile = new CarOwnerProfile();
+//		Calendar cal = Calendar.getInstance();
+//		cal.set(1988, Calendar.JANUARY, 10);
+//		
+//		profile.setUserId("user1");
+//		profile.setPassword("123");
+//		profile.setFirstName("FirstName");
+//		profile.setLastName("LastName");
+//		profile.setDob(cal.getTime());
+//		profile.setEmailAddress("test@mail.com");
+//		profile.setPhone("111-111-1111");
+//		profile.setAddress("1000 N 4th St.");
+//		profile.setStatus(ProfileStatus.PENDING);
+		profiles = carOwnerProfileService.findPendingApproveProfiles();
 	}
 	
 	public String createProfile() {
+		System.out.println(profile.toString());
+		if(profile == null || profile.getId() != null) {
+			String message = "Invalid profile";
+			showMessage(message, null, InformationType.INFORMATION);
+			return "new";
+		}
         profile = carOwnerProfileService.create(profile);
         return "browse?faces-redirect=true";
     }
 	
 	public String selectProfile(CarOwnerProfile cop) {
+		System.out.println(profile.toString());
+		if(cop == null || cop.getId() == null) {
+			String message = "Please select a profile";
+			showMessage(message, null, InformationType.INFORMATION);
+			return null;
+		}
         profile = cop;
-        return "approve";
+        return "approve?faces-redirect=true";
     }
 	
 	public String approveProfile(CarOwnerProfile cop) {
 		System.out.println(cop.toString());
         if(carOwnerProfileService.approveProfile(cop) == null) {
-        	return "";
+        	return null;
         };
         return "browse?faces-redirect=true";
     }
@@ -116,7 +150,7 @@ public class CarOwnerProfileController {
 		coa.setEmailAddress("test@mail.com");
 		coa.setPhone("111-111-1111");
 		coa.setAddress("1000 N 4th St.");
-		coa.setStatus("New");
+		coa.setStatus(ProfileStatus.PENDING);
 		model.addAttribute("co_application", coa);
 		return "applications/new";
 	}

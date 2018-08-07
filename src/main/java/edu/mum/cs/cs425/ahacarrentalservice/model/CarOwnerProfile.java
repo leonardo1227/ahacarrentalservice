@@ -20,6 +20,12 @@ public class CarOwnerProfile {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	@NotEmpty(message = "*User Id is required")
+	private String userId;
+
+	@NotEmpty(message = "*Password is required")
+	private String password;
+
 	@NotEmpty(message = "*First Name is required")
 	private String firstName;
 
@@ -34,23 +40,25 @@ public class CarOwnerProfile {
 
 	private String phone;
 	private String address;
-	
+
 	@OneToOne
 	private BankAccount bankAccount;
-	
-	@OneToMany(mappedBy="carOwnerProfile")
+
+	@OneToMany(mappedBy = "carOwnerProfile")
 	private List<CarProfile> carProfiles;
 
-	private String status;
+	private ProfileStatus status;
 
 	public CarOwnerProfile() {
 		super();
 	}
 
-	public CarOwnerProfile(Long id, String firstName, String lastName, Date dob, String emailAddress, String phone,
-			String address, BankAccount bankAccount, List<CarProfile> carProfiles, String status) {
+	public CarOwnerProfile(String userId, String password, String firstName, String lastName, Date dob,
+			String emailAddress, String phone, String address, BankAccount bankAccount, List<CarProfile> carProfiles,
+			ProfileStatus status) {
 		super();
-		this.id = id;
+		this.userId = userId;
+		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.dob = dob;
@@ -64,6 +72,22 @@ public class CarOwnerProfile {
 
 	public Long getId() {
 		return id;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public void setId(Long id) {
@@ -118,11 +142,11 @@ public class CarOwnerProfile {
 		this.address = address;
 	}
 
-	public String getStatus() {
+	public ProfileStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(ProfileStatus status) {
 		this.status = status;
 	}
 

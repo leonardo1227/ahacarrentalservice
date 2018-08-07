@@ -15,11 +15,19 @@
 		<h1 style="text-align: center;">List of Car Owner Profile</h1>
 	</div>
 	<h:form id="form">
+		<p:panel id="panel" header="Horizontal Toggle" toggleable="true"
+			toggleOrientation="vertical">
 
-		<p:fieldset legend="FieldSet" toggleSpeed="500" toggleable="true">
-			<p:dataTable var="profile"
-				value="#{carOwnerProfileController.profiles}" id="dataTable"
-				paginator="true" rows="5">
+
+			<p:dataTable var="profile" value="#{carOwnerProfile.profiles}"
+				id="dataTable" paginator="true" rows="10"
+				selection="#{carOwnerProfile.profile}" rowKey="#{profile.id}">
+
+				<!-- <p:ajax event="rowSelect" update="radio"
+					/>
+ -->
+				<p:column selectionMode="single" update=":panel:btnView"
+					style="width:16px;text-align:center" />
 
 				<p:column headerText="Id">
 					<h:outputText value="#{profile.id}" />
@@ -56,13 +64,20 @@
 					<h:outputText value="#{profile.status}" />
 				</p:column>
 
-				<p:column headerText="Action" style="text-align: center">
+				<!-- <p:column style="text-align: center">
 					<p:commandButton process="@this"
-						action="#{carOwnerProfileController.selectProfile(profile)}"
-						icon="fa fa-edit" />
-				</p:column>
+						action="#{carOwnerProfile.selectProfile(profile)}"
+						icon="ui-icon-search" value="View" />
+				</p:column> -->
+
 			</p:dataTable>
-		</p:fieldset>
+			<f:facet name="footer">
+				<p:commandButton id="btnView" process="dataTable"
+					icon="ui-icon-search"
+					disabled="#{not empty carOwnerProfile.profile}" value="View"
+					action="#{carOwnerProfile.selectProfile(carOwnerProfile.profile)}" />
+			</f:facet>
+		</p:panel>
 	</h:form>
 </h:body>
 </html>

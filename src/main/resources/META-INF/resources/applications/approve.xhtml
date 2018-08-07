@@ -19,48 +19,48 @@
 			<h:panelGrid columns="3">
 				<p:outputLabel value="ID" for="idInput" />
 				<p:inputText id="idInput"
-					value="#{carOwnerProfileController.profile.id}" readonly="true" />
+					value="#{carOwnerProfile.profile.id}" readonly="true" />
 				<p:message for="firstNameInput" />
 				<p:outputLabel value="First Name" for="firstNameInput" />
 				<p:inputText id="firstNameInput"
-					value="#{carOwnerProfileController.profile.firstName}"
+					value="#{carOwnerProfile.profile.firstName}"
 					readonly="true" />
 				<p:message for="firstNameInput" />
 
 				<p:outputLabel value="Last Name" for="lastNameInput" />
 				<p:inputText id="lastNameInput"
-					value="#{carOwnerProfileController.profile.lastName}"
+					value="#{carOwnerProfile.profile.lastName}"
 					readonly="true" />
 				<p:message for="lastNameInput" />
 
 				<p:outputLabel value="DOB" for="dobInput" />
 				<p:inputText id="dobInput"
-					value="#{carOwnerProfileController.profile.dob}" readonly="true" >
+					value="#{carOwnerProfile.profile.dob}" readonly="true" >
 					<f:convertDateTime pattern="MM/dd/yyyy" />
 				</p:inputText>
 				<p:message for="dobInput" />
 
 				<p:outputLabel value="Email Address" for="emailAddressInput" />
 				<p:inputText id="emailAddressInput"
-					value="#{carOwnerProfileController.profile.emailAddress}"
+					value="#{carOwnerProfile.profile.emailAddress}"
 					readonly="true" />
 				<p:message for="emailAddressInput" />
 
 				<p:outputLabel value="Phone" for="phoneInput" />
 				<p:inputText id="phoneInput"
-					value="#{carOwnerProfileController.profile.phone}" readonly="true"/>
+					value="#{carOwnerProfile.profile.phone}" readonly="true"/>
 				<p:message for="phoneInput" />
 
 				<p:outputLabel value="Address" for="addressInput" />
 				<p:inputText id="addressInput"
-					value="#{carOwnerProfileController.profile.address}" readonly="true"/>
+					value="#{carOwnerProfile.profile.address}" readonly="true"/>
 				<p:message for="addressInput" />
 
 			</h:panelGrid>
 			<p:commandButton action="browse?faces-redirect=true" value="Cancel"
 				icon="fa fa-cancel" />
 			<p:commandButton
-				action="#{carOwnerProfileController.approveProfile(carOwnerProfileController.profile)}"
+				action="#{carOwnerProfile.approveProfile(carOwnerProfile.profile)}"
 				value="Approve" icon="fa fa-save" />
 		</p:panel>
 	</h:form>
