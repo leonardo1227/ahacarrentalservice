@@ -18,23 +18,23 @@
             </p:messages>
             <h:panelGrid columns="3">
                 <p:outputLabel value="Brand: " for="brandInput"/>
-                <p:inputText id="brandInput" value="#{carProfileController.car.brand}" required="true" requiredMessage="Required"/>
+                <p:inputText id="brandInput" value="#{carProfileController.carProfile.brand}" required="true" requiredMessage="Required"/>
                 <p:message for="brandInput"/>
 
                 <p:outputLabel value="Model: " for="modelInput"/>
-                <p:inputText id="modelInput" value="#{carProfileController.car.model}" required="true" requiredMessage="Required"/>
+                <p:inputText id="modelInput" value="#{carProfileController.carProfile.model}" required="true" requiredMessage="Required"/>
                 <p:message for="modelInput"/>
 
                 <p:outputLabel value="Year: " for="yearInput"/>
-                <p:inputText id="yearInput" value="#{carProfileController.car.year}" required="true" requiredMessage="Required"/>
+                <p:inputText id="yearInput" value="#{carProfileController.carProfile.year}" required="true" requiredMessage="Required"/>
                 <p:message for="yearInput"/>
 
                 <p:outputLabel value="Color: " for="colorInput"/>
-                <p:inputText id="colorInput" value="#{carProfileController.car.color}" required="true" requiredMessage="Required"/>
+                <p:inputText id="colorInput" value="#{carProfileController.carProfile.color}" required="true" requiredMessage="Required"/>
                 <p:message for="colorInput"/>
 
             </h:panelGrid>
-            <p:commandButton action="#{carProfileController.save}" value="#{carProfileController.car.id==null ? 'Register' :'Alter'}" icon="fa fa-save" update="formPanel dataTable"/>
+            <p:commandButton action="#{carProfileController.save}" value="#{carProfileController.carProfile.id==null ? 'Register' :'Alter'}" icon="fa fa-save" update="formPanel dataTable"/>
         </p:panel>
 
 

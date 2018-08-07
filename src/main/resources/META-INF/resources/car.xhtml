@@ -1,81 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
 
-<h:head>
-    <title>PrimeFaces DataTable Example</title>
-</h:head>
+<ui:composition template="template/_template.xhtml">
+    <ui:define name="title">CRUD CAR</ui:define>
 
-<h:body>
-    <h:form id="form">
+    <ui:define name="content">
 
-        <p:panel id="formPanel">
-            <p:messages for="controllerMessages">
-                <p:autoUpdate/>
-            </p:messages>
-            <h:panelGrid columns="3">
-                <p:outputLabel value="Brand: " for="brandInput"/>
-                <p:inputText id="brandInput" value="#{carController.car.brand}" required="true" requiredMessage="Required"/>
-                <p:message for="brandInput"/>
+        <h:form id="form">
 
-                <p:outputLabel value="Model: " for="modelInput"/>
-                <p:inputText id="modelInput" value="#{carController.car.model}" required="true" requiredMessage="Required"/>
-                <p:message for="modelInput"/>
+            <p:panel id="formPanel">
+                <p:messages for="controllerMessages">
+                    <p:autoUpdate/>
+                </p:messages>
+                <h:panelGrid columns="3">
+                    <p:outputLabel value="Brand: " for="brandInput"/>
+                    <p:inputText id="brandInput" value="#{carController.car.brand}" required="true"
+                                 requiredMessage="Required"/>
+                    <p:message for="brandInput"/>
 
-                <p:outputLabel value="Year: " for="yearInput"/>
-                <p:inputText id="yearInput" value="#{carController.car.year}" required="true" requiredMessage="Required"/>
-                <p:message for="yearInput"/>
+                    <p:outputLabel value="Model: " for="modelInput"/>
+                    <p:inputText id="modelInput" value="#{carController.car.model}" required="true"
+                                 requiredMessage="Required"/>
+                    <p:message for="modelInput"/>
 
-                <p:outputLabel value="Color: " for="colorInput"/>
-                <p:inputText id="colorInput" value="#{carController.car.color}" required="true" requiredMessage="Required"/>
-                <p:message for="colorInput"/>
+                    <p:outputLabel value="Year: " for="yearInput"/>
+                    <p:inputText id="yearInput" value="#{carController.car.year}" required="true"
+                                 requiredMessage="Required"/>
+                    <p:message for="yearInput"/>
 
-            </h:panelGrid>
-            <p:commandButton action="#{carController.save}" value="#{carController.car.id==null ? 'Register new car' :'Alter car information'}" icon="fa fa-save" update="formPanel dataTable"/>
-        </p:panel>
+                    <p:outputLabel value="Color: " for="colorInput"/>
+                    <p:inputText id="colorInput" value="#{carController.car.color}" required="true"
+                                 requiredMessage="Required"/>
+                    <p:message for="colorInput"/>
 
-
-        <p:fieldset legend="FieldSet" toggleSpeed="500" toggleable="true">
-
-
-            <p:dataTable var="car" value="#{carController.cars}" id="dataTable" paginator="true" rows="5">
-                <p:column headerText="Id">
-                    <h:outputText value="#{car.id}"/>
-                </p:column>
-
-                <p:column headerText="Brand" filterBy="#{car.brand}" filterMatchMode="contains">
-                    <h:outputText value="#{car.brand}"/>
-                </p:column>
-
-                <p:column headerText="Model">
-                    <h:outputText value="#{car.model}"/>
-                </p:column>
-
-                <p:column headerText="Year">
-                    <h:outputText value="#{car.year}"/>
-                </p:column>
+                </h:panelGrid>
+                <p:commandButton action="#{carController.save}"
+                                 value="#{carController.car.id==null ? 'Register new car' :'Alter car information'}"
+                                 icon="fa fa-save" update="formPanel dataTable"/>
+            </p:panel>
 
 
-                <p:column headerText="Color">
-                    <h:outputText value="#{car.color}"/>
-                </p:column>
+            <p:fieldset legend="FieldSet" toggleSpeed="500" toggleable="true">
 
-                <p:column headerText="Action" style="text-align: center">
-                    <p:commandButton process="@this" actionListener="#{carController.select(car.id)}" icon="fa fa-edit" update=":form:formPanel"/>
-                    <p:commandButton process="@this" actionListener="#{carController.delete(car.id)}" icon="fa fa-remove" update="dataTable">
-                            <p:confirm header="Confirmation" message="Are you sure about removing [#{car.brand}-#{car.model}]" icon="ui-icon-alert"/>
-                    </p:commandButton>
-                </p:column>
-            </p:dataTable>
-        </p:fieldset>
-        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-        </p:confirmDialog>
 
-    </h:form>
-</h:body>
+                <p:dataTable var="car" value="#{carController.cars}" id="dataTable" paginator="true" rows="5">
+                    <p:column headerText="Id">
+                        <h:outputText value="#{car.id}"/>
+                    </p:column>
+
+                    <p:column headerText="Brand" filterBy="#{car.brand}" filterMatchMode="contains">
+                        <h:outputText value="#{car.brand}"/>
+                    </p:column>
+
+                    <p:column headerText="Model">
+                        <h:outputText value="#{car.model}"/>
+                    </p:column>
+
+                    <p:column headerText="Year">
+                        <h:outputText value="#{car.year}"/>
+                    </p:column>
+
+
+                    <p:column headerText="Color">
+                        <h:outputText value="#{car.color}"/>
+                    </p:column>
+
+                    <p:column headerText="Action" style="text-align: center">
+                        <p:commandButton process="@this" actionListener="#{carController.select(car.id)}"
+                                         icon="fa fa-edit" update=":form:formPanel"/>
+                        <p:commandButton process="@this" actionListener="#{carController.delete(car.id)}"
+                                         icon="fa fa-remove" update="dataTable">
+                            <p:confirm header="Confirmation"
+                                       message="Are you sure about removing [#{car.brand}-#{car.model}]"
+                                       icon="ui-icon-alert"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+            </p:confirmDialog>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
 </html>

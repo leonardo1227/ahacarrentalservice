@@ -1,10 +1,6 @@
 package edu.mum.cs.cs425.ahacarrentalservice.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -18,7 +14,8 @@ public class Offer {
     private String description;
     private double discount;
     
-    @OneToOne(mappedBy="offer")
+//    @OneToOne(mappedBy="offer")
+	@ManyToOne
     private CarProfile carProfile;
     
     public Offer() {

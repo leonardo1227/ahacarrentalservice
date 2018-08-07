@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/template/_template.xhtml">
+        <ui:define name="title">AHA ::: Car Profile :::</ui:define>
+        <ui:define name="content">
+            <h:form id="form">
+                <p:growl id="messages" for="controllerMessages"/>
+                <p:panel header="#{carProfileController.carProfile.id==null ? 'New Car Profile Registration' : 'Edit Car Profile Information'}" style="width: 30%;margin: auto">
+                    <h:panelGrid columns="3">
+                        <p:outputLabel value="Model:" for="model"/>
+                        <p:inputText id="model" value="#{carProfileController.carProfile.model}" required="true" requiredMessage="Required"/>
+                        <p:message for="model"/>
+
+                        <p:outputLabel value="Brand" for="brand"/>
+                        <p:inputText id="brand" value="#{carProfileController.carProfile.brand}" required="true" requiredMessage="Required"/>
+                        <p:message for="brand"/>
+
+                        <p:outputLabel value="Color:" for="year"/>
+                        <p:inputText id="color" value="#{carProfileController.carProfile.color}" required="true" requiredMessage="Required"/>
+                        <p:message for="color"/>
+
+                        <p:outputLabel value="Year:" for="year"/>
+                        <p:inputText id="year" value="#{carProfileController.carProfile.year}" required="true" requiredMessage="Required"/>
+                        <p:message for="year"/>
+
+                        <p:outputLabel value="Price:" for="price"/>
+                        <p:inputText id="price" value="#{carProfileController.carProfile.offer.price}" rendered="true" requiredMessage="Required"/>
+                        <p:message for="price"/>
+
+                        <p:outputLabel value="Description:" for="description"/>
+                        <p:inputText id="description" value="#{carProfileController.carProfile.offer.description}"/>
+                        <p:message for="description"/>
+
+                        <p:outputLabel value="Discount:" for="discount"/>
+                        <p:inputText id="discount" value="#{carProfileController.carProfile.offer.price}"/>
+                        <p:message for="discount"/>
+
+                    </h:panelGrid>
+                    <p:commandButton value="Save" icon="fa fa-save" action="#{carProfileController.save}" update="form"/>
+                </p:panel>
+                <p:panel header="List of Car Profile Registered" >
+                    <p:dataTable value="#{carProfileController.cars}" var="carProfile">
+                        <p:column headerText="Registrantion Number">
+                            <p:outputLabel value="#{car.id}"/>
+                        </p:column>
+
+                        <p:column headerText="Brand">
+                            <p:outputLabel value="#{car.brand}"/>
+                        </p:column>
+
+                        <p:column headerText="Model">
+                            <p:outputLabel value="#{car.model}"/>
+                        </p:column>
+
+                        <p:column headerText="Year">
+                            <p:outputLabel value="#{car.year}"/>
+                        </p:column>
+
+                        <p:column headerText="Status">
+                            <p:outputLabel value="#{car.status}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+
+            </h:form>
+        </ui:define>
+</ui:composition>
+</html>
