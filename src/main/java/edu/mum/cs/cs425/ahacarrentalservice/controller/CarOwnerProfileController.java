@@ -65,28 +65,28 @@ public class CarOwnerProfileController implements Serializable, IController {
 	@PostConstruct
 	private void postConstruct() {
 		profile = new CarOwnerProfile();
-//		Calendar cal = Calendar.getInstance();
-//		cal.set(1988, Calendar.JANUARY, 10);
-//		
-//		profile.setUserId("user1");
-//		profile.setPassword("123");
-//		profile.setFirstName("FirstName");
-//		profile.setLastName("LastName");
-//		profile.setDob(cal.getTime());
-//		profile.setEmailAddress("test@mail.com");
-//		profile.setPhone("111-111-1111");
-//		profile.setAddress("1000 N 4th St.");
-//		profile.setStatus(ProfileStatus.PENDING);
+		Calendar cal = Calendar.getInstance();
+		cal.set(1988, Calendar.JANUARY, 10);
+		
+		profile.setUserId("user1");
+		profile.setPassword("123");
+		profile.setFirstName("FirstName");
+		profile.setLastName("LastName");
+		profile.setDob(cal.getTime());
+		profile.setEmailAddress("test@mail.com");
+		profile.setPhone("111-111-1111");
+		profile.setAddress("1000 N 4th St.");
+		profile.setStatus(ProfileStatus.PENDING);
 		profiles = carOwnerProfileService.findPendingApproveProfiles();
 	}
 	
 	public String createProfile() {
 		System.out.println(profile.toString());
-		if(profile == null || profile.getId() == null) {
-			String message = "Please provide required infomation to complete the profile";
-			showMessage(message, null, InformationType.INFORMATION);
-			return "new";
-		}
+//		if(profile == null || profile.getId() == null) {
+//			String message = "Please provide required infomation to complete the profile";
+//			showMessage(message, null, InformationType.INFORMATION);
+//			return "new";
+//		}
         profile = carOwnerProfileService.create(profile);
         return "browse?faces-redirect=true";
     }
