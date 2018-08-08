@@ -17,4 +17,15 @@ public interface IController {
                                 detail));
     }
 
+    default String redirect(String url){
+        return url+"?faces-redirect=true";
+    }
+
+    default Object getAttributeFromTheSession(String attributeName){
+        return FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().get(attributeName);
+    }
+    default void setAttributeInTheSession(String attributeName, Object object){
+        FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().put(attributeName,object);
+    }
+
 }

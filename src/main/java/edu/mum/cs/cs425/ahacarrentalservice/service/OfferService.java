@@ -1,5 +1,6 @@
 package edu.mum.cs.cs425.ahacarrentalservice.service;
 
+import edu.mum.cs.cs425.ahacarrentalservice.model.CarProfile;
 import edu.mum.cs.cs425.ahacarrentalservice.model.Offer;
 import edu.mum.cs.cs425.ahacarrentalservice.repository.IOfferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +11,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class OfferService implements IOfferService<Offer> {
+public class OfferService implements IService<Offer> {
     @Autowired
     private IOfferRepository repository;
 
-    public List<Offer> findAll(){
+
+    @Override
+    public List<Offer> findAll() {
         return repository.findAll();
     }
 
@@ -25,8 +28,8 @@ public class OfferService implements IOfferService<Offer> {
 
     @Override
     public Offer findById(Long id) {
-        Optional<Offer> offer = repository.findById(id);
-        return offer.orElse(null);
+        Optional<Offer> result = repository.findById(id);
+        return result.orElse(null);
     }
 
     @Override
@@ -34,11 +37,12 @@ public class OfferService implements IOfferService<Offer> {
         return repository.save(offer);
     }
 
-
     @Override
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
 
-
+    public List<Offer> findByCarProfile(CarProfile carProfile){
+        return repository.findByCarProfile(carProfile);
+    }
 }

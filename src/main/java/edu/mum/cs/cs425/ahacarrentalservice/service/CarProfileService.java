@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CarProfileService implements ICarProfileService<CarProfile> {
+public class CarProfileService implements IService<CarProfile> {
     @Autowired
     private ICarProfileRepository repository;
 
-    public List<CarProfile> findAll(){
+    public List<CarProfile> findAll() {
         return repository.findAll();
     }
 
