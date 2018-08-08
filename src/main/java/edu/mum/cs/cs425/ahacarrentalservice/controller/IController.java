@@ -17,6 +17,15 @@ public interface IController {
                                 detail));
     }
 
+    default  void showMessage(String fieldId, String summary, String detail, InformationType type){
+        FacesContext
+                .getCurrentInstance()
+                .addMessage(fieldId,
+                        new FacesMessage(Util.getFacesMessageSeverity(type),
+                                summary,
+                                detail));
+    }
+
     default String redirect(String url){
         return url+"?faces-redirect=true";
     }
