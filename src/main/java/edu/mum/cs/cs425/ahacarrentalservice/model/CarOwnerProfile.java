@@ -17,7 +17,7 @@ import javax.validation.constraints.NotEmpty;
 public class CarOwnerProfile {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	private Long id;
 
 	@NotEmpty(message = "*User Id is required")

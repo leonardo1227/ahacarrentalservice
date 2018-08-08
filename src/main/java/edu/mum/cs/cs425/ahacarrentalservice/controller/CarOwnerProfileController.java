@@ -2,7 +2,6 @@ package edu.mum.cs.cs425.ahacarrentalservice.controller;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -10,7 +9,6 @@ import java.util.List;
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.view.ViewScoped;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import edu.mum.cs.cs425.ahacarrentalservice.model.Car;
 import edu.mum.cs.cs425.ahacarrentalservice.model.CarOwnerProfile;
 import edu.mum.cs.cs425.ahacarrentalservice.model.InformationType;
 import edu.mum.cs.cs425.ahacarrentalservice.model.ProfileStatus;
@@ -85,8 +82,8 @@ public class CarOwnerProfileController implements Serializable, IController {
 	
 	public String createProfile() {
 		System.out.println(profile.toString());
-		if(profile == null || profile.getId() != null) {
-			String message = "Invalid profile";
+		if(profile == null || profile.getId() == null) {
+			String message = "Please provide required infomation to complete the profile";
 			showMessage(message, null, InformationType.INFORMATION);
 			return "new";
 		}

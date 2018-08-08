@@ -18,64 +18,123 @@
 			<p:messages for="controllerMessages">
 				<p:autoUpdate />
 			</p:messages>
-			<p:panel id="accountPanel" header="Account Information">
-				<h:panelGrid columns="3">
-					<p:outputLabel value="User Id:" for="userIdInput" />
-					<p:inputText id="userIdInput"
-						value="#{carOwnerProfile.profile.userId}" required="true"
-						requiredMessage="User Id is required" />
-					<p:message for="userIdInput" />
-					<p:outputLabel value="Password:" for="passwordInput" />
-					<p:password id="passwordInput"
-						value="#{carOwnerProfile.profile.password}" required="true"
-						feedback="true" requiredMessage="Password is required" />
-					<!-- <p:message for="passwordInput" /> -->
-				</h:panelGrid>
-			</p:panel>
-			<p:panel id="persionalPanel" header="Personal Information">
-				<h:panelGrid columns="3">
-					<p:outputLabel value="First Name" for="firstNameInput" />
-					<p:inputText id="firstNameInput"
-						value="#{carOwnerProfile.profile.firstName}" required="true"
-						requiredMessage="Frist Name is required" />
-					<p:message for="firstNameInput" />
+			
+			<p:panelGrid id="formGrid" style="margin: 0 auto;"
+				styleClass="ui-noborder">
+				<p:focus context="formGrid" />
+				<p:row styleClass="ui-widget-header">
+					<p:column colspan="3">Account Information</p:column>
+				</p:row>
 
-					<p:outputLabel value="Last Name" for="lastNameInput" />
-					<p:inputText id="lastNameInput"
-						value="#{carOwnerProfile.profile.lastName}" required="true"
-						requiredMessage="Last Name is required" />
-					<p:message for="lastNameInput" />
+				<p:row>
+					<p:column>
+						<p:outputLabel value="User Id:" for="userIdInput" />
+					</p:column>
+					<p:column>
+						<p:inputText id="userIdInput"
+							value="#{carOwnerProfile.profile.userId}" required="true"
+							requiredMessage="User Id is required" />
 
-					<p:outputLabel value="DOB" for="dobInput" />
-					<p:inputText id="dobInput" value="#{carOwnerProfile.profile.dob}"
-						required="true" requiredMessage="DOB is required">
-						<f:convertDateTime pattern="MM/dd/yyyy" />
-					</p:inputText>
-					<p:message for="dobInput" />
+						<p:message for="userIdInput" showDetail="true" autoUpdate="true"
+							closable="true" />
+					</p:column>
+				</p:row>
 
-					<p:outputLabel value="Email Address" for="emailAddressInput" />
-					<p:inputText id="emailAddressInput"
-						value="#{carOwnerProfile.profile.emailAddress}" required="true"
-						requiredMessage="Email Address is required" />
-					<p:message for="emailAddressInput" />
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Password:" for="passwordInput" />
+					</p:column>
+					<p:column>
+						<p:password id="passwordInput"
+							value="#{carOwnerProfile.profile.password}" required="true"
+							feedback="true" requiredMessage="Password is required" />
+						<p:message for="passwordInput" display="tooltip" />
+					</p:column>
+				</p:row>
 
-					<p:outputLabel value="Phone" for="phoneInput" />
-					<p:inputText id="phoneInput"
-						value="#{carOwnerProfile.profile.phone}" />
-					<p:message for="phoneInput" />
+				<p:row>
+					<p:column colspan="3" styleClass="ui-widget-header">
+						Persional Information
+					</p:column>
+				</p:row>
 
-					<p:outputLabel value="Address" for="addressInput" />
-					<p:inputText id="addressInput"
-						value="#{carOwnerProfile.profile.address}" />
-					<p:message for="addressInput" />
+				<p:row>
+					<p:column>
+						<p:outputLabel value="First Name" for="firstNameInput" />
+					</p:column>
+					<p:column>
+						<p:inputText id="firstNameInput"
+							value="#{carOwnerProfile.profile.firstName}" required="true"
+							requiredMessage="Frist Name is required" />
 
-				</h:panelGrid>
+						<p:message for="firstNameInput" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Last Name" for="lastNameInput" />
+					</p:column>
+					<p:column>
+						<p:inputText id="lastNameInput"
+							value="#{carOwnerProfile.profile.lastName}" required="true"
+							requiredMessage="Last Name is required" />
 
-			</p:panel>
-			<p:panel style="text-align: center;">
-				<p:commandButton action="#{carOwnerProfile.createProfile}"
-					value="Apply" icon="fa fa-save" />
-			</p:panel>
+						<p:message for="lastNameInput" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="DOB" for="dobInput" />
+					</p:column>
+					<p:column>
+						<p:inputText id="dobInput" value="#{carOwnerProfile.profile.dob}"
+							required="true" requiredMessage="DOB is required">
+							<f:convertDateTime pattern="MM/dd/yyyy" />
+						</p:inputText>
+
+						<p:message for="dobInput" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Email Address" for="emailAddressInput" />
+					</p:column>
+					<p:column>
+						<p:inputText id="emailAddressInput"
+							value="#{carOwnerProfile.profile.emailAddress}" required="true"
+							requiredMessage="Email Address is required" />
+
+						<p:message for="emailAddressInput" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Phone" for="phoneInput" />
+					</p:column>
+					<p:column>
+						<p:inputText id="phoneInput"
+							value="#{carOwnerProfile.profile.phone}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Address" for="addressInput" />
+					</p:column>
+					<p:column>
+						<p:inputText id="addressInput"
+							value="#{carOwnerProfile.profile.address}" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column colspan="3" style="text-align: center">
+						<p:commandButton type="button" process="@this" update=":#{p:component('message')}"
+							value="Apply" icon="fa fa-save"
+							action="#{carOwnerProfile.createProfile}" />
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+
 		</h:form>
 	</div>
 </h:body>
