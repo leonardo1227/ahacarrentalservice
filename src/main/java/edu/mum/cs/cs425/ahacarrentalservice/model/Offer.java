@@ -13,20 +13,21 @@ public class Offer {
     private double price;
     private String description;
     private double discount;
+
+    @Enumerated
+	private CarStatus status = CarStatus.PENDING;
     
-//    @OneToOne(mappedBy="offer")
 	@ManyToOne
     private CarProfile carProfile;
     
     public Offer() {
     }
 
-    public Offer(Long id, double price, String description, double discount, CarProfile carProfile) {
-		super();
-		this.id = id;
+	public Offer(double price, String description, double discount, CarStatus status, CarProfile carProfile) {
 		this.price = price;
 		this.description = description;
 		this.discount = discount;
+		this.status = status;
 		this.carProfile = carProfile;
 	}
 
@@ -70,55 +71,11 @@ public class Offer {
 		this.carProfile = carProfile;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((carProfile == null) ? 0 : carProfile.hashCode());
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		long temp;
-		temp = Double.doubleToLongBits(discount);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		temp = Double.doubleToLongBits(price);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		return result;
+	public CarStatus getStatus() {
+		return status;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Offer other = (Offer) obj;
-		if (carProfile == null) {
-			if (other.carProfile != null)
-				return false;
-		} else if (!carProfile.equals(other.carProfile))
-			return false;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (Double.doubleToLongBits(discount) != Double.doubleToLongBits(other.discount))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (Double.doubleToLongBits(price) != Double.doubleToLongBits(other.price))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Offer [id=" + id + ", price=" + price + ", description=" + description + ", discount=" + discount
-				+ ", carProfile=" + carProfile + "]";
+	public void setStatus(CarStatus status) {
+		this.status = status;
 	}
 }

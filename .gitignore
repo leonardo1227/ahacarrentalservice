@@ -36,3 +36,8 @@ bin/src/main/java/META-INF/MANIFEST.MF
 bin/src/main/resources/application.properties
 bin/src/main/resources/META-INF/resources/car.xhtml
 bin/src/test/java/edu/mum/cs/cs425/ahacarrentalservice/AhacarrentalserviceApplicationTests.class
+
+#PROJECT
+application.properties
+pom.xml
+OLDpom.xml
