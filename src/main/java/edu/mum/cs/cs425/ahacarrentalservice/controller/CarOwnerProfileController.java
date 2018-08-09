@@ -30,7 +30,6 @@ import edu.mum.cs.cs425.ahacarrentalservice.model.ProfileStatus;
 import edu.mum.cs.cs425.ahacarrentalservice.service.ICarOwnerProfileService;
 
 @ManagedBean(value="carOwnerProfile")
-@Component
 @SessionScoped
 public class CarOwnerProfileController implements Serializable, IController {
 	/**
@@ -43,70 +42,119 @@ public class CarOwnerProfileController implements Serializable, IController {
 
 	private List<CarOwnerProfile> profiles;
 
-	// placeholder variable
-	private CarOwnerProfile profile;
+	// placeholder variable for creating new profile
+	private CarOwnerProfile newProfile;
+	
+	private CarOwnerProfile selectedProfile;
+	private ProfileStatus selectedStatus;
 
 	public List<CarOwnerProfile> getProfiles() {
+		profiles = carOwnerProfileService.findPendingApproveProfiles();
 		return profiles;
 	}
 
-	public void setProfiles(List<CarOwnerProfile> carOwnerProfiles) {
-		this.profiles = carOwnerProfiles;
+	public void setProfiles(List<CarOwnerProfile> profiles) {
+		this.profiles = profiles;
+	}
+	
+	public CarOwnerProfile getNewProfile() {
+		if(newProfile == null) {
+			newProfile = new CarOwnerProfile();
+			Calendar cal = Calendar.getInstance();
+			cal.set(1988, Calendar.JANUARY, 10);
+		
+//			newProfile.setUserId("user1");
+//			newProfile.setPassword("123");
+			newProfile.setFirstName("FirstName");
+			newProfile.setLastName("LastName");
+			newProfile.setDob(cal.getTime());
+			newProfile.setEmailAddress("test@mail.com");
+			newProfile.setPhone("111-111-1111");
+			newProfile.setAddress("1000 N 4th St. Fairfield, 52557, IA");
+//			newProfile.setStatus(ProfileStatus.PENDING);
+		}
+		
+		return newProfile;
 	}
 
-	public CarOwnerProfile getProfile() {
-		return profile;
+	public void setNewProfile(CarOwnerProfile newProfile) {
+		this.newProfile = newProfile;
 	}
 
-	public void setProfile(CarOwnerProfile carOwnerProfile) {
-		this.profile = carOwnerProfile;
+	public CarOwnerProfile getSelectedProfile() {
+		return selectedProfile;
+	}
+
+	public void setSelectedProfile(CarOwnerProfile selectedProfile) {
+		this.selectedProfile = selectedProfile;
+	}
+	
+	public ProfileStatus[] getStatuses() {
+		return ProfileStatus.values();
+	}
+	
+	public ProfileStatus getSelectedStatus() {
+		return selectedStatus;
+	}
+
+	public void setSelectedStatus(ProfileStatus selectedStatus) {
+		this.selectedStatus = selectedStatus;
 	}
 
 	@PostConstruct
 	private void postConstruct() {
-		profile = new CarOwnerProfile();
-		Calendar cal = Calendar.getInstance();
-		cal.set(1988, Calendar.JANUARY, 10);
-		
-		profile.setUserId("user1");
-		profile.setPassword("123");
-		profile.setFirstName("FirstName");
-		profile.setLastName("LastName");
-		profile.setDob(cal.getTime());
-		profile.setEmailAddress("test@mail.com");
-		profile.setPhone("111-111-1111");
-		profile.setAddress("1000 N 4th St.");
-		profile.setStatus(ProfileStatus.PENDING);
-		profiles = carOwnerProfileService.findPendingApproveProfiles();
+//		newProfile = new CarOwnerProfile();
+//		profiles = carOwnerProfileService.findPendingApproveProfiles();
+	}
+	
+	public void checkUserId() {
+		System.out.println(newProfile.getUserId());
+		if(carOwnerProfileService.findByUserId(newProfile.getUserId())) {
+			String message = "The user id '" + newProfile.getUserId() + "' is already used by other. Please choose another.";
+			showMessage(message, message, InformationType.ERROR);
+		}
 	}
 	
 	public String createProfile() {
-		System.out.println(profile.toString());
-//		if(profile == null || profile.getId() == null) {
-//			String message = "Please provide required infomation to complete the profile";
-//			showMessage(message, null, InformationType.INFORMATION);
-//			return "new";
-//		}
-        profile = carOwnerProfileService.create(profile);
+		System.out.println(newProfile.toString());
+		if(carOwnerProfileService.findByUserId(newProfile.getUserId())) {
+			String message = "The user id '" + newProfile.getUserId() + "' is already used by other. Please choose another.";
+			showMessage(message, message, InformationType.ERROR);
+			return null;
+		}
+		newProfile.setStatus(ProfileStatus.PENDING);
+		carOwnerProfileService.create(newProfile);
+        newProfile = null;
+        setProfiles(carOwnerProfileService.findPendingApproveProfiles());
         return "browse?faces-redirect=true";
     }
 	
-	public String selectProfile(CarOwnerProfile cop) {
-		System.out.println(profile.toString());
-		if(cop == null || cop.getId() == null) {
+	public String viewProfile() {
+		if(selectedProfile == null || selectedProfile.getId() == null) {
 			String message = "Please select a profile";
 			showMessage(message, null, InformationType.INFORMATION);
 			return null;
 		}
-        profile = cop;
+		setSelectedStatus(selectedProfile.getStatus());
         return "approve?faces-redirect=true";
     }
 	
-	public String approveProfile(CarOwnerProfile cop) {
-		System.out.println(cop.toString());
-        if(carOwnerProfileService.approveProfile(cop) == null) {
-        	return null;
-        };
+	public Boolean approvedStatus() {
+		return selectedStatus == ProfileStatus.APPROVED;
+    }
+	
+	public Boolean isSelectedProfileApproved() {
+		return selectedProfile != null && selectedProfile.getStatus() == ProfileStatus.APPROVED;
+    }
+	
+	public String approveProfile() {
+		System.out.println(selectedProfile.toString());
+		if(selectedStatus != ProfileStatus.APPROVED) {
+			return null;
+		}
+		selectedProfile.setStatus(selectedStatus);
+		carOwnerProfileService.approveProfile(selectedProfile);
+        setProfiles(carOwnerProfileService.findPendingApproveProfiles());
         return "browse?faces-redirect=true";
     }
 	

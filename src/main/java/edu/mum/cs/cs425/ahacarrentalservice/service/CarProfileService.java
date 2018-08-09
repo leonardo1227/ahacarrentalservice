@@ -14,6 +14,8 @@ public class CarProfileService implements ICarProfileService<CarProfile> {
     @Autowired
     private ICarProfileRepository repository;
 
+    
+    
     public List<CarProfile> findAll(){
         return repository.findAll();
     }

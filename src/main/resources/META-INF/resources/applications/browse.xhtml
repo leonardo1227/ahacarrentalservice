@@ -15,69 +15,64 @@
 		<h1 style="text-align: center;">List of Car Owner Profile</h1>
 	</div>
 	<h:form id="form">
-		<p:panel id="panel" header="Horizontal Toggle" toggleable="true"
-			toggleOrientation="vertical">
+		<p:dataTable var="profile" value="#{carOwnerProfile.profiles}"
+			id="formDataTable" paginator="true" rows="10" selectionMode="single"
+			selection="#{carOwnerProfile.selectedProfile}" rowKey="#{profile.id}">
+
+			<!-- <p:ajax event="rowSelect" update="@(:panel:btnView)"/> -->
+
+			<!-- <p:column selectionMode="single"
+					style="width:16px;text-align:center" /> -->
+
+			<p:column headerText="Id">
+				<h:outputText value="#{profile.id}" />
+			</p:column>
+
+			<p:column headerText="First Name">
+				<h:outputText value="#{profile.firstName}" />
+			</p:column>
+
+			<p:column headerText="Last Name">
+				<h:outputText value="#{profile.lastName}" />
+			</p:column>
+
+			<p:column headerText="DOB">
+				<h:outputText value="#{profile.dob}">
+					<f:convertDateTime pattern="MM/dd/yyyy" />
+				</h:outputText>
+			</p:column>
 
 
-			<p:dataTable var="profile" value="#{carOwnerProfile.profiles}"
-				id="dataTable" paginator="true" rows="10"
-				selection="#{carOwnerProfile.profile}" rowKey="#{profile.id}">
+			<p:column headerText="Email Address">
+				<h:outputText value="#{profile.emailAddress}" />
+			</p:column>
 
-				<!-- <p:ajax event="rowSelect" update="radio"
-					/>
- -->
-				<p:column selectionMode="single" update=":panel:btnView"
-					style="width:16px;text-align:center" />
+			<p:column headerText="Phone">
+				<h:outputText value="#{profile.phone}" />
+			</p:column>
 
-				<p:column headerText="Id">
-					<h:outputText value="#{profile.id}" />
-				</p:column>
+			<p:column headerText="Address">
+				<h:outputText value="#{profile.address}" />
+			</p:column>
 
-				<p:column headerText="First Name">
-					<h:outputText value="#{profile.firstName}" />
-				</p:column>
+			<p:column headerText="Status">
+				<h:outputText value="#{profile.status}" />
+			</p:column>
 
-				<p:column headerText="Last Name">
-					<h:outputText value="#{profile.lastName}" />
-				</p:column>
-
-				<p:column headerText="DOB">
-					<h:outputText value="#{profile.dob}">
-						<f:convertDateTime pattern="MM/dd/yyyy" />
-					</h:outputText>
-				</p:column>
-
-
-				<p:column headerText="Email Address">
-					<h:outputText value="#{profile.emailAddress}" />
-				</p:column>
-
-				<p:column headerText="Phone">
-					<h:outputText value="#{profile.phone}" />
-				</p:column>
-
-				<p:column headerText="Address">
-					<h:outputText value="#{profile.address}" />
-				</p:column>
-
-				<p:column headerText="Status">
-					<h:outputText value="#{profile.status}" />
-				</p:column>
-
-				<!-- <p:column style="text-align: center">
+			<!-- <p:column style="text-align: center">
 					<p:commandButton process="@this"
 						action="#{carOwnerProfile.selectProfile(profile)}"
 						icon="ui-icon-search" value="View" />
 				</p:column> -->
 
-			</p:dataTable>
 			<f:facet name="footer">
-				<p:commandButton id="btnView" process="dataTable"
-					icon="ui-icon-search"
-					disabled="#{not empty carOwnerProfile.profile}" value="View"
-					action="#{carOwnerProfile.selectProfile(carOwnerProfile.profile)}" />
-			</f:facet>
-		</p:panel>
+				<p:commandButton id="btnView" 
+					icon="ui-icon-search" value="View"
+					
+					action="#{carOwnerProfile.viewProfile}" />
+				</f:facet>
+		</p:dataTable>
+
 	</h:form>
 </h:body>
 </html>

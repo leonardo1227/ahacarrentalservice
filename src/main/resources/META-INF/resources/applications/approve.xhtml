@@ -7,62 +7,63 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 
 <h:head>
-	<title>AHA Car Rental System - Apply For Car Owner</title>
+	<title>AHA Car Rental System - Car Owner Application</title>
 </h:head>
 
 <h:body>
 	<div>
-		<h1 style="text-align: center;">Apply For Car Owner</h1>
-	</div>
-	<h:form id="form">
-		<p:panel id="formPanel">
-			<h:panelGrid columns="3">
-				<p:outputLabel value="ID" for="idInput" />
-				<p:inputText id="idInput"
-					value="#{carOwnerProfile.profile.id}" readonly="true" />
-				<p:message for="firstNameInput" />
-				<p:outputLabel value="First Name" for="firstNameInput" />
-				<p:inputText id="firstNameInput"
-					value="#{carOwnerProfile.profile.firstName}"
-					readonly="true" />
-				<p:message for="firstNameInput" />
+		<h1 style="text-align: center;">Car Owner Application</h1>
+		<h:form id="form">
+			<h:panelGrid columns="2" style="margin: auto;">
+				<p:outputLabel value="ID" for="idText" />
+				<h:outputText id="idText"
+					value="#{carOwnerProfile.selectedProfile.id}" />
 
-				<p:outputLabel value="Last Name" for="lastNameInput" />
-				<p:inputText id="lastNameInput"
-					value="#{carOwnerProfile.profile.lastName}"
-					readonly="true" />
-				<p:message for="lastNameInput" />
+				<p:outputLabel value="First Name" for="firstNameText" />
+				<h:outputText id="firstNameText"
+					value="#{carOwnerProfile.selectedProfile.firstName}" />
 
-				<p:outputLabel value="DOB" for="dobInput" />
-				<p:inputText id="dobInput"
-					value="#{carOwnerProfile.profile.dob}" readonly="true" >
+				<p:outputLabel value="Last Name" for="lastNameText" />
+				<h:outputText id="lastNameText"
+					value="#{carOwnerProfile.selectedProfile.lastName}" />
+
+				<p:outputLabel value="DOB" for="dobText" />
+				<h:outputText id="dobText"
+					value="#{carOwnerProfile.selectedProfile.dob}">
 					<f:convertDateTime pattern="MM/dd/yyyy" />
-				</p:inputText>
-				<p:message for="dobInput" />
+				</h:outputText>
 
-				<p:outputLabel value="Email Address" for="emailAddressInput" />
-				<p:inputText id="emailAddressInput"
-					value="#{carOwnerProfile.profile.emailAddress}"
-					readonly="true" />
-				<p:message for="emailAddressInput" />
+				<p:outputLabel value="Email Address" for="emailAddressText" />
+				<h:outputText id="emailAddressText"
+					value="#{carOwnerProfile.selectedProfile.emailAddress}" />
 
-				<p:outputLabel value="Phone" for="phoneInput" />
-				<p:inputText id="phoneInput"
-					value="#{carOwnerProfile.profile.phone}" readonly="true"/>
-				<p:message for="phoneInput" />
+				<p:outputLabel value="Phone" for="phoneText" />
+				<h:outputText id="phoneText"
+					value="#{carOwnerProfile.selectedProfile.phone}" />
 
-				<p:outputLabel value="Address" for="addressInput" />
-				<p:inputText id="addressInput"
-					value="#{carOwnerProfile.profile.address}" readonly="true"/>
-				<p:message for="addressInput" />
+				<p:outputLabel value="Address" for="addressText" />
+				<h:outputText id="addressText"
+					value="#{carOwnerProfile.selectedProfile.address}" />
+
+				<p:outputLabel value="Status" for="statusText" />
+				<p:selectOneRadio id="statusText"
+					disabled="#{carOwnerProfile.isSelectedProfileApproved()}"
+					value="#{carOwnerProfile.selectedStatus}">
+					<f:selectItems value="#{carOwnerProfile.statuses}" />
+					<p:ajax event="change" update="btnApprove" />
+				</p:selectOneRadio>
 
 			</h:panelGrid>
-			<p:commandButton action="browse?faces-redirect=true" value="Cancel"
-				icon="fa fa-cancel" />
-			<p:commandButton
-				action="#{carOwnerProfile.approveProfile(carOwnerProfile.profile)}"
-				value="Approve" icon="fa fa-save" />
-		</p:panel>
-	</h:form>
+			<p:panel style="text-align: center;">
+				<p:commandButton action="browse?faces-redirect=true" value="Cancel"
+					icon="fa fa-cancel" />
+				<p:commandButton id="btnApprove"
+					rendered="#{not carOwnerProfile.isSelectedProfileApproved()}"
+					action="#{carOwnerProfile.approveProfile()}"
+					disabled="#{not carOwnerProfile.approvedStatus()}" value="Approve"
+					icon="fa fa-save" />
+			</p:panel>
+		</h:form>
+	</div>
 </h:body>
 </html>

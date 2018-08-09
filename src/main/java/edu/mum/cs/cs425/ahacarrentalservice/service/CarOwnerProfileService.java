@@ -1,4 +1,4 @@
-package edu.mum.cs.cs425.ahacarrentalservice.service.impl;
+package edu.mum.cs.cs425.ahacarrentalservice.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import edu.mum.cs.cs425.ahacarrentalservice.model.CarOwnerProfile;
 import edu.mum.cs.cs425.ahacarrentalservice.model.ProfileStatus;
 import edu.mum.cs.cs425.ahacarrentalservice.repository.ICarOwnerProfileRepository;
-import edu.mum.cs.cs425.ahacarrentalservice.service.ICarOwnerProfileService;
 
 @Service("carOwnerProfileService")
 public class CarOwnerProfileService implements ICarOwnerProfileService {
@@ -30,10 +29,9 @@ public class CarOwnerProfileService implements ICarOwnerProfileService {
 	}
 
 	@Override
-	public CarOwnerProfile create(CarOwnerProfile cop) {
+	public CarOwnerProfile create(CarOwnerProfile profile) {
 		// TODO Auto-generated method stub
-		cop.setStatus(ProfileStatus.PENDING);
-		return carOwnerProfileRepository.save(cop);
+		return carOwnerProfileRepository.save(profile);
 	}
 
 	@Override
@@ -44,10 +42,17 @@ public class CarOwnerProfileService implements ICarOwnerProfileService {
 	}
 
 	@Override
-	public CarOwnerProfile approveProfile(CarOwnerProfile cop) {
+	public CarOwnerProfile approveProfile(CarOwnerProfile profile) {
 		// TODO Auto-generated method stub
-		cop.setStatus(ProfileStatus.APPROVED);
-		return carOwnerProfileRepository.save(cop);
+		return carOwnerProfileRepository.save(profile);
 	}
+
+	@Override
+	public Boolean findByUserId(String userId) {
+		// TODO Auto-generated method stub
+		return carOwnerProfileRepository.existsByUserId(userId);
+	}
+	
+	
 	
 }
