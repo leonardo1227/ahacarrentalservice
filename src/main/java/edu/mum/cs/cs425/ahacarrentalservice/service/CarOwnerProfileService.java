@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.mum.cs.cs425.ahacarrentalservice.model.CarOwnerProfile;
+import edu.mum.cs.cs425.ahacarrentalservice.model.InformationType;
 import edu.mum.cs.cs425.ahacarrentalservice.model.ProfileStatus;
 import edu.mum.cs.cs425.ahacarrentalservice.repository.ICarOwnerProfileRepository;
+import edu.mum.cs.cs425.ahacarrentalservice.validation.ValidationException;
 
 @Service("carOwnerProfileService")
 public class CarOwnerProfileService implements ICarOwnerProfileService {
@@ -29,8 +31,12 @@ public class CarOwnerProfileService implements ICarOwnerProfileService {
 	}
 
 	@Override
-	public CarOwnerProfile create(CarOwnerProfile profile) {
+	public CarOwnerProfile create(CarOwnerProfile profile) throws ValidationException {
 		// TODO Auto-generated method stub
+		if(findByUserId(profile.getUserId())) {
+			throw new ValidationException("The user id '" + profile.getUserId() + "' is already used by other. Please choose another.");
+		}
+		profile.setStatus(ProfileStatus.PENDING);
 		return carOwnerProfileRepository.save(profile);
 	}
 
@@ -42,8 +48,9 @@ public class CarOwnerProfileService implements ICarOwnerProfileService {
 	}
 
 	@Override
-	public CarOwnerProfile approveProfile(CarOwnerProfile profile) {
+	public CarOwnerProfile approveProfile(CarOwnerProfile profile)  {
 		// TODO Auto-generated method stub
+		profile.setStatus(ProfileStatus.APPROVED);
 		return carOwnerProfileRepository.save(profile);
 	}
 

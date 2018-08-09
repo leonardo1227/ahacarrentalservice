@@ -28,6 +28,7 @@ import edu.mum.cs.cs425.ahacarrentalservice.model.CarOwnerProfile;
 import edu.mum.cs.cs425.ahacarrentalservice.model.InformationType;
 import edu.mum.cs.cs425.ahacarrentalservice.model.ProfileStatus;
 import edu.mum.cs.cs425.ahacarrentalservice.service.ICarOwnerProfileService;
+import edu.mum.cs.cs425.ahacarrentalservice.validation.ValidationException;
 
 @ManagedBean(value="carOwnerProfile")
 @SessionScoped
@@ -70,7 +71,7 @@ public class CarOwnerProfileController implements Serializable, IController {
 			newProfile.setDob(cal.getTime());
 			newProfile.setEmailAddress("test@mail.com");
 			newProfile.setPhone("111-111-1111");
-			newProfile.setAddress("1000 N 4th St. Fairfield, 52557, IA");
+			newProfile.setAddress("1000 N 4th St. Fairfield, IA 52557");
 //			newProfile.setStatus(ProfileStatus.PENDING);
 		}
 		
@@ -107,7 +108,7 @@ public class CarOwnerProfileController implements Serializable, IController {
 //		profiles = carOwnerProfileService.findPendingApproveProfiles();
 	}
 	
-	public void checkUserId() {
+	public void checkAvailableUserId() {
 		System.out.println(newProfile.getUserId());
 		if(carOwnerProfileService.findByUserId(newProfile.getUserId())) {
 			String message = "The user id '" + newProfile.getUserId() + "' is already used by other. Please choose another.";
@@ -115,18 +116,17 @@ public class CarOwnerProfileController implements Serializable, IController {
 		}
 	}
 	
-	public String createProfile() {
+	public String createNewProfile() {
 		System.out.println(newProfile.toString());
-		if(carOwnerProfileService.findByUserId(newProfile.getUserId())) {
-			String message = "The user id '" + newProfile.getUserId() + "' is already used by other. Please choose another.";
-			showMessage(message, message, InformationType.ERROR);
-			return null;
-		}
-		newProfile.setStatus(ProfileStatus.PENDING);
+		try {
 		carOwnerProfileService.create(newProfile);
         newProfile = null;
         setProfiles(carOwnerProfileService.findPendingApproveProfiles());
-        return "browse?faces-redirect=true";
+		} catch (ValidationException e) {
+			// TODO: handle exception
+			showMessage(e.getMessage(), e.getMessage(), InformationType.ERROR);
+		}
+        return "/system/car_owner/browse?faces-redirect=true";
     }
 	
 	public String viewProfile() {
@@ -136,7 +136,7 @@ public class CarOwnerProfileController implements Serializable, IController {
 			return null;
 		}
 		setSelectedStatus(selectedProfile.getStatus());
-        return "approve?faces-redirect=true";
+        return "/system/car_owner/approve?faces-redirect=true";
     }
 	
 	public Boolean approvedStatus() {
@@ -152,85 +152,14 @@ public class CarOwnerProfileController implements Serializable, IController {
 		if(selectedStatus != ProfileStatus.APPROVED) {
 			return null;
 		}
-		selectedProfile.setStatus(selectedStatus);
-		carOwnerProfileService.approveProfile(selectedProfile);
-        setProfiles(carOwnerProfileService.findPendingApproveProfiles());
-        return "browse?faces-redirect=true";
+		try {
+			carOwnerProfileService.approveProfile(selectedProfile);
+	        setProfiles(carOwnerProfileService.findPendingApproveProfiles());
+		} catch (ValidationException e) {
+			// TODO: handle exception
+			System.out.println(e.toString());
+		}
+        return "/system/car_owner/browse?faces-redirect=true";
     }
-	
 
-	@InitBinder
-	private void dateBinder(WebDataBinder binder) {
-		// The date format to parse or output your dates
-		SimpleDateFormat dateFormat = new SimpleDateFormat(dateFormat());
-		// Create a new CustomDateEditor
-		CustomDateEditor editor = new CustomDateEditor(dateFormat, true);
-		// Register it as custom editor for the Date type
-		binder.registerCustomEditor(Date.class, editor);
-	}
-
-	@ModelAttribute("dateFormat")
-	public String dateFormat() {
-		return "MM/dd/yyyy";
-	}
-
-	@RequestMapping(value = "/applications/browse", method = RequestMethod.GET)
-	public ModelAndView carOwnerApplications() {
-		ModelAndView mav = new ModelAndView();
-		List<CarOwnerProfile> applications = carOwnerProfileService.findPendingApproveProfiles();
-		mav.addObject("applications", applications);
-		mav.setViewName("applications/browse");
-		return mav;
-	}
-
-	@RequestMapping(value = "/applications/new", method = RequestMethod.GET)
-	public String carOwnerApplicationView(Model model) {
-		CarOwnerProfile coa = new CarOwnerProfile();
-		Calendar cal = Calendar.getInstance();
-		cal.set(1988, Calendar.JANUARY, 10);
-
-		coa.setFirstName("FirstName");
-		coa.setLastName("LastName");
-		coa.setDob(cal.getTime());
-		coa.setEmailAddress("test@mail.com");
-		coa.setPhone("111-111-1111");
-		coa.setAddress("1000 N 4th St.");
-		coa.setStatus(ProfileStatus.PENDING);
-		model.addAttribute("co_application", coa);
-		return "applications/new";
-	}
-
-	@RequestMapping(value = "/applications/new", method = RequestMethod.POST)
-	public String createApplication(@Valid @ModelAttribute("co_application") CarOwnerProfile coa,
-			BindingResult bindingResult, Model model) {
-		if (bindingResult.hasErrors()) {
-			model.addAttribute("errors", bindingResult.getAllErrors());
-			System.out.println(bindingResult.getAllErrors());
-			model.addAttribute("co_application", coa);
-			return "applications/new";
-		}
-		coa = carOwnerProfileService.create(coa);
-		return "redirect:/applications/browse";
-	}
-
-	@RequestMapping(value = "/applications/approve/{id}", method = RequestMethod.GET)
-	public String viewApplication(@PathVariable Long id, Model model) {
-		CarOwnerProfile coa = carOwnerProfileService.findById(id);
-		if (coa != null) {
-			model.addAttribute("co_application", coa);
-			return "applications/approve";
-		}
-		return "applications/browse";
-	}
-
-	@RequestMapping(value = "/applications/approve", method = RequestMethod.POST)
-	public String approveApplication(@Valid @ModelAttribute("co_application") CarOwnerProfile coa,
-			BindingResult bindingResult, Model model) {
-		if (bindingResult.hasErrors()) {
-			model.addAttribute("errors", bindingResult.getAllErrors());
-			return "applications/approve";
-		}
-		coa = carOwnerProfileService.approveProfile(coa);
-		return "redirect:/applications/browse";
-	}
 }
