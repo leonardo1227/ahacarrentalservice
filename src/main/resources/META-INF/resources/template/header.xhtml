@@ -4,11 +4,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:p="http://primefaces.org/ui"
+>
 
 <f:view>
- <div>
+    <div>
+        <!--<h:form id="topform">-->
+            <h2>AHA - Car Rental Service</h2>
+            <p:menubar>
+                <p:submenu label="Car Owner Management">
+                    <p:menuitem value="Car Profiles" url="/system/car_profile/user_interface.xhtml"/>
+                </p:submenu>
+                <p:submenu label="Admin Management">
 
- </div>
+                </p:submenu>
+            </p:menubar>
+        <!--</h:form>-->
+    </div>
 </f:view>
 </html>

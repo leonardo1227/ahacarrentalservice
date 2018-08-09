@@ -14,6 +14,7 @@
             <p:growl id="messages" for="controllerMessages">
                 <p:autoUpdate/>
             </p:growl>
+            <p:commandButton value="Back to Car Profile Management" action="#{offerController.backToCarProfilesManagement}" process="@this"/>
             <p:panel header="#{offerController.offer.id==null ? 'New Offer Registration' :'Edit Offer Information'}"
                 style="width: 50%;margin: auto">
                 <h:panelGrid columns="3">
@@ -49,8 +50,12 @@
                     <p:outputLabel value="#{offer.discount}"/>
                 </p:column>
                 <p:column headerText="Action">
-                    <p:commandButton value="Edit"/>
-                    <p:commandButton value="Delete"/>
+                    <p:commandButton value="Edit" icon="fa fa-edit" process="@this" update="form" action="#{offerController.select(offer.id)}"/>
+                    <p:commandButton value="Delete" icon="fa fa-trash" process="@this" update="offersList" action="#{offerController.delete(offer.id)}">
+                        <p:confirm header="Confirmation"
+                                   message="Are you sure about deleting Offer with #{offer.id} registration number?"
+                                   icon="ui-icon-alert"/>
+                    </p:commandButton>
                     <p:commandButton value="Desactive"/>
                 </p:column>
             </p:dataTable>

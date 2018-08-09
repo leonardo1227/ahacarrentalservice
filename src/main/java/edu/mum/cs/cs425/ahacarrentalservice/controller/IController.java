@@ -36,5 +36,8 @@ public interface IController {
     default void setAttributeInTheSession(String attributeName, Object object){
         FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().put(attributeName,object);
     }
+    default void removeAttributeInTheSession(String attributeName){
+        FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().remove(attributeName);
+    }
 
 }

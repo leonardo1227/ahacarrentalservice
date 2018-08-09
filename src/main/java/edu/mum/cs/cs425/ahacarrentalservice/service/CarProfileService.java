@@ -2,6 +2,7 @@ package edu.mum.cs.cs425.ahacarrentalservice.service;
 
 import edu.mum.cs.cs425.ahacarrentalservice.model.CarProfile;
 import edu.mum.cs.cs425.ahacarrentalservice.repository.ICarProfileRepository;
+import edu.mum.cs.cs425.ahacarrentalservice.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -30,8 +31,11 @@ public class CarProfileService implements IService<CarProfile> {
     }
 
     @Override
-    public CarProfile save(CarProfile car) {
-        return repository.save(car);
+    public CarProfile save(CarProfile carProfile) throws ValidationException{
+        if(verifyIfPlateIsAlreadyRegistered(carProfile.getPlate(),carProfile.getId())){
+            throw new ValidationException("Already there is a Car Profile registered with the informed plate");
+        }
+        return repository.save(carProfile);
     }
 
 
@@ -40,5 +44,12 @@ public class CarProfileService implements IService<CarProfile> {
         repository.deleteById(id);
     }
 
+    public Boolean verifyIfPlateIsAlreadyRegistered(String plate, Long id){
+        if(id==null){
+            return repository.existsByPlate(plate);
+        }else{
+            return repository.existsByPlateAndIdNot(plate, id);
+        }
+    }
 
 }

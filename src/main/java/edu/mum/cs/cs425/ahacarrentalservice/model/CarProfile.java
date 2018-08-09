@@ -25,6 +25,8 @@ public class CarProfile {
     
     @ManyToOne
     private CarOwnerProfile carOwnerProfile;
+
+    private String plate;
     
     @OneToMany(mappedBy = "carProfile")
 	private List<Offer> offers = new ArrayList<>();
@@ -32,13 +34,8 @@ public class CarProfile {
     public CarProfile() {
     }
 
-	public CarProfile(CarModel model, Color color, Integer year, CarStatus status, CarOwnerProfile carOwnerProfile, List<Offer> offers) {
-		this.model = model;
-		this.color = color;
-		this.year = year;
-		this.status = status;
-		this.carOwnerProfile = carOwnerProfile;
-		this.offers = offers;
+	public CarProfile(String plate) {
+		this.plate = plate;
 	}
 
 	public Long getId() {
@@ -95,5 +92,13 @@ public class CarProfile {
 
 	public void setOffers(List<Offer> offers) {
 		this.offers = offers;
+	}
+
+	public String getPlate() {
+		return plate;
+	}
+
+	public void setPlate(String plate) {
+		this.plate = plate;
 	}
 }

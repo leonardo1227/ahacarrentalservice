@@ -19,6 +19,15 @@
                     style="width: 50%;margin: auto">
                 <h:panelGrid columns="3">
 
+                    <p:outputLabel value="Plate:" for="plate"/>
+                    <p:inputText id="plate" value="#{carProfileController.carProfile.plate}" required="true" requiredMessage="Required">
+                        <p:autoUpdate/>
+                        <p:ajax event="blur" listener="#{carProfileController.verifyIfPlateIsAlreadyRegistered}" update="plate"/>
+                    </p:inputText>
+                    <p:message for="plate">
+                        <p:autoUpdate/>
+                    </p:message>
+
                     <p:outputLabel value="Brand:" for="brand"/>
                     <p:selectOneMenu id="brand" value="#{carProfileController.carBrandSelected.id}" required="true"
                                      requiredMessage="Required">
@@ -49,8 +58,7 @@
                     <p:message for="color"/>
 
                     <p:outputLabel value="Year:" for="year"/>
-                    <p:inputText id="year" value="#{carProfileController.carProfile.year}" required="true"
-                                 requiredMessage="Required"/>
+                    <p:inputText id="year" value="#{carProfileController.carProfile.year}" required="true" requiredMessage="Required"/>
                     <p:message for="year"/>
 
                 </h:panelGrid>

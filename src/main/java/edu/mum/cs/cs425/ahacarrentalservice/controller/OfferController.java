@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,12 +31,12 @@ public class OfferController implements IController {
         loadCarProfile();
         resetForm();
     }
-    private void loadCarProfile(){
-//        carProfile = (CarProfile) FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().get("carProfile");
+
+    private void loadCarProfile() {
         carProfile = (CarProfile) getAttributeFromTheSession(Property.SESSION_CARPROFILE_ATTRIBUTE_NAME);
     }
 
-    public void resetForm(){
+    public void resetForm() {
         offer = new Offer();
         offers = new ArrayList<>();
     }
@@ -50,32 +49,45 @@ public class OfferController implements IController {
         this.offer = offer;
     }
 
-    public List<Offer> getOffers(){
-        if(offers==null || offers.size()==0){
+    public List<Offer> getOffers() {
+        if (offers == null || offers.size() == 0) {
             offers = service.findByCarProfile(carProfile);
         }
         return offers;
     }
 
-    public void preSave(){
-        if(offer.getId()==null){
-
+    public void preSave() {
+        if (offer.getId() == null) {
             offer.setCarProfile(carProfile);
-            System.out.println(offer.getCarProfile().getId());
-        }else{
+        } else {
             offer.setStatus(CarStatus.PENDING);
         }
     }
 
-    public void save(){
-        Boolean isANewOne = offer.getId()==null;
+    public void save() {
+        Boolean isANewOne = offer.getId() == null;
         service.save(offer);
         resetForm();
-        if(isANewOne){
-            showMessage("Offer Registered Successfully!",null, InformationType.INFORMATION);
-        }else{
-            showMessage("Offer Altered Successfully!",null, InformationType.INFORMATION);
+        if (isANewOne) {
+            showMessage("Offer Registered Successfully!", null, InformationType.INFORMATION);
+        } else {
+            showMessage("Offer Altered Successfully!", null, InformationType.INFORMATION);
         }
+    }
+
+    public void select(Long id) {
+        offer = service.findById(id);
+    }
+
+    public void delete(Long id) {
+        service.deleteById(id);
+        offers = new ArrayList<>();
+        showMessage("Offer deleted successfully", null, InformationType.INFORMATION);
+    }
+
+    public String backToCarProfilesManagement() {
+        removeAttributeInTheSession(Property.SESSION_CARPROFILE_ATTRIBUTE_NAME);
+        return redirect("/system/car_profile/user_interface");
     }
 
 
