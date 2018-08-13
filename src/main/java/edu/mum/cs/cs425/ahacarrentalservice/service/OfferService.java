@@ -1,6 +1,7 @@
 package edu.mum.cs.cs425.ahacarrentalservice.service;
 
 import edu.mum.cs.cs425.ahacarrentalservice.model.CarProfile;
+import edu.mum.cs.cs425.ahacarrentalservice.model.CarStatus;
 import edu.mum.cs.cs425.ahacarrentalservice.model.Offer;
 import edu.mum.cs.cs425.ahacarrentalservice.repository.IOfferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class OfferService implements IService<Offer> {
@@ -44,5 +46,23 @@ public class OfferService implements IService<Offer> {
 
     public List<Offer> findByCarProfile(CarProfile carProfile){
         return repository.findByCarProfile(carProfile);
+    }
+
+    public List<Offer> filterAvailiableCars(){
+        List<Offer> offers = findAll().stream().filter(
+                x -> x.getStatus().getValue() == CarStatus.APPROVED.getValue())
+                .collect(Collectors.toList());
+        return offers;
+    }
+
+    public List<Offer> filterOffers(int brandId, int modelId , int year){
+
+        List<Offer> offers = findAll().stream()
+                .filter(x -> x.getStatus().getValue() == CarStatus.APPROVED.getValue())
+                .filter(x -> x.getCarProfile().getModel().getId() == modelId || modelId == 0    )
+                .filter(x -> x.getCarProfile().getModel().getBrand().getId() == brandId || brandId == 0)
+                .filter(x -> x.getCarProfile().getYear() == year || year == 0)
+                .collect(Collectors.toList());
+        return offers;
     }
 }
