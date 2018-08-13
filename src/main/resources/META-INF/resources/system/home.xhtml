@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/template/_template.xhtml">
+    <ui:define name="title">AHA ::: Car Profile :::</ui:define>
+    <ui:define name="content">
+        <h:form id="form">
+
+            <p:commandButton value="Back to Car Profile Management" action="#{offerController.backToCarProfilesManagement}" process="@this"/>
+            <div class="homeContainer">
+
+                    <p:panel id="pnl" header="New User" styleClass="sidenav">
+                        <p:outputLabel for="brand" value="Brand" /><br/>
+                        <p:selectOneMenu id="brand" value="#{carProfileController.carBrandSelected.id}">
+                            <p:ajax update="model" event="change"
+                                    listener="#{carProfileController.loadCarBrandSelectedObject}"/>
+                            <f:selectItem itemLabel="Select one Brand" noSelectionOption="true"/>
+                            <f:selectItems value="#{carProfileController.carBrandList}" var="brand"
+                                           itemLabel="#{brand.name}" itemValue="#{brand.id}"/>
+                        </p:selectOneMenu><br/>
+                        <p:outputLabel for="model" value="Model:" /><br/>
+                        <p:selectOneMenu id="model" value="#{carProfileController.carProfile.model.id}"
+                                         disabled="#{carProfileController.carBrandSelected==null || carProfileController.carBrandSelected.id==null}">
+                            <f:selectItem itemLabel="Select one Model" noSelectionOption="true"/>
+                            <f:selectItems value="#{carProfileController.carBrandSelected.models}" var="model"
+                                           itemValue="#{model.id}" itemLabel="#{model.name}"/>
+                        </p:selectOneMenu><br/>
+                        <p:outputLabel value="Year:" for="year"/><br/>
+                        <p:inputText id="year" value="#{homeController.year}" />
+                      <!--  <p:outputLabel for="startDate" value="Start Date:" /><br/>
+                        <p:calendar id="startDate" value="#{calendarView.date6}" mindate="#{homeController.currentDate}" />
+                        <br/>
+                        <p:outputLabel for="endDate" value="End Date" /><br/>
+                        <p:calendar id="endDate" value="#{calendarView.date6}" mindate="#{homeController.currentDate}" /> -->
+                        <br/>
+
+
+                        <p:commandButton update="padding"
+                                         actionListener="#{homeController.filter(carProfileController.carBrandSelected.id,
+                                         carProfileController.carProfile.model.id, homeController.year)}"
+                                         value="Filter" ajax="true" >
+                        </p:commandButton>
+                    </p:panel>
+
+                <h:panelGroup id="padding" layout="block">
+                <p:dataTable styleClass="homeList" id="offersList" value="#{homeController.getOffers()}" var="offer" paginator="true" rows="5">
+
+                    <f:facet name="header">List of Offers</f:facet>
+                    <p:column headerText="Model - Brand">
+                        <p:outputLabel value="#{offer.carProfile.model.brand.name} - #{offer.carProfile.model.name}"/>
+                    </p:column>
+                    <p:column headerText="Year">
+                        <p:outputLabel value="#{offer.carProfile.year}"/>
+                    </p:column>
+                    <p:column headerText="Description">
+                        <p:outputLabel value="#{offer.description}"/>
+                    </p:column>
+                    <p:column headerText="Price">
+                        <p:outputLabel value="#{offer.price}"/>
+                    </p:column>
+                    <p:column headerText="Discount">
+                        <p:outputLabel value="#{offer.discount}"/>
+                    </p:column>
+                    <p:column headerText="Action">
+                        <p:commandButton value="select" icon="fa fa-edit" process="@this" update="form" action="#{homeController.select(offer.id)}"/>
+                    </p:column>
+                </p:dataTable>
+                </h:panelGroup>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

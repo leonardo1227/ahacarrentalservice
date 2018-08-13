@@ -4,15 +4,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-<h:head>
-	<title>AHA Car Rental System - Apply For Car Owner</title>
-</h:head>
-
-<h:body>
-	<div>
-		<h1 style="text-align: center;">Apply For Car Owner</h1>
+<ui:composition template="/template/_template.xhtml">
+	<ui:define name="title">AHA Car Rental System - Car Owner Application</ui:define>
+	<ui:define name="content">
+		<h1 style="text-align: center;">Car Owner Application Form</h1>
 
 		<h:form id="form">
 			<p:messages for="controllerMessages">
@@ -34,11 +32,11 @@
 						<p:inputText id="userIdInput"
 							value="#{carOwnerProfile.newProfile.userId}" required="true"
 							requiredMessage="User Id is required">
-							<p:ajax event="keyup" listener="#{carOwnerProfile.checkUserId}"/>
+							<p:ajax event="keyup" listener="#{carOwnerProfile.checkAvailableUserId}" />
 						</p:inputText>
-					
-						<p:message id="msgUserId" for="userIdInput" showDetail="true" autoUpdate="true"
-							closable="true" />
+
+						<p:message id="msgUserId" for="userIdInput" showDetail="true"
+							autoUpdate="true" closable="true" />
 					</p:column>
 				</p:row>
 
@@ -50,7 +48,7 @@
 						<p:password id="passwordInput"
 							value="#{carOwnerProfile.newProfile.password}" required="true"
 							feedback="true" requiredMessage="Password is required" />
-					
+
 						<p:message for="passwordInput" />
 					</p:column>
 				</p:row>
@@ -69,7 +67,7 @@
 						<p:inputText id="firstNameInput"
 							value="#{carOwnerProfile.newProfile.firstName}" required="true"
 							requiredMessage="Frist Name is required" />
-					
+
 						<p:message for="firstNameInput" />
 					</p:column>
 				</p:row>
@@ -81,7 +79,7 @@
 						<p:inputText id="lastNameInput"
 							value="#{carOwnerProfile.newProfile.lastName}" required="true"
 							requiredMessage="Last Name is required" />
-					
+
 						<p:message for="lastNameInput" />
 					</p:column>
 				</p:row>
@@ -95,7 +93,7 @@
 							requiredMessage="DOB is required">
 							<f:convertDateTime pattern="MM/dd/yyyy" />
 						</p:inputText>
-					
+
 						<p:message for="dobInput" />
 					</p:column>
 				</p:row>
@@ -107,7 +105,7 @@
 						<p:inputText id="emailAddressInput"
 							value="#{carOwnerProfile.newProfile.emailAddress}"
 							required="true" requiredMessage="Email Address is required" />
-					
+
 						<p:message for="emailAddressInput" />
 					</p:column>
 				</p:row>
@@ -133,12 +131,12 @@
 				<p:row>
 					<p:column colspan="3" style="text-align: center">
 						<p:commandButton update="formGrid" value="Apply" icon="fa fa-save"
-							action="#{carOwnerProfile.createProfile}" />
+							action="#{carOwnerProfile.createNewProfile}" />
 					</p:column>
 				</p:row>
 			</p:panelGrid>
 
 		</h:form>
-	</div>
-</h:body>
+	</ui:define>
+</ui:composition>
 </html>

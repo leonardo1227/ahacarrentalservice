@@ -1,0 +1,27 @@
+.sidenav {
+    width: 330px;
+    position: fixed;
+    z-index: 1;
+    left: 60px;
+    background: #eee;
+    overflow-x: hidden;
+    padding: 8px 0;
+}
+
+.homeList {
+    /* Same width as the sidebar + left position in px */
+    padding: 0px 10px;
+    position: fixed;
+    right: 300px;
+    left: 400px;
+}
+
+.homeContainer{
+	margin-top: 2%;
+}
+
+input { width: 50px; }
+
+label {
+  display: inline-block; 
+}
