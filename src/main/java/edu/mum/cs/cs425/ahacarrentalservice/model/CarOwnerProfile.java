@@ -11,6 +11,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "CAROWNERAPPLICATIONS")
@@ -32,7 +35,8 @@ public class CarOwnerProfile {
 	@NotEmpty(message = "*Last Name is required")
 	private String lastName;
 
-	// @DateTimeFormat(pattern = "MM/dd/yyyy")
+	@NotNull
+	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date dob;
 
 	@NotEmpty(message = "*Email Address is required")
