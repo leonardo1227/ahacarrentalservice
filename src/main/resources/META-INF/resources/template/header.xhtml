@@ -2,24 +2,30 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
->
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
 <f:view>
-    <div>
-        <!--<h:form id="topform">-->
-            <h2>AHA - Car Rental Service</h2>
-            <p:menubar>
-                <p:submenu label="Car Owner Management">
-                    <p:menuitem value="Car Profiles" url="/system/car_profile/user_interface.xhtml"/>
-                </p:submenu>
-                <p:submenu label="Admin Management">
-					<p:menuitem value="Car Owner Profiles" url="/system/car_owner/browse.xhtml"/>
-                </p:submenu>
-            </p:menubar>
-        <!--</h:form>-->
-    </div>
+	<div>
+		<!--<h:form id="topform">-->
+		<div style="background-color: burlywood">
+			<h2 style="display: inline" >AHA - Car Rental Service</h2>
+			<p:link outcome="new_car_owner" value="Apply For Car Owner" style="float: right">
+			</p:link>
+		</div>
+
+		<p:menubar>
+			<p:submenu label="Car Owner Management">
+				<p:menuitem value="Car Profiles"
+					url="/system/car_profile/user_interface.xhtml" />
+			</p:submenu>
+			<p:submenu label="Admin Management">
+				<p:menuitem value="Car Owner Profiles"
+					url="/system/car_owner/browse.xhtml" />
+			</p:submenu>
+		</p:menubar>
+		<!--</h:form>-->
+	</div>
 </f:view>
 </html>

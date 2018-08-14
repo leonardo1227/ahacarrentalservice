@@ -5,15 +5,17 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "CAROWNERAPPLICATIONS")
+@Table(name = "CAR_OWNER_PROFILES")
 public class CarOwnerProfile {
 
 	@Id
@@ -32,7 +34,8 @@ public class CarOwnerProfile {
 	@NotEmpty(message = "*Last Name is required")
 	private String lastName;
 
-	// @DateTimeFormat(pattern = "MM/dd/yyyy")
+	@NotNull
+	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date dob;
 
 	@NotEmpty(message = "*Email Address is required")

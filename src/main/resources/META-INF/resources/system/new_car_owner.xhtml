@@ -8,7 +8,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <ui:composition template="/template/_template.xhtml">
-	<ui:define name="title">AHA Car Rental System - Car Owner Application</ui:define>
+	<ui:define name="title">AHA - Car Rental Service</ui:define>
 	<ui:define name="content">
 		<h1 style="text-align: center;">Car Owner Application Form</h1>
 
@@ -32,7 +32,8 @@
 						<p:inputText id="userIdInput"
 							value="#{carOwnerProfile.newProfile.userId}" required="true"
 							requiredMessage="User Id is required">
-							<p:ajax event="keyup" listener="#{carOwnerProfile.checkAvailableUserId}" />
+							<p:ajax event="keyup"
+								listener="#{carOwnerProfile.checkAvailableUserId}" />
 						</p:inputText>
 
 						<p:message id="msgUserId" for="userIdInput" showDetail="true"
@@ -88,11 +89,10 @@
 						<p:outputLabel value="DOB" for="dobInput" />
 					</p:column>
 					<p:column>
-						<p:inputText id="dobInput"
-							value="#{carOwnerProfile.newProfile.dob}" required="true"
-							requiredMessage="DOB is required">
-							<f:convertDateTime pattern="MM/dd/yyyy" />
-						</p:inputText>
+						<p:calendar id="dobInput"
+							value="#{carOwnerProfile.newProfile.dob}" pattern="MM/dd/yyyy"
+							mask="true" required="true" requiredMessage="DOB is required">
+						</p:calendar>
 
 						<p:message for="dobInput" />
 					</p:column>
