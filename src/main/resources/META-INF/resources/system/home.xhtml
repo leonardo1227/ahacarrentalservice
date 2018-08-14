@@ -32,12 +32,16 @@
                                            itemValue="#{model.id}" itemLabel="#{model.name}"/>
                         </p:selectOneMenu><br/>
                         <p:outputLabel value="Year:" for="year"/><br/>
-                        <p:inputText id="year" value="#{homeController.year}" />
-                      <!--  <p:outputLabel for="startDate" value="Start Date:" /><br/>
-                        <p:calendar id="startDate" value="#{calendarView.date6}" mindate="#{homeController.currentDate}" />
+                        <p:inputText id="year" value="#{homeController.year}" /><br/>
+                        <p:outputLabel for="startDate" value="Start Date:" /><br/>
+                        <p:calendar id="startDate" value="#{homeController.startDate}"
+                                    mindate="#{homeController.currentDate}"
+                                    pattern="MM/dd/yyyy">
+                        </p:calendar>
                         <br/>
                         <p:outputLabel for="endDate" value="End Date" /><br/>
-                        <p:calendar id="endDate" value="#{calendarView.date6}" mindate="#{homeController.currentDate}" /> -->
+                        <p:calendar id="endDate" value="#{homeController.endDate}" mindate="#{homeController.currentDate}"
+                                    pattern="MM/dd/yyyy"/>
                         <br/>
 
 
@@ -68,7 +72,8 @@
                         <p:outputLabel value="#{offer.discount}"/>
                     </p:column>
                     <p:column headerText="Action">
-                        <p:commandButton value="select" icon="fa fa-edit" process="@this" update="form" action="#{homeController.select(offer.id)}"/>
+                        <p:commandButton value="select" icon="fa fa-edit" process="@this" update="form"
+                                         action="#{homeController.select(offer.id)}"/>
                     </p:column>
                 </p:dataTable>
                 </h:panelGroup>

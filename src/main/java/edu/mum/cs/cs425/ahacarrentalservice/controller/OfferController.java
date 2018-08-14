@@ -41,7 +41,8 @@ public class OfferController implements IController {
         offers = new ArrayList<>();
     }
 
-    public Offer getOffer() {
+    public Offer
+    getOffer() {
         return offer;
     }
 
