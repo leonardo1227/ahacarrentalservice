@@ -5,14 +5,11 @@ import edu.mum.cs.cs425.ahacarrentalservice.service.CarBrandService;
 import edu.mum.cs.cs425.ahacarrentalservice.service.CarProfileService;
 import edu.mum.cs.cs425.ahacarrentalservice.util.Property;
 import edu.mum.cs.cs425.ahacarrentalservice.validation.ValidationException;
-import org.primefaces.component.inputtext.InputText;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
@@ -32,7 +29,7 @@ public class CarProfileController implements IController, Serializable {
     @Autowired
     private CarBrandService carBrandService;
 
-    private List<CarProfile> cars;
+    private List<CarProfile> carProfiles;
     private CarProfile carProfile;
 
     private List<CarBrand> carBrandList;
@@ -48,14 +45,15 @@ public class CarProfileController implements IController, Serializable {
         carProfile = new CarProfile();
         carProfile.setModel(new CarModel());
         carBrandSelected = new CarBrand();
-        cars = new ArrayList<>();
+        carProfiles = new ArrayList<>();
     }
 
-    public List<CarProfile> getCars() {
-        if (cars == null || cars.size() == 0) {
-            cars = service.findAll();
+    //GETTERS AND SETTERS
+    public List<CarProfile> getCarProfiles() {
+        if (carProfiles == null || carProfiles.size() == 0) {
+            carProfiles = service.findAll("id");
         }
-        return cars;
+        return carProfiles;
     }
 
     public List<CarBrand> getCarBrandList() {
@@ -68,17 +66,6 @@ public class CarProfileController implements IController, Serializable {
     public List<Color> getColors() {
         return Arrays.asList(Color.values());
     }
-
-    public void loadCarBrandSelectedObject() {
-        if (carBrandSelected != null && carBrandSelected.getId() != null) {
-            carBrandSelected = carBrandService.findById(carBrandSelected.getId());
-            carProfile.setModel(new CarModel());
-        } else {
-            carBrandSelected.setId(null);
-            carBrandSelected.setModels(new ArrayList<>());
-        }
-    }
-
 
     public CarProfile getCarProfile() {
         return carProfile;
@@ -94,6 +81,19 @@ public class CarProfileController implements IController, Serializable {
 
     public void setCarBrandSelected(CarBrand carBrandSelected) {
         this.carBrandSelected = carBrandSelected;
+    }
+
+    //OPERATIONS
+    public void loadCarBrandSelectedInformation() {
+        System.out.println(carBrandSelected.getId());
+        if (carBrandSelected != null && carBrandSelected.getId() != null) {
+            carBrandSelected = carBrandService.findById(carBrandSelected.getId());
+            carProfile.setModel(new CarModel());
+            carProfile.getModel().setBrand(carBrandSelected);
+        } else {
+            carBrandSelected.setId(null);
+            carBrandSelected.setModels(new ArrayList<>());
+        }
     }
 
     public void preSave() {
@@ -114,7 +114,8 @@ public class CarProfileController implements IController, Serializable {
             } else {
                 showMessage("Car Profile Altered Successfully!", null, InformationType.INFORMATION);
             }
-        } catch (ValidationException e) {
+        }
+        catch (ValidationException e) {
             showMessage(e.getMessage(), null, InformationType.ERROR);
         }
     }
@@ -126,7 +127,7 @@ public class CarProfileController implements IController, Serializable {
 
     public void delete(Long id) {
         service.deleteById(id);
-        cars = new ArrayList<>();
+        carProfiles = new ArrayList<>();
         showMessage("Car was deleted successfully", null, InformationType.INFORMATION);
     }
 
@@ -135,11 +136,11 @@ public class CarProfileController implements IController, Serializable {
         return redirect("/system/car_offer/user_interface");
     }
 
-    public void verifyIfPlateIsAlreadyRegistered(){
-        if(service.verifyIfPlateIsAlreadyRegistered(carProfile.getPlate(), carProfile.getId())){
-            showMessage("plate", "Plate is already registered in the system", null,InformationType.ERROR);
-        }else{
-            showMessage("plate", "Valid Plate", null,InformationType.INFORMATION);
+    public void verifyIfPlateIsAlreadyRegistered() {
+        if (service.verifyIfPlateIsAlreadyRegistered(carProfile.getPlate(), carProfile.getId())) {
+            showMessage("plate", "Plate is already registered in the system", null, InformationType.ERROR);
+        } else {
+            showMessage("plate", "Valid Plate", null, InformationType.INFORMATION);
         }
     }
 

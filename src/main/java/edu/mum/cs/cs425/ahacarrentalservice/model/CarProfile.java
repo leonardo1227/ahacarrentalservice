@@ -1,7 +1,6 @@
 package edu.mum.cs.cs425.ahacarrentalservice.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class CarProfile {
     private Integer year;
 
     @Enumerated
-    private CarStatus status = CarStatus.PENDING;
+    private AnalysisStatus status = AnalysisStatus.PENDING;
     
     @ManyToOne
     private CarOwnerProfile carOwnerProfile;
@@ -34,9 +33,6 @@ public class CarProfile {
     public CarProfile() {
     }
 
-	public CarProfile(String plate) {
-		this.plate = plate;
-	}
 
 	public Long getId() {
 		return id;
@@ -70,11 +66,11 @@ public class CarProfile {
 		this.year = year;
 	}
 
-	public CarStatus getStatus() {
+	public AnalysisStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(CarStatus status) {
+	public void setStatus(AnalysisStatus status) {
 		this.status = status;
 	}
 

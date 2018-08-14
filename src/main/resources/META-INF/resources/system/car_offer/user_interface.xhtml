@@ -26,11 +26,22 @@
                     <p:inputNumber id="price" value="#{offerController.offer.price}" required="true" requiredMessage="Required" symbol="$"/>
                     <p:message for="price"/>
 
-                    <p:outputLabel value="Discount" for="discount"/>
+                    <p:outputLabel value="Discount:" for="discount"/>
                     <p:inputText id="discount" value="#{offerController.offer.discount}" required="true" requiredMessage="Required"/>
                     <p:message for="discount"/>
+
+                    <p:outputLabel value="Start Date:" for="startDate"/>
+                    <p:calendar id="startDate" value="#{offerController.offer.startDate}" converter="localDateConverter" pattern="MM/dd/yyyy"/>
+                    <p:message for="startDate"/>
+
+                    <p:outputLabel value="End Date:" for="endDate"/>
+                    <p:calendar id="endDate" value="#{offerController.offer.endDate}" converter="localDateConverter" pattern="MM/dd/yyyy"/>
+                    <p:message for="endDate"/>
+
                     <p:commandButton value="Save" icon="fa fa-save" action="#{offerController.save}" update="form"
                                      actionListener="#{offerController.preSave}"/>
+
+
 
                 </h:panelGrid>
 
@@ -49,6 +60,18 @@
                 <p:column headerText="Discount">
                     <p:outputLabel value="#{offer.discount}"/>
                 </p:column>
+
+                <p:column headerText="Start Date:">
+                    <h:outputText value="#{offer.startDate}">
+                        <!--<f:convertDateTime pattern="MM/dd/yyyy"/>-->
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="End Date:">
+                    <p:outputLabel value="#{offer.endDate}"/>
+                </p:column>
+
+
                 <p:column headerText="Action">
                     <p:commandButton value="Edit" icon="fa fa-edit" process="@this" update="form" action="#{offerController.select(offer.id)}"/>
                     <p:commandButton value="Delete" icon="fa fa-trash" process="@this" update="offersList" action="#{offerController.delete(offer.id)}">

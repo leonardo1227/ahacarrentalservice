@@ -1,7 +1,7 @@
 package edu.mum.cs.cs425.ahacarrentalservice.controller;
 
 import edu.mum.cs.cs425.ahacarrentalservice.model.CarProfile;
-import edu.mum.cs.cs425.ahacarrentalservice.model.CarStatus;
+import edu.mum.cs.cs425.ahacarrentalservice.model.AnalysisStatus;
 import edu.mum.cs.cs425.ahacarrentalservice.model.InformationType;
 import edu.mum.cs.cs425.ahacarrentalservice.model.Offer;
 import edu.mum.cs.cs425.ahacarrentalservice.service.OfferService;
@@ -60,7 +60,7 @@ public class OfferController implements IController {
         if (offer.getId() == null) {
             offer.setCarProfile(carProfile);
         } else {
-            offer.setStatus(CarStatus.PENDING);
+            offer.setStatus(AnalysisStatus.PENDING);
         }
     }
 
@@ -86,7 +86,7 @@ public class OfferController implements IController {
     }
 
     public String backToCarProfilesManagement() {
-        removeAttributeInTheSession(Property.SESSION_CARPROFILE_ATTRIBUTE_NAME);
+        removeAttributeFromTheSession(Property.SESSION_CARPROFILE_ATTRIBUTE_NAME);
         return redirect("/system/car_profile/user_interface");
     }
 

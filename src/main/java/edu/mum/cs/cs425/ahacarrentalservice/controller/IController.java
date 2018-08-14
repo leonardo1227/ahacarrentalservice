@@ -8,7 +8,7 @@ import javax.faces.context.FacesContext;
 
 public interface IController {
 
-    default void showMessage(String summary, String detail, InformationType type){
+    default void showMessage(String summary, String detail, InformationType type) {
         FacesContext
                 .getCurrentInstance()
                 .addMessage("controllerMessages",
@@ -17,7 +17,7 @@ public interface IController {
                                 detail));
     }
 
-    default  void showMessage(String fieldId, String summary, String detail, InformationType type){
+    default void showMessage(String fieldId, String summary, String detail, InformationType type) {
         FacesContext
                 .getCurrentInstance()
                 .addMessage(fieldId,
@@ -26,17 +26,19 @@ public interface IController {
                                 detail));
     }
 
-    default String redirect(String url){
-        return url+"?faces-redirect=true";
+    default String redirect(String url) {
+        return url + "?faces-redirect=true";
     }
 
-    default Object getAttributeFromTheSession(String attributeName){
+    default Object getAttributeFromTheSession(String attributeName) {
         return FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().get(attributeName);
     }
-    default void setAttributeInTheSession(String attributeName, Object object){
-        FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().put(attributeName,object);
+
+    default void setAttributeInTheSession(String attributeName, Object object) {
+        FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().put(attributeName, object);
     }
-    default void removeAttributeInTheSession(String attributeName){
+
+    default void removeAttributeFromTheSession(String attributeName) {
         FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().remove(attributeName);
     }
 

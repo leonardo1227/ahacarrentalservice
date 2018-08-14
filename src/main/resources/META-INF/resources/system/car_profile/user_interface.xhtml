@@ -24,30 +24,30 @@
                         <p:autoUpdate/>
                         <p:ajax event="blur" listener="#{carProfileController.verifyIfPlateIsAlreadyRegistered}" update="plate"/>
                     </p:inputText>
-                    <p:message for="plate">
+                    <p:messages for="plate">
                         <p:autoUpdate/>
-                    </p:message>
+                    </p:messages>
 
                     <p:outputLabel value="Brand:" for="brand"/>
                     <p:selectOneMenu id="brand" value="#{carProfileController.carBrandSelected.id}" required="true"
-                                     requiredMessage="Required">
+                                     requiredMessage="Required" filter="true" filterMatchMode="startsWith">
                         <p:ajax update="model" event="change"
-                                listener="#{carProfileController.loadCarBrandSelectedObject}"/>
+                                listener="#{carProfileController.loadCarBrandSelectedInformation}"/>
                         <f:selectItem itemLabel="Select one Brand" noSelectionOption="true"/>
                         <f:selectItems value="#{carProfileController.carBrandList}" var="brand"
                                        itemLabel="#{brand.name}" itemValue="#{brand.id}"/>
                     </p:selectOneMenu>
-                    <p:message for="brand"/>
+                    <p:messages for="brand"/>
 
                     <p:outputLabel value="Model:" for="model"/>
                     <p:selectOneMenu id="model" value="#{carProfileController.carProfile.model.id}" required="true"
-                                     requiredMessage="Required"
+                                     requiredMessage="Required" filter="true" filterMatchMode="startsWith"
                                      disabled="#{carProfileController.carBrandSelected==null || carProfileController.carBrandSelected.id==null}">
                         <f:selectItem itemLabel="Select one Model" noSelectionOption="true"/>
                         <f:selectItems value="#{carProfileController.carBrandSelected.models}" var="model"
                                        itemValue="#{model.id}" itemLabel="#{model.name}"/>
                     </p:selectOneMenu>
-                    <p:message for="model"/>
+                    <p:messages for="model"/>
 
                     <p:outputLabel value="Color:" for="year"/>
                     <p:selectOneMenu id="color" value="#{carProfileController.carProfile.color}" required="true"
@@ -55,38 +55,42 @@
                         <f:selectItem itemLabel="Select one Color" noSelectionOption="true"/>
                         <f:selectItems value="#{carProfileController.colors}" var="color" itemValue="#{color}"/>
                     </p:selectOneMenu>
-                    <p:message for="color"/>
+                    <p:messages for="color"/>
 
                     <p:outputLabel value="Year:" for="year"/>
                     <p:inputText id="year" value="#{carProfileController.carProfile.year}" required="true" requiredMessage="Required"/>
-                    <p:message for="year"/>
+                    <p:messages for="year"/>
 
                 </h:panelGrid>
-                <p:commandButton value="Save" icon="fa fa-save" action="#{carProfileController.save}" update="form"
-                actionListener="#{carProfileController.preSave}"/>
+
+                <f:facet name="actions">
+                    <p:commandButton value="Save" icon="fa fa-save" action="#{carProfileController.save}" update="form"
+                                     actionListener="#{carProfileController.preSave}"/>
+                </f:facet>
             </p:panel>
 
-            <p:dataGrid value="#{carProfileController.cars}" var="carProfile" columns="1" rows="4" paginator="true"
+            <p:dataGrid value="#{carProfileController.carProfiles}" var="carProfile" columns="1" rows="4" paginator="true"
                         style="width:50%;margin: auto" id="listCarProfiles">
                 <f:facet name="header">Car Profiles Registered</f:facet>
-                <p:panel>
+                <p:panel header="Registration Number: #{carProfile.id}">
                     <h:panelGrid columns="3" style="width: 100%">
                         <p:graphicImage name="#{carProfile.model.brand.logoUrl}"/>
                         <p:outputPanel style="width: 100%">
                             <h:panelGrid columns="2">
-                                <p:outputLabel value="Registration Number:"/>
-                                <p:outputLabel value="#{carProfile.id}"/>
 
-                                <p:outputLabel value="Brand:"/>
+                                <p:outputLabel value="Plate:" style="font-weight: bold"/>
+                                <p:outputLabel value="#{carProfile.plate}"/>
+
+                                <p:outputLabel value="Brand:" style="font-weight: bold"/>
                                 <p:outputLabel value="#{carProfile.model.brand.name}"/>
 
-                                <p:outputLabel value="Model:"/>
+                                <p:outputLabel value="Model:" style="font-weight: bold"/>
                                 <p:outputLabel value="#{carProfile.model.name}"/>
 
-                                <p:outputLabel value="Year:"/>
+                                <p:outputLabel value="Year:" style="font-weight: bold"/>
                                 <p:outputLabel value="#{carProfile.year}"/>
 
-                                <p:outputLabel value="Status:"/>
+                                <p:outputLabel value="Status:" style="font-weight: bold"/>
                                 <p:outputLabel value="#{carProfile.status}"/>
 
                             </h:panelGrid>

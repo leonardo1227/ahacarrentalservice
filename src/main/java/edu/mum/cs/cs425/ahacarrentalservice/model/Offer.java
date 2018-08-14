@@ -1,7 +1,7 @@
 package edu.mum.cs.cs425.ahacarrentalservice.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
+import java.time.LocalDate;
 
 @Entity
 public class Offer {
@@ -14,22 +14,17 @@ public class Offer {
     private String description;
     private double discount;
 
+    private LocalDate startDate;
+    private LocalDate endDate;
+
     @Enumerated
-	private CarStatus status = CarStatus.PENDING;
+	private AnalysisStatus status = AnalysisStatus.PENDING;
     
 	@ManyToOne
     private CarProfile carProfile;
     
     public Offer() {
     }
-
-	public Offer(double price, String description, double discount, CarStatus status, CarProfile carProfile) {
-		this.price = price;
-		this.description = description;
-		this.discount = discount;
-		this.status = status;
-		this.carProfile = carProfile;
-	}
 
 	public Long getId() {
         return id;
@@ -71,11 +66,27 @@ public class Offer {
 		this.carProfile = carProfile;
 	}
 
-	public CarStatus getStatus() {
+	public AnalysisStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(CarStatus status) {
+	public void setStatus(AnalysisStatus status) {
 		this.status = status;
 	}
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
 }
