@@ -34,15 +34,15 @@
                         <p:outputLabel value="Year:" for="year"/><br/>
                         <p:inputText id="year" value="#{homeController.year}" /><br/>
                         <p:outputLabel for="startDate" value="Start Date:" /><br/>
-                        <p:calendar id="startDate" value="#{homeController.startDate}"
+                        <p:calendar id="startDate" value="#{homeController.startDate}" required="true"
                                     mindate="#{homeController.currentDate}"
                                     pattern="MM/dd/yyyy">
                         </p:calendar>
                         <br/>
                         <p:outputLabel for="endDate" value="End Date" /><br/>
                         <p:calendar id="endDate" value="#{homeController.endDate}" mindate="#{homeController.currentDate}"
-                                    pattern="MM/dd/yyyy"/>
-                        <br/>
+                                    required="true"   pattern="MM/dd/yyyy"/>
+                        <br/> <br/>
 
 
                         <p:commandButton update="padding"
@@ -50,6 +50,7 @@
                                          carProfileController.carProfile.model.id, homeController.year)}"
                                          value="Filter" ajax="true" >
                         </p:commandButton>
+
                     </p:panel>
 
                 <h:panelGroup id="padding" layout="block">
@@ -72,7 +73,8 @@
                         <p:outputLabel value="#{offer.discount}"/>
                     </p:column>
                     <p:column headerText="Action">
-                        <p:commandButton value="select" icon="fa fa-edit" process="@this" update="form"
+                        <p:growl id="growl" life="4000" />
+                        <p:commandButton value="select" icon="fa fa-edit" process="@this" update="growl"
                                          action="#{homeController.select(offer.id)}"/>
                     </p:column>
                 </p:dataTable>

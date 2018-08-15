@@ -4,11 +4,13 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.servlet.http.HttpServletRequest;
 
 import edu.mum.cs.cs425.ahacarrentalservice.model.Rental;
+import edu.mum.cs.cs425.ahacarrentalservice.util.CalcUtil;
 import edu.mum.cs.cs425.ahacarrentalservice.util.Property;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -69,13 +71,30 @@ public class HomeController implements IController {
 		HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
 		String txStartDate = request.getParameter("form:startDate_input");
 		String txEndDate = request.getParameter("form:endDate_input");
-		Offer o = service.findById(id);
-		rental.setOffer(o);
+
+		if(txStartDate.equals("") || txEndDate.equals("")){
+			aadErrorMessage("You need to inform both end and start date");
+			return "";
+		}
+		Date strDt =  new Date(txStartDate);
+		Date endDt = new Date(txEndDate);
+
+		if(CalcUtil.getDifferenceDays(strDt,endDt) < 1){
+			aadErrorMessage("The end date must be after the start date");
+			return "";
+		}
+
 		rental.setStartDate( new Date(txStartDate));
 		rental.setEndDate(new Date(txEndDate));
-
+		Offer o = service.findById(id);
+		rental.setOffer(o);
 		setAttributeInTheSession(Property.SESSION_SELECTED_OFFER, rental);
 		return redirect("/system/rent/rent");
+	}
+
+	public void aadErrorMessage(String summary) {
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, summary,  null);
+		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
 	public void filter(int	brandId, int modelId, int year){
