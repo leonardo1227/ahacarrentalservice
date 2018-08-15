@@ -1,28 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <ui:composition template="/template/_template.xhtml">
 	<ui:define name="title">AHA Car Rental System - Car Owner Application</ui:define>
 	<ui:define name="content">
-		<h1 style="text-align: center;">Car Rent Form</h1>
-
 		<h:form id="form">
-			<p:messages for="controllerMessages">
-				<p:autoUpdate />
-			</p:messages>
+			<p:commandButton value="Back to Car Profile Management" action="#{offerController.backToCarProfilesManagement}" process="@this"/>
 
-			<p:panelGrid id="formGrid" style="margin: 0 auto;"
-				styleClass="ui-noborder">
+			<p:panel id="pnl" header="Rental Info" style="width: 50%;margin: auto">
+				<p:fieldset legend="Car" style="margin-bottom:20px">	<br/>
+					<p:outputLabel value="Brand:" /><p:spacer width="10" height="20" />
+						<p:outputLabel value="#{rentController.rental.offer.carProfile.model.brand.name}" /><br/>
+					<p:outputLabel value="Model:" /><p:spacer width="10" height="20" />
+						<p:outputLabel value="#{rentController.rental.offer.carProfile.model.name}" /><br/>
+					<p:outputLabel value="Year:" /><p:spacer width="10" height="20" />
+						<p:outputLabel value="#{rentController.rental.offer.carProfile.year}" /><br/>
+					<p:outputLabel value="color:" /><p:spacer width="10" height="20" />
+						<p:outputLabel value="#{rentController.rental.offer.carProfile.color}" /><br/>
 
-			</p:panelGrid>
+				</p:fieldset>
 
+				<p:fieldset legend="Car Owner" style="margin-bottom:20px">	<br/>
+					<p:outputLabel value="Owner's Name:" /><p:spacer width="10" height="20" />
+						<p:outputLabel value="#{rentController.rental.offer.carProfile.carOwnerProfile.firstName}
+							 #{rentController.rental.offer.carProfile.carOwnerProfile.lastName}" /><br/>
+					<p:outputLabel value="Email:" /><p:spacer width="10" height="20" />
+						<p:outputLabel value="#{rentController.rental.offer.carProfile.carOwnerProfile.emailAddress}" />
+				</p:fieldset>
+
+				<p:fieldset legend="Pricing" style="margin-bottom:20px">	<br/>
+					<p:outputLabel value="Daily Price:" /><p:spacer width="10" height="20" />
+						<p:outputLabel value="#{rentController.rental.offer.price}" /><br/>
+					<p:outputLabel value="Discount:" /><p:spacer width="10" height="20" />
+						<p:outputLabel value="#{rentController.rental.offer.discount}" /><br/>
+					<p:outputLabel value="Total:" /><p:spacer width="10" height="20" />
+					<strong><p:outputLabel value="#{rentController.totalRent} " /></strong>
+					<p:outputLabel value="#{rentController.calcDetails}" />
+				</p:fieldset>
+
+					<p:commandButton style="margin-left: 50%;margin-right: 50%"
+									 onclick="PF('dlg2').show();"
+									 value="Proceed Payment" ajax="true" >
+					</p:commandButton>
+
+
+			</p:panel>
 		</h:form>
+		<h:form>
+			<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+
+			<p:dialog header="Credit Card" widgetVar="dlg2" resizable="false">
+				<h:panelGrid columns="2" cellpadding="5">
+					<h:outputLabel for="fullName" value="Full Name:" />
+					<p:inputText id="fullName" value="#{rentController.rental.creditCardInfo.fullName}"
+								 required="true" label="fullName" />
+
+					<h:outputLabel for="cardNumber" value="Card Number:" />
+					<p:inputText id="cardNumber" required="true"
+								 value="#{rentController.rental.creditCardInfo.creditCardNum}"
+								 label="cardNumber" />
+
+					<h:outputLabel for="CVS" value="CVS Number:" />
+					<p:inputText id="CVS" required="true" value="#{rentController.rental.creditCardInfo.csv}"
+								label="CVS" />
+
+					<h:outputLabel for="dateExpiration" value="Exp Date:" />
+					<p:inputText id="dateExpiration" required="true"
+								value="#{rentController.rental.creditCardInfo.expDate}"
+								label="dateExpiration" />
+
+					<f:facet name="footer">
+						<p:commandButton value="Confirm" update="growl" actionListener="#{rentController.save}"
+										 oncomplete="handleLoginRequest(xhr, status, args)" ajax="false"/>
+					</f:facet>
+				</h:panelGrid>
+			</p:dialog>
+		</h:form>
+
+		<script type="text/javascript">
+            function handleLoginRequest(xhr, status, args) {
+                if(args.validationFailed || !args.loggedIn) {
+                    PF('dlg2').jq.effect("shake", {times:5}, 100);
+                }
+                else {
+                    PF('dlg2').hide();
+                    $('#loginLink').fadeOut();
+                }
+            }
+		</script>
 	</ui:define>
 </ui:composition>
 </html>

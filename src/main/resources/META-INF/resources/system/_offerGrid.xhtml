@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <p:dataTable styleClass="homeList" id="offersList" value="#{homeController.getOffers()}"
+                 var="offer" paginator="true" rows="5">
+        <f:facet name="header">List of Offers</f:facet>
+        <p:column headerText="Brand" filterBy="#{offer.carProfile.model.brand.name}"  >
+            <p:outputLabel value="#{offer.carProfile.model.brand.name}"/>
+        </p:column>
+        <p:column headerText="Model" filterBy="#{offer.carProfile.model.name}"  >
+            <p:outputLabel value="#{offer.carProfile.model.name}"/>
+        </p:column>
+        <p:column headerText="Year" filterBy="#{offer.carProfile.year}">
+            <p:outputLabel value="#{offer.carProfile.year}"/>
+        </p:column>
+        <p:column headerText="Description">
+            <p:outputLabel value="#{offer.description}"/>
+        </p:column>
+        <p:column headerText="Price">
+            <p:outputLabel value="#{offer.price}"/>
+        </p:column>
+        <p:column headerText="Discount">
+            <p:outputLabel value="#{offer.discount}"/>
+        </p:column>
+        <p:column headerText="Action">
+            <p:growl id="growl" life="4000" />
+            <p:commandButton value="select" icon="fa fa-edit" process="@this" update="growl"
+                             action="#{homeController.select(offer.id)}"/>
+        </p:column>
+    </p:dataTable>
+</html>

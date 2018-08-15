@@ -37,7 +37,6 @@ public class CarProfileController implements IController, Serializable {
     private List<CarBrand> carBrandList;
 //    private CarBrand carBrandSelected;
 
-
     @PostConstruct
     private void init() {
         resetForm();
