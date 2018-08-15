@@ -1,9 +1,6 @@
 package edu.mum.cs.cs425.ahacarrentalservice.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -17,11 +14,16 @@ public class Rental {
 
     private Date endDate;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="customer_id")
     private Customer customer;
 
     @ManyToOne
+    @JoinColumn(name="offer_id")
     private Offer offer;
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "rental")
+    private CreditCardInfo creditCardInfo;
 
     public Long getId() {
         return id;
@@ -61,6 +63,14 @@ public class Rental {
 
     public void setOffer(Offer offer) {
         this.offer = offer;
+    }
+
+    public CreditCardInfo getCreditCardInfo() {
+        return creditCardInfo;
+    }
+
+    public void setCreditCardInfo(CreditCardInfo creditCardInfo) {
+        this.creditCardInfo = creditCardInfo;
     }
 
 }

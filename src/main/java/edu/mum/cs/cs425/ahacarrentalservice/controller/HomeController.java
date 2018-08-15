@@ -1,6 +1,5 @@
 package edu.mum.cs.cs425.ahacarrentalservice.controller;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -70,9 +69,11 @@ public class HomeController implements IController {
 		HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
 		String txStartDate = request.getParameter("form:startDate_input");
 		String txEndDate = request.getParameter("form:endDate_input");
-		rental.setOffer(service.findById(id));
+		Offer o = service.findById(id);
+		rental.setOffer(o);
 		rental.setStartDate( new Date(txStartDate));
 		rental.setEndDate(new Date(txEndDate));
+
 		setAttributeInTheSession(Property.SESSION_SELECTED_OFFER, rental);
 		return redirect("/system/rent/rent");
 	}

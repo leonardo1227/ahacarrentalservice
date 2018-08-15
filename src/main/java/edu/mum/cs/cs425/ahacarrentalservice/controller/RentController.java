@@ -1,16 +1,26 @@
 package edu.mum.cs.cs425.ahacarrentalservice.controller;
 
+import edu.mum.cs.cs425.ahacarrentalservice.model.CreditCardInfo;
+import edu.mum.cs.cs425.ahacarrentalservice.model.Customer;
 import edu.mum.cs.cs425.ahacarrentalservice.model.Rental;
+import edu.mum.cs.cs425.ahacarrentalservice.service.RentalService;
 import edu.mum.cs.cs425.ahacarrentalservice.util.Property;
 import edu.mum.cs.cs425.ahacarrentalservice.util.CalcUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import java.io.IOException;
 
 @Component
 @ViewScoped
 public class RentController implements IController {
+
+    @Autowired
+    private RentalService service;
+
     private Rental rental;
 
     private double totalRent;
@@ -20,6 +30,7 @@ public class RentController implements IController {
     @PostConstruct
     void init() {
         rental = (Rental) getAttributeFromTheSession(Property.SESSION_SELECTED_OFFER);
+        rental.setCreditCardInfo(new CreditCardInfo());
         totalRent = CalcUtil.calculateTotalRent(rental);
     }
 
@@ -47,6 +58,21 @@ public class RentController implements IController {
 
     public void setCalcDetails(String calcDetails) {
         this.calcDetails = calcDetails;
+    }
+
+    public void save(){
+        Customer c = new Customer();
+        c.setId(1l);
+        rental.setCustomer(c);
+        rental.getCreditCardInfo().setRental(rental);
+        service.save(rental);
+
+        try {
+            FacesContext.getCurrentInstance()
+                    .getExternalContext().redirect("/system/static/success.xhtml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -58,20 +58,26 @@
 			<p:dialog header="Credit Card" widgetVar="dlg2" resizable="false">
 				<h:panelGrid columns="2" cellpadding="5">
 					<h:outputLabel for="fullName" value="Full Name:" />
-					<p:inputText id="fullName" required="true" label="fullName" />
+					<p:inputText id="fullName" value="#{rentController.rental.creditCardInfo.fullName}"
+								 required="true" label="fullName" />
 
 					<h:outputLabel for="cardNumber" value="Card Number:" />
-					<p:inputText id="cardNumber" required="true" label="cardNumber" />
+					<p:inputText id="cardNumber" required="true"
+								 value="#{rentController.rental.creditCardInfo.creditCardNum}"
+								 label="cardNumber" />
 
 					<h:outputLabel for="CVS" value="CVS Number:" />
-					<p:password id="CVS" required="true" label="CVS" />
+					<p:inputText id="CVS" required="true" value="#{rentController.rental.creditCardInfo.csv}"
+								label="CVS" />
 
 					<h:outputLabel for="dateExpiration" value="Exp Date:" />
-					<p:password id="dateExpiration" required="true" label="dateExpiration" />
+					<p:inputText id="dateExpiration" required="true"
+								value="#{rentController.rental.creditCardInfo.expDate}"
+								label="dateExpiration" />
 
 					<f:facet name="footer">
-						<p:commandButton value="Confirm" update="growl" actionListener="#{userLoginView.login}"
-										 oncomplete="handleLoginRequest(xhr, status, args)" />
+						<p:commandButton value="Confirm" update="growl" actionListener="#{rentController.save}"
+										 oncomplete="handleLoginRequest(xhr, status, args)" ajax="false"/>
 					</f:facet>
 				</h:panelGrid>
 			</p:dialog>

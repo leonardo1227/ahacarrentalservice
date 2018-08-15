@@ -1,7 +1,7 @@
 package edu.mum.cs.cs425.ahacarrentalservice.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 public class Offer {
@@ -19,7 +19,10 @@ public class Offer {
     
 	@ManyToOne
     private CarProfile carProfile;
-    
+
+	@OneToMany
+	private List<Rental>  rentals;
+
     public Offer() {
     }
 
@@ -78,4 +81,12 @@ public class Offer {
 	public void setStatus(CarStatus status) {
 		this.status = status;
 	}
+
+    public List<Rental> getRentals() {
+        return rentals;
+    }
+
+    public void setRentals(List<Rental> rentals) {
+        this.rentals = rentals;
+    }
 }
