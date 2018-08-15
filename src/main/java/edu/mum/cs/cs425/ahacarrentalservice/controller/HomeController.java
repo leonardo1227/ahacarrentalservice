@@ -56,7 +56,7 @@ public class HomeController implements IController {
 	private List<Offer> loadListOffer() {
 		selectedOffer = new Offer();
 		rental = new Rental();
-		return service.filterAvailiableCars();
+		return service.findAllAvailables();
 	}
 
 	public List<Offer> getOffers() {
@@ -97,9 +97,11 @@ public class HomeController implements IController {
 		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
-	public void filter(int	brandId, int modelId, int year){
-		offers = service.filterOffers(brandId, modelId, year);
-	}
+//	public void filter(int	brandId, int modelId, int year){
+//		offers = service.filterOffers(brandId, modelId, year);
+//	}
+//	public void filter()
+
 
 	public OfferService getService() {
 		return service;

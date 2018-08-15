@@ -1,8 +1,6 @@
 package edu.mum.cs.cs425.ahacarrentalservice.service;
 
-import edu.mum.cs.cs425.ahacarrentalservice.model.AnalysisStatus;
-import edu.mum.cs.cs425.ahacarrentalservice.model.CarProfile;
-import edu.mum.cs.cs425.ahacarrentalservice.model.Offer;
+import edu.mum.cs.cs425.ahacarrentalservice.model.*;
 import edu.mum.cs.cs425.ahacarrentalservice.repository.IOfferRepository;
 import edu.mum.cs.cs425.ahacarrentalservice.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,24 +50,45 @@ public class OfferService implements IService<Offer> {
         return repository.findByCarProfileOrderByIdAsc(carProfile);
     }
 
-    public List<Offer> filterAvailiableCars(){
-        List<Offer> offers = findAll().stream()
-//                .filter(
-//                x -> x.getStatus().getValue() == CarStatus.APPROVED.getValue())
-//                x -> x.getStatus() == AnalysisStatus.APPROVED)
-                .collect(Collectors.toList());
-        return offers;
+    public List<Offer> findAllAvailables(){
+        return repository.findByPublicationStatusAndAnalysisStatusCarProfile(true, AnalysisStatus.APPROVED);
     }
 
-    public List<Offer> filterOffers(int brandId, int modelId , int year){
 
-        List<Offer> offers = findAll().stream()
+    public List<Offer> findAllAvailableByCarBrand(CarBrand carBrand){
+        return repository.findByBrandCarProfileAndAnalysisStatusCarProfile(true, carBrand, AnalysisStatus.APPROVED);
+    }
+
+    public List<Offer> findAllAvailablesByCarModel(CarModel carModel){
+        return repository.findByModelCarProfileAndAnalysisStatusCarProfile(true, carModel, AnalysisStatus.APPROVED);
+    }
+
+    public List<Offer> findAllAvailablesByYear(Integer year){
+        return  repository.findByYearCarProfileAndAnalysisStatusCarProfile(true, year,AnalysisStatus.APPROVED);
+    }
+
+    public List<Offer> findAllAvailablesByYearAndModel(Integer year, CarModel carModel){
+        return repository.findByYearAndModelCarProfileAndAnalysisStatusCarProfile(true, year, carModel, AnalysisStatus.APPROVED);
+    }
+
+    public List<Offer> findAllAvailableByYearAndBrand(Integer year, CarBrand carBrand){
+        return repository.findByYearAndBrandCarProfileAndAnalysisStatusCarProfile(true,year,carBrand,AnalysisStatus.APPROVED);
+    }
+
+
+//    public List<Offer> filterOffers(int brandId, int modelId , int year){
+//    public List<Offer> findByAvailablesByCarBrandCarBrand(CarBrand carBrand, CarModel carModel, Integer year){
+
+//        if(carBrand==null && )
+
+
+       /* List<Offer> offers = findAll().stream()
 //                .filter(x -> x.getStatus().getValue() == CarStatus.APPROVED.getValue())
 //                .filter(x -> x.getStatus() == AnalysisStatus.APPROVED)
                 .filter(x -> x.getCarProfile().getModel().getId() == modelId || modelId == 0    )
                 .filter(x -> x.getCarProfile().getModel().getBrand().getId() == brandId || brandId == 0)
                 .filter(x -> x.getCarProfile().getYear() == year || year == 0)
                 .collect(Collectors.toList());
-        return offers;
-    }
+        return offers;*/
+//    }
 }
