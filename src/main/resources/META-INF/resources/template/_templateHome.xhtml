@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title><ui:insert name="title"/></title>
+    <link type="text/css" rel="stylesheet" href="../style/home.css" />
+</h:head>
+<h:body>
+    <div style="background-color: burlywood">
+        <ui:include src="header.xhtml"/>
+    </div>
+    <div style="background-color: antiquewhite">
+    <!--<div style="background-image: url('/images/background/background.jpg')">-->
+    <!--<div style="background-image: url('/images/background/2.jpg')">-->
+        <ui:insert name="content"/>
+    </div>
+
+    <p:ajaxStatus onstart="PF('loadingDialog').show();" oncomplete="PF('loadingDialog').hide();" />
+    <p:dialog modal="true" widgetVar="loadingDialog"
+              header="Please wait..." draggable="false" closable="false"
+              resizable="false">
+        <p:graphicImage value="/images/system/loading.gif" />
+    </p:dialog>
+
+    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+    </p:confirmDialog>
+</h:body>
+</html>
