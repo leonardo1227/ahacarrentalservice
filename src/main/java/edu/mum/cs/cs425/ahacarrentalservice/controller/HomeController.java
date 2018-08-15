@@ -84,12 +84,17 @@ public class HomeController implements IController {
 			return "";
 		}
 
-		rental.setStartDate( new Date(txStartDate));
-		rental.setEndDate(new Date(txEndDate));
+		prepareSessionToRedirect(strDt, endDt, id);
+
+		return redirect("/system/rent/rent");
+	}
+
+	private void prepareSessionToRedirect(Date stardDt, Date endDt, long id){
+		rental.setStartDate(stardDt);
+		rental.setEndDate(endDt);
 		Offer o = service.findById(id);
 		rental.setOffer(o);
 		setAttributeInTheSession(Property.SESSION_SELECTED_OFFER, rental);
-		return redirect("/system/rent/rent");
 	}
 
 	public void aadErrorMessage(String summary) {

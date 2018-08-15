@@ -62,18 +62,19 @@
 								 required="true" label="fullName" />
 
 					<h:outputLabel for="cardNumber" value="Card Number:" />
-					<p:inputText id="cardNumber" required="true"
+					<p:inputMask id="cardNumber" required="true"
+								 mask="9999 9999 9999 9999"
 								 value="#{rentController.rental.creditCardInfo.creditCardNum}"
 								 label="cardNumber" />
 
 					<h:outputLabel for="CVS" value="CVS Number:" />
-					<p:inputText id="CVS" required="true" value="#{rentController.rental.creditCardInfo.csv}"
-								label="CVS" />
+					<p:inputMask id="CVS" required="true" value="#{rentController.rental.creditCardInfo.csv}"
+								 mask="999" label="CVS" />
 
 					<h:outputLabel for="dateExpiration" value="Exp Date:" />
-					<p:inputText id="dateExpiration" required="true"
+					<p:inputMask id="dateExpiration" required="true"
 								value="#{rentController.rental.creditCardInfo.expDate}"
-								label="dateExpiration" />
+								label="dateExpiration"  mask="99/99"/>
 
 					<f:facet name="footer">
 						<p:commandButton value="Confirm" update="growl" actionListener="#{rentController.save}"
