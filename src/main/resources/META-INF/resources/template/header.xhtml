@@ -4,19 +4,25 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
 <f:view>
 	<div>
 		<!--<h:form id="topform">-->
-		<div style="background-color: burlywood">
-			<h2 style="display: inline" >AHA - Car Rental Service</h2>
+		<div 
+			style="background-color: burlywood; display: flex; justify-content: space-between; align-items: center;">
+			<div>
+				<h2>AHA - Car Rental Service</h2>
+			</div>
+			<div>
+				<ui:insert name="loggeduser" />
+			</div>
 		</div>
 
 		<p:menubar>
 			<p:submenu label="Car Owner Management">
-				<p:menuitem value="New Owner"
-					url="/system/new_car_owner.xhtml" />
+				<p:menuitem value="New Owner" url="/system/new_car_owner.xhtml" />
 				<p:menuitem value="Car Profiles"
 					url="/system/car_profile/user_interface.xhtml" />
 			</p:submenu>
