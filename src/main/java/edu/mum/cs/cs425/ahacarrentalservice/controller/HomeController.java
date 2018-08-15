@@ -12,7 +12,6 @@ import edu.mum.cs.cs425.ahacarrentalservice.util.Property;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import edu.mum.cs.cs425.ahacarrentalservice.model.CarStatus;
 import edu.mum.cs.cs425.ahacarrentalservice.model.Offer;
 import edu.mum.cs.cs425.ahacarrentalservice.service.OfferService;
 

@@ -1,11 +1,11 @@
 package edu.mum.cs.cs425.ahacarrentalservice.controller;
 
 import edu.mum.cs.cs425.ahacarrentalservice.model.CarProfile;
-import edu.mum.cs.cs425.ahacarrentalservice.model.AnalysisStatus;
 import edu.mum.cs.cs425.ahacarrentalservice.model.InformationType;
 import edu.mum.cs.cs425.ahacarrentalservice.model.Offer;
 import edu.mum.cs.cs425.ahacarrentalservice.service.OfferService;
 import edu.mum.cs.cs425.ahacarrentalservice.util.Property;
+import edu.mum.cs.cs425.ahacarrentalservice.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -55,27 +55,33 @@ public class OfferController implements IController {
         }
         return offers;
     }
+    public CarProfile getCarProfile() {
+        return carProfile;
+    }
 
     public void preSave() {
         if (offer.getId() == null) {
             offer.setCarProfile(carProfile);
-        } else {
-            offer.setStatus(AnalysisStatus.PENDING);
         }
     }
 
     public void save() {
-        Boolean isANewOne = offer.getId() == null;
-        service.save(offer);
-        resetForm();
-        if (isANewOne) {
-            showMessage("Offer Registered Successfully!", null, InformationType.INFORMATION);
-        } else {
-            showMessage("Offer Altered Successfully!", null, InformationType.INFORMATION);
+        try {
+            Boolean isANewOne = offer.getId() == null;
+            service.save(offer);
+            resetForm();
+            if (isANewOne) {
+                showMessage("Offer Registered Successfully!", null, InformationType.INFORMATION);
+            } else {
+                showMessage("Offer Altered Successfully!", null, InformationType.INFORMATION);
+            }
+        } catch (ValidationException e) {
+            showMessage(e.getMessage(), null, InformationType.ERROR);
         }
+
     }
 
-    public void select(Long id) {
+    public void selectToEdit(Long id) {
         offer = service.findById(id);
     }
 
@@ -87,7 +93,25 @@ public class OfferController implements IController {
 
     public String backToCarProfilesManagement() {
         removeAttributeFromTheSession(Property.SESSION_CARPROFILE_ATTRIBUTE_NAME);
-        return redirect("/system/car_profile/user_interface");
+        return redirect(Property.URL_CAR_PROFILE_PAGE);
+    }
+
+    public void changePublicationStatus(Offer offer) {
+        Boolean initialValue = offer.getPublicationStatus();
+        offer.setPublicationStatus(!offer.getPublicationStatus());
+        try {
+            service.save(offer);
+            offers = new ArrayList<>();
+            if (offer.getPublicationStatus()) {
+                showMessage("Offer Published successfully!", null, InformationType.INFORMATION);
+            } else {
+                showMessage("Offer Unpublished successfully!", null, InformationType.INFORMATION);
+            }
+        } catch (ValidationException e) {
+            showMessage(e.getMessage(), null, InformationType.ERROR);
+            offer.setPublicationStatus(initialValue);
+        }
+
     }
 
 

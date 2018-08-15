@@ -10,25 +10,21 @@ public class CarProfile {
     @Id
     @GeneratedValue
     private Long id;
-
 	@ManyToOne
 	private CarModel model;
-
 	@Enumerated(EnumType.STRING)
 	private Color color;
-
     private Integer year;
-
     @Enumerated
     private AnalysisStatus status = AnalysisStatus.PENDING;
-    
     @ManyToOne
     private CarOwnerProfile carOwnerProfile;
-
     private String plate;
-    
     @OneToMany(mappedBy = "carProfile")
 	private List<Offer> offers = new ArrayList<>();
+
+	@Transient
+	private CarBrand carBrandSelected;
 
     public CarProfile() {
     }
@@ -96,5 +92,14 @@ public class CarProfile {
 
 	public void setPlate(String plate) {
 		this.plate = plate;
+	}
+
+
+	public CarBrand getCarBrandSelected() {
+		return carBrandSelected;
+	}
+
+	public void setCarBrandSelected(CarBrand carBrandSelected) {
+		this.carBrandSelected = carBrandSelected;
 	}
 }

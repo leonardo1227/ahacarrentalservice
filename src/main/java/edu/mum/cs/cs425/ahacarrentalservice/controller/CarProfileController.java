@@ -2,6 +2,7 @@ package edu.mum.cs.cs425.ahacarrentalservice.controller;
 
 import edu.mum.cs.cs425.ahacarrentalservice.model.*;
 import edu.mum.cs.cs425.ahacarrentalservice.service.CarBrandService;
+import edu.mum.cs.cs425.ahacarrentalservice.service.CarModelService;
 import edu.mum.cs.cs425.ahacarrentalservice.service.CarProfileService;
 import edu.mum.cs.cs425.ahacarrentalservice.util.Property;
 import edu.mum.cs.cs425.ahacarrentalservice.validation.ValidationException;
@@ -25,15 +26,16 @@ public class CarProfileController implements IController, Serializable {
 
     @Autowired
     private CarProfileService service;
-
     @Autowired
     private CarBrandService carBrandService;
+    @Autowired
+    private CarModelService carModelService;
+
 
     private List<CarProfile> carProfiles;
     private CarProfile carProfile;
-
     private List<CarBrand> carBrandList;
-    private CarBrand carBrandSelected;
+//    private CarBrand carBrandSelected;
 
 
     @PostConstruct
@@ -44,7 +46,7 @@ public class CarProfileController implements IController, Serializable {
     public void resetForm() {
         carProfile = new CarProfile();
         carProfile.setModel(new CarModel());
-        carBrandSelected = new CarBrand();
+        carProfile.setCarBrandSelected(new CarBrand());
         carProfiles = new ArrayList<>();
     }
 
@@ -75,24 +77,12 @@ public class CarProfileController implements IController, Serializable {
         this.carProfile = carProfile;
     }
 
-    public CarBrand getCarBrandSelected() {
-        return carBrandSelected;
-    }
-
-    public void setCarBrandSelected(CarBrand carBrandSelected) {
-        this.carBrandSelected = carBrandSelected;
-    }
 
     //OPERATIONS
-    public void loadCarBrandSelectedInformation() {
-        System.out.println(carBrandSelected.getId());
-        if (carBrandSelected != null && carBrandSelected.getId() != null) {
-            carBrandSelected = carBrandService.findById(carBrandSelected.getId());
+    public void loadCarBrandSelectedInformation(){
+        if(carProfile.getCarBrandSelected()!=null && carProfile.getCarBrandSelected().getId()!=null){
+            carProfile.setCarBrandSelected(carBrandService.findById(carProfile.getCarBrandSelected().getId()));
             carProfile.setModel(new CarModel());
-            carProfile.getModel().setBrand(carBrandSelected);
-        } else {
-            carBrandSelected.setId(null);
-            carBrandSelected.setModels(new ArrayList<>());
         }
     }
 
@@ -100,8 +90,13 @@ public class CarProfileController implements IController, Serializable {
         if (carProfile.getId() == null) {
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
             CarOwnerProfile carOwnerProfile = (CarOwnerProfile) session.getAttribute("carOwnerProfileLogged");
-            this.carProfile.setCarOwnerProfile(carOwnerProfile);
+            carProfile.setCarOwnerProfile(carOwnerProfile);
         }
+        if(carProfile.getModel().getId()!=null && carProfile.getModel().getName()==null){
+            carProfile.setModel(carModelService.findById(carProfile.getModel().getId()));
+        }
+
+        carProfile.setStatus(AnalysisStatus.PENDING);
     }
 
     public void save() {
@@ -120,9 +115,9 @@ public class CarProfileController implements IController, Serializable {
         }
     }
 
-    public void select(Long id) {
+    public void selectToEdit(Long id) {
         carProfile = service.findById(id);
-        carBrandSelected = carProfile.getModel().getBrand();
+        carProfile.setCarBrandSelected(carProfile.getModel().getBrand());
     }
 
     public void delete(Long id) {
@@ -133,12 +128,12 @@ public class CarProfileController implements IController, Serializable {
 
     public String managerOffers(CarProfile carProfile) {
         setAttributeInTheSession(Property.SESSION_CARPROFILE_ATTRIBUTE_NAME, carProfile);
-        return redirect("/system/car_offer/user_interface");
+        return redirect(Property.URL_CAR_OFFER_PAGE);
     }
 
     public void verifyIfPlateIsAlreadyRegistered() {
         if (service.verifyIfPlateIsAlreadyRegistered(carProfile.getPlate(), carProfile.getId())) {
-            showMessage("plate", "Plate is already registered in the system", null, InformationType.ERROR);
+            showMessage("plate", "Plate already registered", null, InformationType.ERROR);
         } else {
             showMessage("plate", "Valid Plate", null, InformationType.INFORMATION);
         }

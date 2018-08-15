@@ -14,73 +14,134 @@
             <p:growl id="messages" for="controllerMessages">
                 <p:autoUpdate/>
             </p:growl>
-            <p:commandButton value="Back to Car Profile Management" action="#{offerController.backToCarProfilesManagement}" process="@this"/>
+
+            <div align="center">
+                <p:commandButton value="Back to Car Profile Management"
+                                 action="#{offerController.backToCarProfilesManagement}" process="@this"/>
+            </div>
+
             <p:panel header="#{offerController.offer.id==null ? 'New Offer Registration' :'Edit Offer Information'}"
-                style="width: 50%;margin: auto">
-                <h:panelGrid columns="3">
-                    <p:outputLabel value="Description:" for="description"/>
-                    <p:inputText id="description" value="#{offerController.offer.description}" required="true" requiredMessage="Required"/>
-                    <p:message for="description"/>
+                     style="width: 50%;margin: auto">
 
-                    <p:outputLabel value="Price:" for="price"/>
-                    <p:inputNumber id="price" value="#{offerController.offer.price}" required="true" requiredMessage="Required" symbol="$"/>
-                    <p:message for="price"/>
-
-                    <p:outputLabel value="Discount:" for="discount"/>
-                    <p:inputText id="discount" value="#{offerController.offer.discount}" required="true" requiredMessage="Required"/>
-                    <p:message for="discount"/>
-
-                    <p:outputLabel value="Start Date:" for="startDate"/>
-                    <p:calendar id="startDate" value="#{offerController.offer.startDate}" converter="localDateConverter" pattern="MM/dd/yyyy"/>
-                    <p:message for="startDate"/>
-
-                    <p:outputLabel value="End Date:" for="endDate"/>
-                    <p:calendar id="endDate" value="#{offerController.offer.endDate}" converter="localDateConverter" pattern="MM/dd/yyyy"/>
-                    <p:message for="endDate"/>
-
-                    <p:commandButton value="Save" icon="fa fa-save" action="#{offerController.save}" update="form"
+                <f:facet name="actions">
+                    <p:commandButton title="Save" icon="fa fa-save" action="#{offerController.save}" update="form"
                                      actionListener="#{offerController.preSave}"/>
+                    <p:commandButton title="#{offerController.offer.id==null ? 'Reset' : 'Cancel'}"
+                                     icon="#{offerController.offer.id==null ? 'fa fa-file-o' : 'fa fa-times-circle'}"
+                                     update="form" action="#{offerController.resetForm}" process="@this"/>
+                </f:facet>
 
+                <h:outputText id="id" value="ID: #{offerController.offer.id}"
+                              rendered="#{offerController.offer.id!=null}"/>
+                <div class="ui-g">
 
+                    <div class="ui-g-6">
+                        <h:panelGrid columns="3">
+                            <p:outputLabel value="Description:" for="description"/>
+                            <p:inputText id="description" value="#{offerController.offer.description}" required="true"
+                                         requiredMessage="Required"/>
+                            <p:message for="description"/>
 
-                </h:panelGrid>
+                            <p:outputLabel value="Price:" for="price"/>
+                            <p:inputNumber id="price" value="#{offerController.offer.price}" required="true"
+                                           requiredMessage="Required" symbol="$"/>
+                            <p:message for="price"/>
 
+                            <p:outputLabel value="Discount" for="discount"/>
+                            <p:inputNumber id="discount" value="#{offerController.offer.discount}" required="true"
+                                           requiredMessage="Required" symbol="$"/>
+                            <p:message for="discount"/>
+
+                        </h:panelGrid>
+                    </div>
+
+                    <div class="ui-g-6">
+                        <h:panelGrid columns="3">
+                            <p:outputLabel value="Start Date:" for="startDate"/>
+                            <p:calendar id="startDate" value="#{offerController.offer.startDate}"
+                                        converter="localDateConverter" pattern="MM/dd/yyyy"
+                                        required="true" requiredMessage="Required"/>
+                            <p:message for="startDate"/>
+
+                            <p:outputLabel value="End Date:" for="endDate"/>
+                            <p:calendar id="endDate" value="#{offerController.offer.endDate}"
+                                        converter="localDateConverter" required="true" requiredMessage="Required"
+                                        pattern="MM/dd/yyyy"/>
+                            <p:message for="endDate"/>
+
+                        </h:panelGrid>
+                    </div>
+                </div>
             </p:panel>
-            <p:dataTable id="offersList" value="#{offerController.offers}" var="offer" paginator="true" rows="5" style="width: 50%;margin: auto">
+
+            <p:dataTable id="offersList" value="#{offerController.offers}" var="offer" paginator="true" rows="5"
+                style="width: 50%;margin: auto">
                 <f:facet name="header">List of Offers</f:facet>
-                <p:column headerText="Registration Number">
-                    <p:outputLabel value="#{offer.id}"/>
-                </p:column>
-                <p:column headerText="Description">
-                    <p:outputLabel value="#{offer.description}"/>
-                </p:column>
-                <p:column headerText="Price">
-                    <p:outputLabel value="#{offer.price}"/>
-                </p:column>
-                <p:column headerText="Discount">
-                    <p:outputLabel value="#{offer.discount}"/>
+
+                <p:column headerText="ID" width="5%">
+                    <div align="center">
+                        <h:outputText value="#{offer.id}"/>
+                    </div>
                 </p:column>
 
-                <p:column headerText="Start Date:">
-                    <h:outputText value="#{offer.startDate}">
-                        <!--<f:convertDateTime pattern="MM/dd/yyyy"/>-->
-                    </h:outputText>
+                <p:column headerText="Description" width="30%">
+                    <div align="left">
+                        <h:outputText value="#{offer.description}"/>
+                    </div>
                 </p:column>
 
-                <p:column headerText="End Date:">
-                    <p:outputLabel value="#{offer.endDate}"/>
+                <p:column headerText="Price" width="10%">
+                    <div align="right">
+                        <h:outputText value="$ #{offer.price}"/>
+                    </div>
                 </p:column>
 
-
-                <p:column headerText="Action">
-                    <p:commandButton value="Edit" icon="fa fa-edit" process="@this" update="form" action="#{offerController.select(offer.id)}"/>
-                    <p:commandButton value="Delete" icon="fa fa-trash" process="@this" update="offersList" action="#{offerController.delete(offer.id)}">
-                        <p:confirm header="Confirmation"
-                                   message="Are you sure about deleting Offer with #{offer.id} registration number?"
-                                   icon="ui-icon-alert"/>
-                    </p:commandButton>
-                    <p:commandButton value="Desactive"/>
+                <p:column headerText="Discount" width="10%">
+                    <div align="right">
+                        <h:outputText value="$ #{offer.discount}"/>
+                    </div>
                 </p:column>
+
+                <p:column headerText="Start Date" width="10%">
+                    <div align="center">
+                        <h:outputText value="#{offer.startDate}" converter="localDateConverter"/>
+                    </div>
+                </p:column>
+
+                <p:column headerText="End Date" width="10%">
+                    <div align="center">
+                        <h:outputText value="#{offer.endDate}" converter="localDateConverter"/>
+                    </div>
+                </p:column>
+
+                <p:column headerText="Publication Status" width="5%">
+                    <div align="center">
+                        <p:graphicImage name="#{offer.publicationStatus ? '/images/icon/online.png'
+                                : '/images/icon/offline.png'}"
+                            title="#{offer.publicationStatus ? 'Published' : 'Unpublished'}"
+                            alt="#{offer.publicationStatus ? 'Published' : 'Unpublished'}"/>
+                    </div>
+                </p:column>
+
+                <p:column headerText="Actions" width="20%">
+                    <div align="center">
+                        <p:commandButton icon="#{offer.publicationStatus ? 'fa fa-toggle-on' : 'fa fa-toggle-off'}"
+                                         action="#{offerController.changePublicationStatus(offer)}" process="@this"
+                                         update="offersList" disabled="#{offerController.offer.id==offer.id}"
+                                         title="#{offer.publicationStatus ? 'Unpublishing' : 'Publishing'}"/>
+                        <p:commandButton icon="fa fa-edit" title="Edit" process="@this" update="form"
+                                         action="#{offerController.selectToEdit(offer.id)}"
+                                         disabled="#{offerController.offer.id==offer.id}"/>
+                        <p:commandButton icon="fa fa-trash" title="Delete" process="@this" update="offersList"
+                                         action="#{offerController.delete(offer.id)}"
+                                         disabled="#{offerController.offer.id==offer.id}">
+                            <p:confirm header="Offer Delete Confimation"
+                                       message="Are you sure about deleting Offer with ID #{offer.id}?"
+                                       icon="ui-icon-alert"/>
+                        </p:commandButton>
+                    </div>
+                </p:column>
+
             </p:dataTable>
 
         </h:form>

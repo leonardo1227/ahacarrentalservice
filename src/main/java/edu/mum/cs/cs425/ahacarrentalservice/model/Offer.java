@@ -9,19 +9,14 @@ public class Offer {
     @Id
     @GeneratedValue
     private Long id;
-    
-    private double price;
     private String description;
-    private double discount;
-
+    private Double price;
+    private Double discount;
     private LocalDate startDate;
     private LocalDate endDate;
-
-    @Enumerated
-	private AnalysisStatus status = AnalysisStatus.PENDING;
-    
 	@ManyToOne
     private CarProfile carProfile;
+	private Boolean publicationStatus = false;
     
     public Offer() {
     }
@@ -34,14 +29,6 @@ public class Offer {
         this.id = id;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -50,28 +37,12 @@ public class Offer {
         this.description = description;
     }
 
-    public double getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(double discount) {
-        this.discount = discount;
-    }
-
 	public CarProfile getCarProfile() {
 		return carProfile;
 	}
 
 	public void setCarProfile(CarProfile carProfile) {
 		this.carProfile = carProfile;
-	}
-
-	public AnalysisStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(AnalysisStatus status) {
-		this.status = status;
 	}
 
     public LocalDate getStartDate() {
@@ -88,5 +59,29 @@ public class Offer {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public Boolean getPublicationStatus() {
+        return publicationStatus;
+    }
+
+    public void setPublicationStatus(Boolean publicationStatus) {
+        this.publicationStatus = publicationStatus;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
     }
 }

@@ -14,106 +14,166 @@
             <p:growl id="messages" for="controllerMessages">
                 <p:autoUpdate/>
             </p:growl>
+
             <p:panel
                     header="#{carProfileController.carProfile.id==null ? 'New Car Profile Registration' : 'Edit Car Profile Information'}"
                     style="width: 50%;margin: auto">
-                <h:panelGrid columns="3">
-
-                    <p:outputLabel value="Plate:" for="plate"/>
-                    <p:inputText id="plate" value="#{carProfileController.carProfile.plate}" required="true" requiredMessage="Required">
-                        <p:autoUpdate/>
-                        <p:ajax event="blur" listener="#{carProfileController.verifyIfPlateIsAlreadyRegistered}" update="plate"/>
-                    </p:inputText>
-                    <p:messages for="plate">
-                        <p:autoUpdate/>
-                    </p:messages>
-
-                    <p:outputLabel value="Brand:" for="brand"/>
-                    <p:selectOneMenu id="brand" value="#{carProfileController.carBrandSelected.id}" required="true"
-                                     requiredMessage="Required" filter="true" filterMatchMode="startsWith">
-                        <p:ajax update="model" event="change"
-                                listener="#{carProfileController.loadCarBrandSelectedInformation}"/>
-                        <f:selectItem itemLabel="Select one Brand" noSelectionOption="true"/>
-                        <f:selectItems value="#{carProfileController.carBrandList}" var="brand"
-                                       itemLabel="#{brand.name}" itemValue="#{brand.id}"/>
-                    </p:selectOneMenu>
-                    <p:messages for="brand"/>
-
-                    <p:outputLabel value="Model:" for="model"/>
-                    <p:selectOneMenu id="model" value="#{carProfileController.carProfile.model.id}" required="true"
-                                     requiredMessage="Required" filter="true" filterMatchMode="startsWith"
-                                     disabled="#{carProfileController.carBrandSelected==null || carProfileController.carBrandSelected.id==null}">
-                        <f:selectItem itemLabel="Select one Model" noSelectionOption="true"/>
-                        <f:selectItems value="#{carProfileController.carBrandSelected.models}" var="model"
-                                       itemValue="#{model.id}" itemLabel="#{model.name}"/>
-                    </p:selectOneMenu>
-                    <p:messages for="model"/>
-
-                    <p:outputLabel value="Color:" for="year"/>
-                    <p:selectOneMenu id="color" value="#{carProfileController.carProfile.color}" required="true"
-                                     requiredMessage="Required">
-                        <f:selectItem itemLabel="Select one Color" noSelectionOption="true"/>
-                        <f:selectItems value="#{carProfileController.colors}" var="color" itemValue="#{color}"/>
-                    </p:selectOneMenu>
-                    <p:messages for="color"/>
-
-                    <p:outputLabel value="Year:" for="year"/>
-                    <p:inputText id="year" value="#{carProfileController.carProfile.year}" required="true" requiredMessage="Required"/>
-                    <p:messages for="year"/>
-
-                </h:panelGrid>
-
                 <f:facet name="actions">
-                    <p:commandButton value="Save" icon="fa fa-save" action="#{carProfileController.save}" update="form"
+                    <p:commandButton title="Save" icon="fa fa-save" action="#{carProfileController.save}" update="form"
                                      actionListener="#{carProfileController.preSave}"/>
+                    <p:commandButton title="#{carProfileController.carProfile.id==null ? 'Reset' : 'Cancel'}"
+                                     icon="#{carProfileController.carProfile.id==null ? 'fa fa-file-o' : 'fa fa-times-circle'}"
+                                     update="form" action="#{carProfileController.resetForm}" process="@this"/>
                 </f:facet>
+
+                <h:outputText id="registrationNumber" value="Registration Number: #{carProfileController.carProfile.id}" rendered="#{carProfileController.carProfile.id!=null}"/>
+
+                <div class="ui-g">
+
+                    <div class="ui-g-6">
+                        <h:panelGrid columns="3">
+                            <p:outputLabel value="Plate:" for="plate"/>
+                            <p:inputText id="plate" value="#{carProfileController.carProfile.plate}" required="true" requiredMessage="Required">
+                                <p:ajax event="blur" listener="#{carProfileController.verifyIfPlateIsAlreadyRegistered}" update="plate plateMsg"/>
+                            </p:inputText>
+                            <p:messages id="plateMsg" for="plate"/>
+
+
+                            <p:outputLabel value="Brand:" for="brand"/>
+                            <p:selectOneMenu id="brand" value="#{carProfileController.carProfile.carBrandSelected.id}" required="true"
+                                             requiredMessage="Required" filter="true" filterMatchMode="startsWith">
+                                <p:ajax update="model" event="change"
+                                        listener="#{carProfileController.loadCarBrandSelectedInformation}"/>
+                                <f:selectItem itemLabel="Select one Brand" noSelectionOption="true"/>
+                                <f:selectItems value="#{carProfileController.carBrandList}" var="brand"
+                                               itemLabel="#{brand.name}" itemValue="#{brand.id}"/>
+                            </p:selectOneMenu>
+                            <p:messages for="brand"/>
+
+
+
+                            <p:outputLabel value="Model:" for="model"/>
+                            <p:selectOneMenu id="model" value="#{carProfileController.carProfile.model.id}" required="true"
+                                             requiredMessage="Required" filter="true" filterMatchMode="startsWith"
+                                             disabled="#{carProfileController.carProfile.carBrandSelected==null || carProfileController.carProfile.carBrandSelected.id==null}">
+                                <f:selectItem itemLabel="Select one Model" noSelectionOption="true"/>
+                                <f:selectItems value="#{carProfileController.carProfile.carBrandSelected.models}" var="model"
+                                               itemValue="#{model.id}" itemLabel="#{model.name}"/>
+                            </p:selectOneMenu>
+                            <p:messages for="model"/>
+                        </h:panelGrid>
+
+                    </div>
+                    <div class="ui-g-6">
+                        <h:panelGrid columns="3">
+                            <p:outputLabel value="Color:" for="year"/>
+                            <p:selectOneMenu id="color" value="#{carProfileController.carProfile.color}" required="true"
+                                             requiredMessage="Required">
+                                <f:selectItem itemLabel="Select one Color" noSelectionOption="true"/>
+                                <f:selectItems value="#{carProfileController.colors}" var="color" itemValue="#{color}"/>
+                            </p:selectOneMenu>
+                            <p:messages for="color"/>
+
+
+                            <p:outputLabel value="Year:" for="year"/>
+                            <p:inputText id="year" value="#{carProfileController.carProfile.year}" required="true" requiredMessage="Required"/>
+                            <p:messages for="year"/>
+                        </h:panelGrid>
+                    </div>
+
+                </div>
+
             </p:panel>
 
-            <p:dataGrid value="#{carProfileController.carProfiles}" var="carProfile" columns="1" rows="4" paginator="true"
-                        style="width:50%;margin: auto" id="listCarProfiles">
+            <p:dataGrid id="carProfileList" value="#{carProfileController.carProfiles}" var="carProfile" columns="1"
+                rows="4" style="width: 50%;margin: auto">
                 <f:facet name="header">Car Profiles Registered</f:facet>
-                <p:panel header="Registration Number: #{carProfile.id}">
-                    <h:panelGrid columns="3" style="width: 100%">
-                        <p:graphicImage name="#{carProfile.model.brand.logoUrl}"/>
-                        <p:outputPanel style="width: 100%">
-                            <h:panelGrid columns="2">
 
-                                <p:outputLabel value="Plate:" style="font-weight: bold"/>
-                                <p:outputLabel value="#{carProfile.plate}"/>
+                <p:panel header="Registration Number #{carProfile.id}" style="padding: 0">
+                    <f:facet name="actions">
+                        <p:commandButton title="Manage Offers" icon="fa fa-usd" process="@this"
+                                         disabled="#{carProfileController.carProfile.id==carProfile.id
+                                            or (carProfile.offers.size()==0 and carProfile.status ne 'APPROVED')}"
+                                         action="#{carProfileController.managerOffers(carProfile)}"/>
+                        <p:commandButton title="Edit" icon="fa fa-edit" process="@this" update="form"
+                                         disabled="#{carProfileController.carProfile.id==carProfile.id}"
+                                        action="#{carProfileController.selectToEdit(carProfile.id)}"/>
+                        <p:commandButton title="Delete" icon="fa fa-trash" process="@this" update="carProfileList"
+                                         disabled="#{carProfileController.carProfile.id==carProfile.id
+                                            or carProfile.offers.size()>0}"
+                                        action="#{carProfileController.delete(carProfile.id)}">
+                            <p:confirm header="Car Profile Delete Confimation"
+                                       message="Are you sure about deleting Car Profile with registation number #{carProfile.id}?"
+                                       icon="ui-icon-alert"/>
+                        </p:commandButton>
+                    </f:facet>
 
-                                <p:outputLabel value="Brand:" style="font-weight: bold"/>
-                                <p:outputLabel value="#{carProfile.model.brand.name}"/>
+                    <div class="ui-g">
+                        <div class="ui-g-2">
+                            <p:graphicImage name="#{carProfile.model.brand.logoUrl}" height="96px" width="96px"/>
+                        </div>
+                        <div class="ui-g-8">
 
-                                <p:outputLabel value="Model:" style="font-weight: bold"/>
-                                <p:outputLabel value="#{carProfile.model.name}"/>
+                            <div class="ui-g-6">
+                                <div>
+                                    <h:outputText value="Plate: "/>
+                                    <h:outputText value="#{carProfile.plate}" style="font-weight: bold"/>
+                                </div>
 
-                                <p:outputLabel value="Year:" style="font-weight: bold"/>
-                                <p:outputLabel value="#{carProfile.year}"/>
+                                <div>
+                                    <h:outputText value="Brand: "/>
+                                    <h:outputText value="#{carProfile.model.brand.name}" style="font-weight: bold"/>
+                                </div>
 
-                                <p:outputLabel value="Status:" style="font-weight: bold"/>
-                                <p:outputLabel value="#{carProfile.status}"/>
+                                <div>
+                                    <h:outputText value="Model: "/>
+                                    <h:outputText value="#{carProfile.model.name}" style="font-weight: bold"/>
+                                </div>
+                            </div>
 
-                            </h:panelGrid>
-                        </p:outputPanel>
-                        <p:outputPanel>
-                            <h:panelGrid columns="1">
-                                <p:commandButton value="Manager Offers" icon="fa fa-dollar" action="#{carProfileController.managerOffers(carProfile)}" process="@this"/>
-                                <p:commandButton value="Edit" icon="fa fa-edit"
-                                                 action="#{carProfileController.select(carProfile.id)}" process="@this"
-                                                 update="form"/>
-                                <p:commandButton value="Delete" icon="fa fa-trash"
-                                                 action="#{carProfileController.delete(carProfile.id)}" process="@this"
-                                                 update="listCarProfiles">
-                                    <p:confirm header="Confirmation"
-                                               message="Are you sure about deleting Car Profile with #{carProfile.id} registration number?"
-                                               icon="ui-icon-alert"/>
-                                </p:commandButton>
-                            </h:panelGrid>
-                        </p:outputPanel>
+                            <div class="ui-g-6">
+                                <div>
+                                    <h:outputText value="Color: "/>
+                                    <h:outputText value="#{carProfile.color}" style="font-weight: bold"/>
+                                </div>
 
-                    </h:panelGrid>
+                                <div>
+                                    <h:outputText value="Year: "/>
+                                    <h:outputText value="#{carProfile.year}" style="font-weight: bold"/>
+                                </div>
+
+                                <div>
+                                    <h:outputText value="Offers: "/>
+                                    <h:outputText value="#{carProfile.offers.size()}" style="font-weight: bold"/>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="ui-g-2">
+                            <div align="center">
+                                <h:outputText value="Status"/>
+                            </div>
+                            <div align="center">
+                                <p:graphicImage name="#{carProfile.status eq 'PENDING' ? '/images/icon/pending.png'
+                                                    : carProfile.status eq 'APPROVED' ? '/images/icon/approved.png'
+                                                    : '/images/icon/rejected.png'}"
+                                                alt="#{carProfile.status eq 'PENDING' ? 'Pending'
+                                                    : carProfile.status eq 'APPROVED' ? 'Approved'
+                                                    : 'Rejected'}"
+                                                title="#{carProfile.status eq 'PENDING' ? 'Pending'
+                                                    : carProfile.status eq 'APPROVED' ? 'Approved'
+                                                    : 'Rejected'}"
+                                                height="64px" width="64px"/>
+                            </div>
+                        </div>
+
+                    </div>
+
                 </p:panel>
+
             </p:dataGrid>
+
+
 
         </h:form>
     </ui:define>

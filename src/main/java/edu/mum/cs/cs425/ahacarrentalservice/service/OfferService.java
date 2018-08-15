@@ -1,9 +1,10 @@
 package edu.mum.cs.cs425.ahacarrentalservice.service;
 
+import edu.mum.cs.cs425.ahacarrentalservice.model.AnalysisStatus;
 import edu.mum.cs.cs425.ahacarrentalservice.model.CarProfile;
-import edu.mum.cs.cs425.ahacarrentalservice.model.CarStatus;
 import edu.mum.cs.cs425.ahacarrentalservice.model.Offer;
 import edu.mum.cs.cs425.ahacarrentalservice.repository.IOfferRepository;
+import edu.mum.cs.cs425.ahacarrentalservice.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,10 @@ public class OfferService implements IService<Offer> {
     }
 
     @Override
-    public Offer save(Offer offer) {
+    public Offer save(Offer offer) throws ValidationException {
+        if(offer.getCarProfile().getStatus()!= AnalysisStatus.APPROVED){
+            throw new ValidationException("Car Profile must be approved to register or alter any offer to it!");
+        }
         return repository.save(offer);
     }
 
@@ -45,12 +49,14 @@ public class OfferService implements IService<Offer> {
     }
 
     public List<Offer> findByCarProfile(CarProfile carProfile){
-        return repository.findByCarProfile(carProfile);
+        return repository.findByCarProfileOrderByIdAsc(carProfile);
     }
 
     public List<Offer> filterAvailiableCars(){
-        List<Offer> offers = findAll().stream().filter(
-                x -> x.getStatus().getValue() == CarStatus.APPROVED.getValue())
+        List<Offer> offers = findAll().stream()
+//                .filter(
+//                x -> x.getStatus().getValue() == CarStatus.APPROVED.getValue())
+//                x -> x.getStatus() == AnalysisStatus.APPROVED)
                 .collect(Collectors.toList());
         return offers;
     }
@@ -58,7 +64,8 @@ public class OfferService implements IService<Offer> {
     public List<Offer> filterOffers(int brandId, int modelId , int year){
 
         List<Offer> offers = findAll().stream()
-                .filter(x -> x.getStatus().getValue() == CarStatus.APPROVED.getValue())
+//                .filter(x -> x.getStatus().getValue() == CarStatus.APPROVED.getValue())
+//                .filter(x -> x.getStatus() == AnalysisStatus.APPROVED)
                 .filter(x -> x.getCarProfile().getModel().getId() == modelId || modelId == 0    )
                 .filter(x -> x.getCarProfile().getModel().getBrand().getId() == brandId || brandId == 0)
                 .filter(x -> x.getCarProfile().getYear() == year || year == 0)

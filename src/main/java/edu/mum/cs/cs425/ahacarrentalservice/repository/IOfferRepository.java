@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface IOfferRepository extends JpaRepository<Offer, Long> {
 
-    List<Offer> findByCarProfile(CarProfile carProfile);
+    List<Offer> findByCarProfileOrderByIdAsc(CarProfile carProfile);
 
 }
