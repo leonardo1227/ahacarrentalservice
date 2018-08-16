@@ -1,5 +1,6 @@
 package edu.mum.cs.cs425.ahacarrentalservice.service;
 
+import edu.mum.cs.cs425.ahacarrentalservice.model.AnalysisStatus;
 import edu.mum.cs.cs425.ahacarrentalservice.model.CarOwnerProfile;
 import edu.mum.cs.cs425.ahacarrentalservice.model.CarProfile;
 import edu.mum.cs.cs425.ahacarrentalservice.repository.ICarProfileRepository;
@@ -27,6 +28,10 @@ public class CarProfileService implements IService<CarProfile> {
 
     public List<CarProfile> findByCarOwnerProfile(CarOwnerProfile carOwnerProfile){
         return repository.findByCarOwnerProfile(carOwnerProfile);
+    }
+
+    public List<CarProfile> findByStatus(AnalysisStatus analysisStatus){
+        return repository.findByStatus(analysisStatus);
     }
 
     @Override

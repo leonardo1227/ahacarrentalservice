@@ -24,12 +24,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/system/car_owner/**").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers("/system/car_owner/**",
+                "/system/car_profile_analysis").hasRole("ADMIN");
 
         http.authorizeRequests().antMatchers("/system/car_offer/**",
                 "/system/car_profile/**").hasRole("CAR_OWNER");
 
         http.authorizeRequests().antMatchers("/javax.faces.resources/**",
+                "/",
                 "/images/**",
                 "/style/**",
                 "/template/**",

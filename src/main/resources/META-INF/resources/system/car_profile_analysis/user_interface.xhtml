@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/template/_template.xhtml">
+    <ui:define name="title">AHA ::: Car Profile :::</ui:define>
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="messages" for="controllerMessages">
+                <p:autoUpdate/>
+            </p:growl>
+
+            <p:dataTable id="pendingCarProfilesList" value="#{carProfileAnalysisController.carProfiles}" var="carProfile" paginator="true" rows="5">
+                <f:facet name="header">List of Pending Car Profiles</f:facet>
+
+                <p:column headerText="ID">
+                    <h:outputText value="#{carProfile.id}"/>
+                </p:column>
+
+                <p:column headerText="Plate">
+                    <h:outputText value="#{carProfile.plate}"/>
+                </p:column>
+
+                <p:column headerText="Brand">
+                    <h:outputText value="#{carProfile.model.brand.name}"/>
+                </p:column>
+
+                <p:column headerText="Model">
+                    <h:outputText value="#{carProfile.model.name}"/>
+                </p:column>
+
+                <p:column headerText="Year">
+                    <h:outputText value="#{carProfile.year}"/>
+                </p:column>
+
+                <p:column headerText="Color">
+                    <h:outputText value="#{carProfile.color}"/>
+                </p:column>
+
+                <p:column headerText="Owner">
+                    <h:outputText value="#{carProfile.carOwnerProfile.firstName} #{carProfile.carOwnerProfile.lastName}"/>
+                </p:column>
+
+                <p:column headerText="Actions">
+                    <p:commandButton icon="fa fa-check" title="Approve" action="#{carProfileAnalysisController.approve(carProfile)}" update="form">
+                        <p:confirm header="Approvement Confirmation" icon="ui-icon-alert" message="Are you sure about approving Car Profile with #{carProfile.id} ID"/>
+                    </p:commandButton>
+                    <p:commandButton icon="fa fa-times-circle-o" title="Reject" action="#{carProfileAnalysisController.reject(carProfile)}" update="form">
+                        <p:confirm header="Rejectment Confirmation" icon="ui-icon-alert" message="Are you sure about rejecting Car Profile with #{carProfile.id} ID"/>
+                    </p:commandButton>
+                </p:column>
+
+
+            </p:dataTable>
+
+
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>
