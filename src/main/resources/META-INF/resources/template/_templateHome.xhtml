@@ -10,26 +10,29 @@
     <title><ui:insert name="title"/></title>
     <link type="text/css" rel="stylesheet" href="../style/home.css" />
 </h:head>
-<h:body>
-    <div style="background-color: burlywood">
+<div style="position: relative">
+    <div style="background-color: #5839bb; position: relative" >
         <ui:include src="header.xhtml"/>
     </div>
-    <div style="background-color: antiquewhite">
-    <!--<div style="background-image: url('/images/background/background.jpg')">-->
-    <!--<div style="background-image: url('/images/background/2.jpg')">-->
+    <div class="mainContent">
+        <!--<div style="background-image: url('/images/background/background.jpg')">-->
+        <!--<div style="background-image: url('/images/background/2.jpg')">-->
         <ui:insert name="content"/>
     </div>
 
-    <p:ajaxStatus onstart="PF('loadingDialog').show();" oncomplete="PF('loadingDialog').hide();" />
-    <p:dialog modal="true" widgetVar="loadingDialog"
-              header="Please wait..." draggable="false" closable="false"
-              resizable="false">
-        <p:graphicImage value="/images/system/loading.gif" />
-    </p:dialog>
+    <div style="background-color: #35ccd1;;position: relative;">
+        <ui:include src="footer.xhtml"/>
+    </div>
+</div>
+<p:ajaxStatus onstart="PF('loadingDialog').show();" oncomplete="PF('loadingDialog').hide();" />
+<p:dialog modal="true" widgetVar="loadingDialog"
+          header="Please wait..." draggable="false" closable="false"
+          resizable="false">
+    <p:graphicImage value="/images/system/loading.gif" />
+</p:dialog>
 
-    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
-        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
-    </p:confirmDialog>
-</h:body>
+<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+</p:confirmDialog>
 </html>

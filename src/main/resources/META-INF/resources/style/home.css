@@ -1,6 +1,6 @@
 .sidenav {
     width: 260px;
-    position: fixed;
+    position: absolute;
     z-index: 1;
     left: 60px;
     background: #eee;
@@ -10,7 +10,7 @@
 
 .homeList {
     padding: 0px 10px;
-    position: fixed;
+    position: absolute;
     right: 100px;
     left: 400px;
 }
@@ -23,4 +23,14 @@
 
 label {
   display: inline-block; 
+}
+
+.ui-outputlabel .ui-outputlabel-rfi {
+    color: #2098ff;
+}
+
+.mainContent{
+    position: relative;
+    min-height: 580px;
+    margin-top: 4%;
 }
