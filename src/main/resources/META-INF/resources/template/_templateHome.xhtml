@@ -20,9 +20,9 @@
         <ui:insert name="content"/>
     </div>
 
-    <div style="background-color: #35ccd1;;position: relative;">
-        <ui:include src="footer.xhtml"/>
-    </div>
+
+      <ui:include src="footer.xhtml"/>
+
 </div>
 <p:ajaxStatus onstart="PF('loadingDialog').show();" oncomplete="PF('loadingDialog').hide();" />
 <p:dialog modal="true" widgetVar="loadingDialog"
