@@ -9,24 +9,51 @@
 
 <f:view>
 	<div>
-		<div style="background-color: #35ccd1; border-radius: 20px;">
+		<!--<div style="background-color: #35ccd1; border-radius: 20px;">
 			<h2 style="display: inline;" >AHA - Car Rental Service</h2>
+			<div align="right">
+				Welcome
+				<h:outputText value="#{userController.userLogged.username}" rendered="#{userController.userLogged!=null}"/>
+				<h:outputText value="Guest" rendered="#{userController.userLogged==null}"/>
+			</div>
+		</div>-->
+		<div class="ui-g" style="background-color: steelblue;border-radius: 20px;height: 80px">
+			<div class="ui-g-3">
+				<h:graphicImage value="/images/icon/car1.png" height="80px" width="80px"/>
+			</div>
+			<div class="ui-g-6" align="center">
+				<h1>AHA - Car Rental Service</h1>
+			</div>
+			<div class="ui-g-3" align="right">
+				<div>
+					Hi, <h:outputText value="#{userController.userLogged==null ? 'Guest'
+						: userController.userLogged.carOwnerProfile!=null ? userController.userLogged.carOwnerProfile.firstName
+						: userController.userLogged.username}"/>
+				</div>
+				<div>
+					<h:form onsubmit="this.action='#{request.contextPath}/logout';" class="logout-form">
+						<p:commandButton value="Logout" icon="fa fa-power-off" ajax="false" rendered="#{userController.userLogged!=null}"/>
+					</h:form>
+					<p:commandButton value="Login" icon="fa fa-unlock-alt" action="/login.xhtml" rendered="#{userController.userLogged==null}"/>
+				</div>
+
+			</div>
 		</div>
 
 		<p:menubar>
-				<p:menuitem value="New Owner" url="/system/new_car_owner.xhtml" />
+			<p:menuitem icon="fa fa-home" url="/system/home.xhtml"/>
 
-				<p:menuitem value="Car Profiles"
-					url="/system/car_profile/user_interface.xhtml" />
+			<p:menuitem value="Apply as a Car Owner" icon="fa fa-user-plus" url="/system/new_car_owner.xhtml" rendered="#{userController.userLogged==null}"/>
 
-				<p:menuitem value="Car Owner Profiles"
-					url="/system/car_owner/browse.xhtml" />
+			<p:submenu label="Car Owner" icon="fa fa-user" rendered="#{userController.userLogged!=null and userController.userLogged.carOwnerProfile!=null}">
+				<p:menuitem icon="fa fa-automobile" value="Car Profile" url="/system/car_profile/user_interface.xhtml" disabled="#{userController.userLogged.carOwnerProfile.status ne 'APPROVED'}"/>
 
-				<p:menuitem value="Offers"
-					url="/system/home.xhtml" />
+			</p:submenu>
 
-			<ui:insert name="loggeduser" />
-
+			<p:submenu label="Admin" icon="fa fa-gears" rendered="#{userController.userLogged!=null and userController.userLogged.admin}">
+				<p:menuitem icon="fa fa-users" value="Review Car Owner Applications" url="/system/car_owner/browse.xhtml"/>
+			</p:submenu>
+			
 		</p:menubar>
 
 	</div>

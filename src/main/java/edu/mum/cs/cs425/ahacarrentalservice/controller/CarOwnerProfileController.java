@@ -95,11 +95,14 @@ public class CarOwnerProfileController implements Serializable, IController {
 	}
 	
 	public void checkAvailableUserId() {
-		System.out.println(newProfile.getUserId());
-		if(carOwnerProfileService.findByUserId(newProfile.getUserId())) {
-			String message = "The user id '" + newProfile.getUserId() + "' is already used by other. Please choose another.";
-			showMessage(message, message, InformationType.ERROR);
-		}
+//		if(carOwnerProfileService.findByUserId(newProfile.getUserId())) {
+//			String message = "The user id '" + newProfile.getUserId() + "' is already used by other. Please choose another.";
+//			showMessage(message, message, InformationType.ERROR);
+//		}
+//		if(carOwnerProfileService.findByUserId(newProfile.getUser().getUsername())) {
+//			String message = "The user id '" + newProfile.getUser().getUsername() + "' is already used by other. Please choose another.";
+//			showMessage(message, message, InformationType.ERROR);
+//		}
 	}
 	
 	public String createNewProfile() {

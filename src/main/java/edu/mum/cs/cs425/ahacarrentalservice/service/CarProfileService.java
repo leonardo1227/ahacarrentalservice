@@ -1,5 +1,6 @@
 package edu.mum.cs.cs425.ahacarrentalservice.service;
 
+import edu.mum.cs.cs425.ahacarrentalservice.model.CarOwnerProfile;
 import edu.mum.cs.cs425.ahacarrentalservice.model.CarProfile;
 import edu.mum.cs.cs425.ahacarrentalservice.repository.ICarProfileRepository;
 import edu.mum.cs.cs425.ahacarrentalservice.validation.ValidationException;
@@ -22,6 +23,10 @@ public class CarProfileService implements IService<CarProfile> {
     @Override
     public List<CarProfile> findAll(String orderingProperty) {
         return repository.findAll(new Sort(Sort.Direction.ASC, orderingProperty));
+    }
+
+    public List<CarProfile> findByCarOwnerProfile(CarOwnerProfile carOwnerProfile){
+        return repository.findByCarOwnerProfile(carOwnerProfile);
     }
 
     @Override

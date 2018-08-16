@@ -35,7 +35,7 @@ public class CarProfileController implements IController, Serializable {
     private List<CarProfile> carProfiles;
     private CarProfile carProfile;
     private List<CarBrand> carBrandList;
-//    private CarBrand carBrandSelected;
+
 
     @PostConstruct
     private void init() {
@@ -52,7 +52,8 @@ public class CarProfileController implements IController, Serializable {
     //GETTERS AND SETTERS
     public List<CarProfile> getCarProfiles() {
         if (carProfiles == null || carProfiles.size() == 0) {
-            carProfiles = service.findAll("id");
+//            carProfiles = service.findAll("id");
+            carProfiles = service.findByCarOwnerProfile(getUserLoggedIn().getCarOwnerProfile());
         }
         return carProfiles;
     }
@@ -86,11 +87,12 @@ public class CarProfileController implements IController, Serializable {
     }
 
     public void preSave() {
-        if (carProfile.getId() == null) {
-            HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-            CarOwnerProfile carOwnerProfile = (CarOwnerProfile) session.getAttribute("carOwnerProfileLogged");
-            carProfile.setCarOwnerProfile(carOwnerProfile);
-        }
+//        if (carProfile.getId() == null) {
+//            HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+//            CarOwnerProfile carOwnerProfile = (CarOwnerProfile) session.getAttribute("carOwnerProfileLogged");
+//            carProfile.setCarOwnerProfile(carOwnerProfile);
+//        }
+        carProfile.setCarOwnerProfile(getUserLoggedIn().getCarOwnerProfile());
         if(carProfile.getModel().getId()!=null && carProfile.getModel().getName()==null){
             carProfile.setModel(carModelService.findById(carProfile.getModel().getId()));
         }

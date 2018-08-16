@@ -21,5 +21,7 @@ public interface ICarOwnerProfileRepository extends JpaRepository<CarOwnerProfil
 //	@Query(value="select carownerapplications.userId from carownerapplications where carownerapplications.userId = userId", nativeQuery = true)
 //	Optional<String> findByUserId(@Param("userId") String userId);
 	
-	Boolean existsByUserId(String userId);
+//	Boolean existsByUserId(String userId);
+
+//	CarOwnerProfile findByUserId(String userId);
 }

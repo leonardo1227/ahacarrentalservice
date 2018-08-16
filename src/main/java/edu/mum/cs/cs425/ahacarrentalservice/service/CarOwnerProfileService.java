@@ -32,10 +32,12 @@ public class CarOwnerProfileService implements ICarOwnerProfileService {
 
 	@Override
 	public CarOwnerProfile create(CarOwnerProfile profile) throws ValidationException {
-		// TODO Auto-generated method stub
-		if(findByUserId(profile.getUserId())) {
-			throw new ValidationException("The user id '" + profile.getUserId() + "' is already used by other. Please choose another.");
-		}
+//		if(findByUserId(profile.getUserId())) {
+//			throw new ValidationException("The user id '" + profile.getUserId() + "' is already used by other. Please choose another.");
+//		}
+//		if(findByUserId(profile.getUser().getUsername())) {
+//			throw new ValidationException("The user id '" + profile.getUser().getUsername() + "' is already used by other. Please choose another.");
+//		}
 		profile.setStatus(ProfileStatus.PENDING);
 		return carOwnerProfileRepository.save(profile);
 	}
@@ -54,10 +56,14 @@ public class CarOwnerProfileService implements ICarOwnerProfileService {
 		return carOwnerProfileRepository.save(profile);
 	}
 
-	@Override
-	public Boolean findByUserId(String userId) {
-		// TODO Auto-generated method stub
-		return carOwnerProfileRepository.existsByUserId(userId);
+//	@Override
+//	public Boolean findByUserId(String userId) {
+//		// TODO Auto-generated method stub
+//		return carOwnerProfileRepository.existsByUserId(userId);
+//	}
+
+	public CarOwnerProfile save(CarOwnerProfile carOwnerProfile){
+		return carOwnerProfileRepository.save(carOwnerProfile);
 	}
 	
 	

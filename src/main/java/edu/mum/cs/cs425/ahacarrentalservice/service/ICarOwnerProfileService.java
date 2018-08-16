@@ -12,5 +12,5 @@ public interface ICarOwnerProfileService {
 	public abstract CarOwnerProfile create(CarOwnerProfile profile) throws ValidationException;
 	public abstract CarOwnerProfile findById(long id);
 	public abstract CarOwnerProfile approveProfile(CarOwnerProfile profile) throws ValidationException;
-	public abstract Boolean findByUserId(String userId);
+//	public abstract Boolean findByUserId(String userId);
 }
